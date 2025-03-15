@@ -10,28 +10,31 @@ namespace Workify.Utils.Extensions
 {
     public static class WebApplicationBuilderExtensions
     {
-        public static WebApplicationBuilder CommonApiInitialization(this WebApplicationBuilder builder)
+        public static WebApplicationBuilder CommonApiInitialization<T>(this WebApplicationBuilder builder)
+            where T : CommonConfig
         {
-            return builder.InitCommonConfigFromEnvironmentVariables()
-                .AddJwtAuth();
+            return builder.InitCommonConfigFromEnvironmentVariables<T>().AddJwtAuth<T>();
         }
 
-        private static WebApplicationBuilder InitCommonConfigFromEnvironmentVariables(this WebApplicationBuilder builder)
+        private static WebApplicationBuilder InitCommonConfigFromEnvironmentVariables<T>(
+            this WebApplicationBuilder builder
+        )
+            where T : CommonConfig
         {
             builder.Configuration.AddEnvironmentVariables();
 
-            builder.Services.Configure<CommonConfig>(builder.Configuration.GetSection(CommonConfig.EnvironmentGroup));
+            builder.Services.Configure<T>(builder.Configuration.GetSection(CommonConfig.EnvironmentGroup));
 
             return builder;
         }
 
-        private static WebApplicationBuilder AddJwtAuth(this WebApplicationBuilder builder)
+        private static WebApplicationBuilder AddJwtAuth<T>(this WebApplicationBuilder builder)
+            where T : CommonConfig
         {
-            CommonConfig config = builder.Configuration.GetSection(CommonConfig.EnvironmentGroup)
-                    .Get<CommonConfig>()!;
-        
-            builder.Services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            CommonConfig config = builder.Configuration.GetSection(CommonConfig.EnvironmentGroup).Get<T>()!;
+
+            builder
+                .Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(x =>
                 {
                     x.RequireHttpsMetadata = false;
@@ -43,7 +46,7 @@ namespace Workify.Utils.Extensions
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.BearerKey)),
                         ValidateIssuer = false,
                         ValidateAudience = false,
-                        ClockSkew = TimeSpan.Zero
+                        ClockSkew = TimeSpan.Zero,
                     };
                 });
 

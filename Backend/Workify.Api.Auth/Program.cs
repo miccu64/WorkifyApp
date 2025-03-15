@@ -1,10 +1,11 @@
+using Workify.Utils.Config;
 using Workify.Utils.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.CommonApiInitialization();
+builder.CommonApiInitialization<CommonConfig>();
 
 builder.Services.AddControllers();
 

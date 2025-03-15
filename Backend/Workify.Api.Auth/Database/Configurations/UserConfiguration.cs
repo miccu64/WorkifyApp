@@ -9,7 +9,8 @@ namespace Workify.Api.Auth.Database.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(user => user.Id);
-            builder.Property(user => user.Login).IsRequired().HasMaxLength(255);
+            builder.Property(user => user.Login).IsRequired().HasMaxLength(32);
+            builder.Property(user => user.Email).IsRequired().HasMaxLength(255);
             builder.Property(user => user.HashedPassword).IsRequired().HasMaxLength(255);
         }
     }

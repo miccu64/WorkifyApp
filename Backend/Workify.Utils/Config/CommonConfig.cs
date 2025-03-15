@@ -1,6 +1,6 @@
 namespace Workify.Utils.Config
 {
-    public class CommonConfig
+    public record CommonConfig
     {
         public const string EnvironmentGroup = "Workify";
 

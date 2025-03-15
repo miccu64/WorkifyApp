@@ -1,0 +1,9 @@
+{
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "always",
+        "source.removeUnusedImports": "always"
+    },
+    "dotnet.testWindow.disableAutoDiscovery": false,
+    "csharp.preview.improvedLaunchExperience": true
+}
