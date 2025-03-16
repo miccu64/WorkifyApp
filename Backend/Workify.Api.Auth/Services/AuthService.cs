@@ -20,8 +20,7 @@ namespace Workify.Api.Auth.Services
 
         public async Task<string> LogIn(LogInDto dto)
         {
-            User? user =
-                await _dbContext.Users.FirstOrDefaultAsync(user => user.Login == dto.Login)
+            User? user = await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Login == dto.Login)
                 ?? throw new UnauthorizedAccessException("Wrong login or password.");
 
             PasswordHasher<User> hasher = new();

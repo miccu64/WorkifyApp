@@ -1,16 +1,21 @@
-using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 
 namespace Workify.Api.Auth.Models.DTOs
 {
     public record RegisterDto
     {
-        [MinLength(4), MaxLength(32)]
         public required string Login;
-
-        [MinLength(8), MaxLength(32)]
         public required string Password;
-
-        [EmailAddress, MaxLength(255)]
         public required string Email;
+    }
+
+    public class RegisterDtoValidator : AbstractValidator<RegisterDto>
+    {
+        public RegisterDtoValidator()
+        {
+            RuleFor(dto => dto.Login).MinimumLength(4).MaximumLength(32);
+            RuleFor(dto => dto.Password).MinimumLength(8).MaximumLength(255);
+            RuleFor(dto => dto.Email).EmailAddress();
+        }
     }
 }

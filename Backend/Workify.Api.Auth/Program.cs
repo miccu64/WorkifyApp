@@ -1,4 +1,6 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Services;
 using Workify.Utils.Config;
@@ -14,6 +16,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthDbContext>(provider => provider.GetService<AuthDbContext>()!);
 
 builder.Services.AddControllers();
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 builder.Services.AddOpenApi();
 
