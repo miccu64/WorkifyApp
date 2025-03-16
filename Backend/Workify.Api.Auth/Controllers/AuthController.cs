@@ -25,7 +25,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<string>> Register([FromBody] RegisterDto dto)
+    public async Task<ActionResult<int>> Register([FromBody] RegisterDto dto)
     {
         return StatusCode((int)HttpStatusCode.Created, await _authService.Register(dto));
     }

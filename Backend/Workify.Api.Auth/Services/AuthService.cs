@@ -1,10 +1,11 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Models.DTOs;
 using Workify.Api.Auth.Models.Entities;
@@ -31,12 +32,16 @@ namespace Workify.Api.Auth.Services
             return GenerateJwtToken(user.Id);
         }
 
-        public async Task<string> Register(RegisterDto dto)
+        public async Task<int> Register(RegisterDto dto)
         {
             if (_dbContext.Users.Any(user => user.Login == dto.Login))
                 throw new ArgumentException("User with given login already exists.");
             if (_dbContext.Users.Any(user => user.Email == dto.Email))
                 throw new ArgumentException("User with given email already exists.");
+
+            EmailAddressAttribute emailChecker = new();
+            if (!emailChecker.IsValid(dto.Email))
+                throw new ArgumentException("Invalid email.");
 
             User newUser = new()
             {
@@ -49,7 +54,7 @@ namespace Workify.Api.Auth.Services
             await _dbContext.Users.AddAsync(newUser);
             await _dbContext.SaveChangesAsync();
 
-            return GenerateJwtToken(newUser.Id);
+            return newUser.Id;
         }
 
         private string GenerateJwtToken(int userId)
