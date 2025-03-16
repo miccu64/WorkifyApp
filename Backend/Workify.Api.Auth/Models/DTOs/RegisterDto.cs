@@ -10,7 +10,7 @@ namespace Workify.Api.Auth.Models.DTOs
         [MinLength(8), MaxLength(32)]
         public required string Password;
 
-        [EmailAddress]
+        [EmailAddress, MaxLength(255)]
         public required string Email;
     }
 }

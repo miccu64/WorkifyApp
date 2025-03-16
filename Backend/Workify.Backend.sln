@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workify.Utils", "Workify.Ut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workify.Api.Auth", "Workify.Api.Auth\Workify.Api.Auth.csproj", "{53820EB4-5D05-44C8-A306-AFB6C038EB05}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3F36F81B-12AC-456E-A8AB-C6F1F127DE39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workify.Api.Auth.UnitTests", "Tests\Workify.Api.Auth.UnitTests\Workify.Api.Auth.UnitTests.csproj", "{716C8698-8DEA-4562-BA91-83F864EF2A73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,12 @@ Global
 		{53820EB4-5D05-44C8-A306-AFB6C038EB05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53820EB4-5D05-44C8-A306-AFB6C038EB05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53820EB4-5D05-44C8-A306-AFB6C038EB05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{716C8698-8DEA-4562-BA91-83F864EF2A73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{716C8698-8DEA-4562-BA91-83F864EF2A73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{716C8698-8DEA-4562-BA91-83F864EF2A73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{716C8698-8DEA-4562-BA91-83F864EF2A73}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{716C8698-8DEA-4562-BA91-83F864EF2A73} = {3F36F81B-12AC-456E-A8AB-C6F1F127DE39}
 	EndGlobalSection
 EndGlobal
