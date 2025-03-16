@@ -4,7 +4,7 @@ using Workify.Api.Auth.Models.Entities;
 
 namespace Workify.Api.Auth.Database
 {
-    internal class AuthDbContext : DbContext, IAuthDbContext
+    internal class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContext(options), IAuthDbContext
     {
         public DbSet<User> Users { get; set; }
 

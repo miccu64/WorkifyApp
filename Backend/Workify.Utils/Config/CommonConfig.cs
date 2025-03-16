@@ -7,6 +7,7 @@ namespace Workify.Utils.Config
         public readonly string JwtIssuer = "Workify";
         public readonly string JwtClaimUserId = "UserId";
 
-        public required string BearerKey { get; set; }
+        public required string DbConnectionString;
+        public required string BearerKey;
     }
 }

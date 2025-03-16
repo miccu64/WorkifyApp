@@ -10,29 +10,28 @@ namespace Workify.Utils.Extensions
 {
     public static class WebApplicationBuilderExtensions
     {
-        public static WebApplicationBuilder CommonApiInitialization<T>(this WebApplicationBuilder builder)
+        public static T CommonApiInitialization<T>(this WebApplicationBuilder builder)
             where T : CommonConfig
         {
-            return builder.InitCommonConfigFromEnvironmentVariables<T>().AddJwtAuth<T>();
+            T config = builder.InitConfigFromEnvironmentVariables<T>();
+
+            builder.AddJwtAuth(config);
+
+            return config;
         }
 
-        private static WebApplicationBuilder InitCommonConfigFromEnvironmentVariables<T>(
-            this WebApplicationBuilder builder
-        )
+        private static T InitConfigFromEnvironmentVariables<T>(this WebApplicationBuilder builder)
             where T : CommonConfig
         {
             builder.Configuration.AddEnvironmentVariables();
-
             builder.Services.Configure<T>(builder.Configuration.GetSection(CommonConfig.EnvironmentGroup));
 
-            return builder;
+            return builder.Configuration.GetSection(CommonConfig.EnvironmentGroup).Get<T>()!;
         }
 
-        private static WebApplicationBuilder AddJwtAuth<T>(this WebApplicationBuilder builder)
+        private static void AddJwtAuth<T>(this WebApplicationBuilder builder, T config)
             where T : CommonConfig
         {
-            CommonConfig config = builder.Configuration.GetSection(CommonConfig.EnvironmentGroup).Get<T>()!;
-
             builder
                 .Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(x =>
@@ -49,8 +48,6 @@ namespace Workify.Utils.Extensions
                         ClockSkew = TimeSpan.Zero,
                     };
                 });
-
-            return builder;
         }
     }
 }

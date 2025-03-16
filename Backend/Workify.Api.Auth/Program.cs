@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Services;
 using Workify.Utils.Config;
@@ -5,7 +6,9 @@ using Workify.Utils.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.CommonApiInitialization<CommonConfig>();
+CommonConfig config = builder.CommonApiInitialization<CommonConfig>();
+
+builder.Services.AddDbContext<AuthDbContext>(opt => opt.UseNpgsql(config.DbConnectionString));
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthDbContext>(provider => provider.GetService<AuthDbContext>()!);
@@ -19,6 +22,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+{
+    var context = serviceScope.ServiceProvider.GetService<AuthDbContext>()!;
+    context.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -28,11 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.CommonApiInitialization();
-
 app.MapControllers();
 
 app.Run();
