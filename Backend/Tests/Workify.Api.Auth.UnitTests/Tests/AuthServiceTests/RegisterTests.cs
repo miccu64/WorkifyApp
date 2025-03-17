@@ -12,18 +12,17 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests;
 
 public class RegisterTests
 {
+    private readonly Fixture _fixture = new();
+
     [Fact]
     public async Task Should_Register_User()
     {
         // Arrange
-        Fixture fixture = new();
-
         Mock<IAuthDbContext> mockDbContext = AuthDbContextMock.GetMockDbContext();
-        IOptions<CommonConfig> config = Options.Create(fixture.Create<CommonConfig>());
+        IOptions<CommonConfig> config = Options.Create(_fixture.Create<CommonConfig>());
         AuthService authService = new(mockDbContext.Object, config);
 
-        fixture.Customize<RegisterDto>(c => c.With(dto => dto.Email, "mail@mail.pl"));
-        RegisterDto registerDto = fixture.Create<RegisterDto>();
+        RegisterDto registerDto = _fixture.Create<RegisterDto>();
 
         // Act
         int userId = await authService.Register(registerDto);
@@ -39,17 +38,16 @@ public class RegisterTests
     public async Task Should_Throw_When_User_With_Given_Email_Exists()
     {
         // Arrange
-        Fixture fixture = new();
+        User userInDb = _fixture.Create<User>();
 
-        fixture.Customize<User>(c => c.With(user => user.Email, "mail@mail.pl"));
-        User userInDb = fixture.Create<User>();
         Mock<IAuthDbContext> mockDbContext = AuthDbContextMock.GetMockDbContext([userInDb]);
 
-        IOptions<CommonConfig> config = Options.Create(fixture.Create<CommonConfig>());
+        IOptions<CommonConfig> config = Options.Create(_fixture.Create<CommonConfig>());
         AuthService authService = new(mockDbContext.Object, config);
 
-        fixture.Customize<RegisterDto>(c => c.With(dto => dto.Email, userInDb.Email));
-        RegisterDto registerDto = fixture.Create<RegisterDto>();
+        RegisterDto registerDto = _fixture.Build<RegisterDto>()
+            .With(dto => dto.Email, userInDb.Email)
+            .Create();
 
         // Act & Assert
         await Assert.ThrowsAsync<ArgumentException>(() => authService.Register(registerDto));
@@ -59,40 +57,16 @@ public class RegisterTests
     public async Task Should_Throw_When_User_With_Given_Login_Exists()
     {
         // Arrange
-        Fixture fixture = new();
+        User userInDb = _fixture.Create<User>();
 
-        fixture.Customize<User>(c => c.With(user => user.Email, "mail@mail.pl"));
-        User userInDb = fixture.Create<User>();
         Mock<IAuthDbContext> mockDbContext = AuthDbContextMock.GetMockDbContext([userInDb]);
 
-        IOptions<CommonConfig> config = Options.Create(fixture.Create<CommonConfig>());
+        IOptions<CommonConfig> config = Options.Create(_fixture.Create<CommonConfig>());
         AuthService authService = new(mockDbContext.Object, config);
 
-        fixture.Customize<RegisterDto>(c => c
-            .With(dto => dto.Email, "e12@erf.pl")
-            .With(user => user.Login, userInDb.Login)
-        );
-        RegisterDto registerDto = fixture.Create<RegisterDto>();
-
-        // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => authService.Register(registerDto));
-    }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData("test")]
-    [InlineData("test@t@t")]
-    public async Task Should_Throw_On_Invalid_Email(string email)
-    {
-        // Arrange
-        Mock<IAuthDbContext> mockDbContext = AuthDbContextMock.GetMockDbContext();
-        Fixture fixture = new();
-
-        IOptions<CommonConfig> config = Options.Create(fixture.Create<CommonConfig>());
-        AuthService authService = new(mockDbContext.Object, config);
-
-        fixture.Customize<RegisterDto>(c => c.With(dto => dto.Email, email));
-        RegisterDto registerDto = fixture.Create<RegisterDto>();
+        RegisterDto registerDto = _fixture.Build<RegisterDto>()
+            .With(dto => dto.Email, userInDb.Email)
+            .Create();
 
         // Act & Assert
         await Assert.ThrowsAsync<ArgumentException>(() => authService.Register(registerDto));

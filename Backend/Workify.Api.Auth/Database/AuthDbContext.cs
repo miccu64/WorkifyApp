@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Workify.Api.Auth.Database.Configurations;
 using Workify.Api.Auth.Models.Entities;
 
 namespace Workify.Api.Auth.Database
