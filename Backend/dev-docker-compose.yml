@@ -12,8 +12,8 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
       interval: 1s
-      timeout: 3s
-      retries: 10
+      timeout: 5s
+      retries: 50
 
   workify-auth-api:
     build:
@@ -21,7 +21,7 @@ services:
       dockerfile: ./Workify.Api.Auth/Dockerfile
     container_name: workify-auth-api
     ports:
-      - "5011:5000"
+      - "5011:8080"
     env_file:
       - dev-common.env
       - ./Workify.Api.Auth/dev.env
