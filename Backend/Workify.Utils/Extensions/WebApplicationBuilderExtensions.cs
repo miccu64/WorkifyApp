@@ -1,9 +1,11 @@
 using System.Text;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+
 using Workify.Utils.Config;
 
 namespace Workify.Utils.Extensions
@@ -24,9 +26,11 @@ namespace Workify.Utils.Extensions
             where T : CommonConfig
         {
             builder.Configuration.AddEnvironmentVariables();
-            builder.Services.Configure<T>(builder.Configuration.GetSection(CommonConfig.EnvironmentGroup));
 
-            return builder.Configuration.GetSection(CommonConfig.EnvironmentGroup).Get<T>()!;
+            IConfigurationSection section = builder.Configuration.GetSection(CommonConfig.EnvironmentGroup);
+            builder.Services.Configure<T>(section);
+
+            return section.Get<T>()!;
         }
 
         private static void AddJwtAuth<T>(this WebApplicationBuilder builder, T config)

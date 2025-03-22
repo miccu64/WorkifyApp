@@ -1,13 +1,13 @@
 namespace Workify.Utils.Config
 {
-    public record CommonConfig
+    public class CommonConfig
     {
         public const string EnvironmentGroup = "Workify";
 
         public readonly string JwtIssuer = "Workify";
         public readonly string JwtClaimUserId = "UserId";
 
-        public required string DbConnectionString;
-        public required string BearerKey;
+        public required string DbConnectionString { get; set; }
+        public required string BearerKey { get; set; }
     }
 }

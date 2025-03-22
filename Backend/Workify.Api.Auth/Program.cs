@@ -1,6 +1,9 @@
-using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+
+using FluentValidation;
+
+using Microsoft.EntityFrameworkCore;
+
 using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Services;
 using Workify.Utils.Config;

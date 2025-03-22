@@ -1,0 +1,36 @@
+services:
+  workify-postgres-db:
+    image: postgres:latest
+    container_name: workify-postgres-db
+    ports:
+      - "5010:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Admin123!
+    networks:
+      - workify-backend
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 1s
+      timeout: 3s
+      retries: 10
+
+  workify-auth-api:
+    build:
+      context: .
+      dockerfile: ./Workify.Api.Auth/Dockerfile
+    container_name: workify-auth-api
+    ports:
+      - "5011:5000"
+    env_file:
+      - dev-common.env
+      - ./Workify.Api.Auth/dev.env
+    depends_on:
+      workify-postgres-db:
+        condition: service_healthy
+    networks:
+      - workify-backend
+
+networks:
+  workify-backend:
+    driver: bridge
