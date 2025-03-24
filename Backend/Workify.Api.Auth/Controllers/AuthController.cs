@@ -1,10 +1,14 @@
 using System.Net;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Workify.Api.Auth.Models.DTOs;
 using Workify.Api.Auth.Services;
 
 namespace Workify.Api.Auth.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/auth")]
 public class AuthController(IAuthService authService) : ControllerBase

@@ -7,6 +7,9 @@ namespace Workify.Utils.Extensions
         public static void CommonApiInitialization(this WebApplication webApplication)
         {
             webApplication.UseAuthentication();
+            webApplication.UseAuthorization();
+
+            webApplication.MapControllers();
         }
     }
 }

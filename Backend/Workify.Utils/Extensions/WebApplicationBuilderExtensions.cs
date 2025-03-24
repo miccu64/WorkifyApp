@@ -1,6 +1,7 @@
 using System.Text;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,8 @@ namespace Workify.Utils.Extensions
             T config = builder.InitConfigFromEnvironmentVariables<T>();
 
             builder.AddJwtAuth(config);
+
+            builder.Services.AddControllers();
 
             return config;
         }
@@ -52,6 +55,12 @@ namespace Workify.Utils.Extensions
                         ClockSkew = TimeSpan.Zero,
                     };
                 });
+            builder.Services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
         }
     }
 }
