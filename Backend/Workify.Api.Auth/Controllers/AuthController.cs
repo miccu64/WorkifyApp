@@ -8,13 +8,13 @@ using Workify.Api.Auth.Services;
 
 namespace Workify.Api.Auth.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("api/auth")]
 public class AuthController(IAuthService authService) : ControllerBase
 {
     private readonly IAuthService _authService = authService;
 
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LogInDto dto)
     {
@@ -28,6 +28,7 @@ public class AuthController(IAuthService authService) : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<ActionResult<int>> Register([FromBody] RegisterDto dto)
     {
