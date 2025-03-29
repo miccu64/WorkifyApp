@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
 
 namespace Workify.Api.Workout.Models.Entities.Abstractions
 {
@@ -17,7 +16,7 @@ namespace Workify.Api.Workout.Models.Entities.Abstractions
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.Property(e => e.Name).IsRequired().HasMaxLength(255);
+            builder.Property(e => e.Name).IsRequired();
 
             ConcreteConfigure(builder);
         }

@@ -5,7 +5,7 @@ namespace Workify.Api.Auth.Models.Entities
 {
     internal class User
     {
-        public required int Id { get; set; }
+        public int Id { get; set; }
         public required string Login { get; set; }
         public required string Email { get; set; }
         public required string HashedPassword { get; set; }

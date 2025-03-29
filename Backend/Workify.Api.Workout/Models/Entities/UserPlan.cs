@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
 using Workify.Api.Workout.Models.Entities.Abstractions;
 
 namespace Workify.Api.Workout.Models.Entities
@@ -9,14 +8,11 @@ namespace Workify.Api.Workout.Models.Entities
         public required int UserId { get; set; }
     }
 
-    internal class UserPlanConfiguration : IEntityTypeConfiguration<UserPlan>
+    internal class UserPlanConfiguration : BasePlanConfiguration<UserPlan>
     {
-        public void Configure(EntityTypeBuilder<Plan> builder)
+        public override void ConcreteConfigure(EntityTypeBuilder<UserPlan> builder)
         {
-            builder.HasKey(e => e.Id);
-            builder.Property(e => e.Name).IsRequired().HasMaxLength(255);
             builder.Property(e => e.UserId).IsRequired();
-            builder.HasMany(e => e.PredefinedExercises).WithMany(e => e.Plans);
         }
     }
 }
