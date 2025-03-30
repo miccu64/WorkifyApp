@@ -4,10 +4,10 @@ namespace Workify.Api.Workout.Models.Entities.Abstractions
 {
     internal abstract class Plan
     {
-        public required int Id { get; set; }
+        public int Id { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
-        public List<Exercise> Exercises { get; } = [];
+        public List<Exercise> Exercises { get; set; } = [];
     }
 
     internal abstract class BasePlanConfiguration<T> : IConcreteEntityTypeConfiguration<T>

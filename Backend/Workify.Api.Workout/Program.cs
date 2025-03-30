@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Workify.Api.Workout.Database;
+using Workify.Api.Workout.Services;
 using Workify.Utils.Config;
 using Workify.Utils.Extensions;
 
@@ -16,6 +17,7 @@ builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddScoped<IWorkoutDbContext, WorkoutDbContext>();
 builder.Services.AddScoped<IWorkoutDbContext>(provider => provider.GetService<WorkoutDbContext>()!);
+builder.Services.AddScoped<IPlanService, PlanService>();
 
 var app = builder.Build();
 
