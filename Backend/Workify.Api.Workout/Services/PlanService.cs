@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Workify.Api.Workout.Database;
+using Workify.Api.Workout.Models.DTOs;
 using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Models.Entities;
 using Workify.Api.Workout.Models.Entities.Abstractions;
@@ -10,7 +11,15 @@ namespace Workify.Api.Workout.Services
     {
         private readonly IWorkoutDbContext _workoutDbContext = workoutDbContext;
 
-        public async Task<int> AddPlan(CreatePlanDto dto, int userId)
+        public async Task<IEnumerable<PlanDto>> GetPlans(int userId)
+        {
+            return await _workoutDbContext.UserPlans.AsNoTracking()
+                .Where(p => p.UserId == userId)
+                .Select(p => new PlanDto(p.Id, p.Name, p.Description, p.Exercises.ConvertAll(e => e.Id)))
+                .ToListAsync();
+        }
+
+        public async Task<int> CreatePlan(CreatePlanDto dto, int userId)
         {
             List<Exercise> exercisesToAdd = [];
             int exercisesCount = dto.ExercisesIds.Count();

@@ -1,12 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Workify.Api.Workout.Models.Others;
 
 namespace Workify.Api.Workout.Models.Entities.Abstractions
 {
     internal abstract class Exercise
     {
-        public required int Id { get; set; }
+        public int Id { get; set; }
         public required string Name { get; set; }
         public required BodyPartEnum BodyPart { get; set; }
         public string? Description { get; set; }
