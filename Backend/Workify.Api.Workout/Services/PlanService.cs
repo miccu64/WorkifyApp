@@ -3,7 +3,6 @@ using Workify.Api.Workout.Database;
 using Workify.Api.Workout.Models.DTOs;
 using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Models.Entities;
-using Workify.Api.Workout.Models.Entities.Abstractions;
 
 namespace Workify.Api.Workout.Services
 {
@@ -15,7 +14,7 @@ namespace Workify.Api.Workout.Services
         {
             return await _workoutDbContext.UserPlans.AsNoTracking()
                 .Where(p => p.UserId == userId)
-                .Select(p => new PlanDto(p.Id, p.Name, p.Description, p.Exercises.ConvertAll(e => e.Id)))
+                .Select(p => new PlanDto(p.Id, p.Name, p.Description, p.Exercises.Select(e => e.Id)))
                 .ToListAsync();
         }
 
@@ -25,11 +24,13 @@ namespace Workify.Api.Workout.Services
             int exercisesCount = dto.ExercisesIds.Count();
             if (exercisesCount > 0)
             {
-                exercisesToAdd = await _workoutDbContext.Exercises
-                    .Where(e => dto.ExercisesIds.Contains(e.Id))
-                    .ToListAsync();
+                exercisesToAdd = [.. (await _workoutDbContext.Exercises
+                        .Where(e => dto.ExercisesIds.Contains(e.Id))
+                        .ToListAsync()
+                    ).Where(e => e is not UserExercise userExercise || userExercise.UserId == userId)];
+
                 if (exercisesToAdd.Count != exercisesCount)
-                    throw new KeyNotFoundException("Not all exercises exist.");
+                    throw new KeyNotFoundException("Improper exercises ids.");
             }
 
             UserPlan plan = new()

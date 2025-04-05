@@ -2,7 +2,6 @@
 using Workify.Api.Workout.Database;
 using Workify.Api.Workout.Models.DTOs;
 using Workify.Api.Workout.Models.Entities;
-using Workify.Api.Workout.Models.Entities.Abstractions;
 using Workify.Api.Workout.Services;
 using Workify.Api.Workout.UnitTests.Utils;
 
@@ -33,7 +32,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
             await arrangeDbContext.UserExercises.AddRangeAsync(exercises);
 
             UserPlan plan = _fixture.Build<UserPlan>()
-                .With(p => p.Exercises, exercises.Cast<Exercise>())
+                .With(p => p.Exercises, [.. exercises.Cast<Exercise>()])
                 .With(p => p.UserId, userId)
                 .Create();
             await arrangeDbContext.UserPlans.AddAsync(plan);

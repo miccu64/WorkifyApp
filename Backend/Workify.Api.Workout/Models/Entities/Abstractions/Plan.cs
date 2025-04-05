@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Workify.Api.Workout.Models.Entities.Abstractions
 {
@@ -10,17 +11,13 @@ namespace Workify.Api.Workout.Models.Entities.Abstractions
         public List<Exercise> Exercises { get; set; } = [];
     }
 
-    internal abstract class BasePlanConfiguration<T> : IConcreteEntityTypeConfiguration<T>
-        where T : Plan
+    internal class PlanConfiguration : IEntityTypeConfiguration<Plan>
     {
-        public virtual void Configure(EntityTypeBuilder<T> builder)
+        public void Configure(EntityTypeBuilder<Plan> builder)
         {
             builder.HasKey(e => e.Id);
+            builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(e => e.Name).IsRequired();
-
-            ConcreteConfigure(builder);
         }
-
-        public abstract void ConcreteConfigure(EntityTypeBuilder<T> builder);
     }
 }
