@@ -19,7 +19,7 @@ namespace Workify.Api.Workout.Services
                 .ToListAsync();
         }
 
-        public async Task<int> CreatePlan(CreatePlanDto dto, int userId)
+        public async Task<int> CreatePlan(int userId, CreatePlanDto dto)
         {
             List<Exercise> exercisesToAdd = [];
             int exercisesCount = dto.ExercisesIds.Count();
@@ -57,7 +57,7 @@ namespace Workify.Api.Workout.Services
             return plan.Id;
         }
 
-        public async Task<int> EditPlan(int planId, EditPlanDto dto, int userId)
+        public async Task<int> EditPlan(int planId, int userId, EditPlanDto dto)
         {
             UserPlan plan = await _workoutDbContext.UserPlans.SingleOrDefaultAsync(p => p.Id == planId && p.UserId == userId)
                 ?? throw new KeyNotFoundException("Plan with given id with given user id does not exist.");

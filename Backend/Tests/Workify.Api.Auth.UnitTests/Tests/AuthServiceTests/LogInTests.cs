@@ -1,12 +1,8 @@
 ﻿using AutoFixture;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using Moq;
-using Newtonsoft.Json;
 using System.Text;
 using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Models.DTOs;
-using Workify.Api.Auth.Models.Entities;
 using Workify.Api.Auth.Services;
 using Workify.Api.Auth.UnitTests.Utils;
 using Workify.Utils.Config;
@@ -15,7 +11,14 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
 {
     public class LogInTests
     {
-        private readonly Fixture _fixture = new();
+        private readonly Fixture _fixture;
+        private readonly IOptions<CommonConfig> _config;
+
+        public LogInTests()
+        {
+            _fixture = new();
+            _config = Options.Create(_fixture.Create<CommonConfig>());
+        }
 
         [Fact]
         public async Task Should_Return_Jwt_Token_After_Login()
@@ -23,11 +26,10 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             // Arrange
             using AuthDbContextFactory factory = new();
 
-            IOptions<CommonConfig> config = Options.Create(_fixture.Create<CommonConfig>());
-            RegisterDto registerDto = await RegisterUserViaService(factory, config);
+            RegisterDto registerDto = await RegisterUserViaService(factory);
 
             using IAuthDbContext arrangeDbContext = await factory.CreateContext();
-            AuthService authService = new(arrangeDbContext, config);
+            AuthService authService = new(arrangeDbContext, _config);
 
             LogInDto dto = new(registerDto.Login, registerDto.Password);
 
@@ -49,12 +51,11 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             // Arrange
             using AuthDbContextFactory factory = new();
 
-            IOptions<CommonConfig> config = Options.Create(_fixture.Create<CommonConfig>());
-            RegisterDto registerDto1 = await RegisterUserViaService(factory, config);
-            RegisterDto registerDto2 = await RegisterUserViaService(factory, config);
+            RegisterDto registerDto1 = await RegisterUserViaService(factory);
+            RegisterDto registerDto2 = await RegisterUserViaService(factory);
 
             using IAuthDbContext authDbContext = await factory.CreateContext();
-            AuthService authService = new(authDbContext, config);
+            AuthService authService = new(authDbContext, _config);
 
             LogInDto wrongLogInDto = new(registerDto1.Login, registerDto2.Password);
 
@@ -68,11 +69,10 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             // Arrange
             using AuthDbContextFactory factory = new();
 
-            IOptions<CommonConfig> config = Options.Create(_fixture.Create<CommonConfig>());
-            RegisterDto _ = await RegisterUserViaService(factory, config);
+            RegisterDto _ = await RegisterUserViaService(factory);
 
             using IAuthDbContext authDbContext = await factory.CreateContext();
-            AuthService authService = new(authDbContext, config);
+            AuthService authService = new(authDbContext, _config);
 
             LogInDto dto = _fixture.Create<LogInDto>();
 
@@ -80,10 +80,10 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             await Assert.ThrowsAsync<UnauthorizedAccessException>(() => authService.LogIn(dto));
         }
 
-        private async Task<RegisterDto> RegisterUserViaService(AuthDbContextFactory factory, IOptions<CommonConfig> config)
+        private async Task<RegisterDto> RegisterUserViaService(AuthDbContextFactory factory)
         {
             using IAuthDbContext arrangeDbContext = await factory.CreateContext();
-            AuthService authService = new(arrangeDbContext, config);
+            AuthService authService = new(arrangeDbContext, _config);
 
             RegisterDto registerDto = _fixture.Create<RegisterDto>();
             int userId = await authService.Register(registerDto);

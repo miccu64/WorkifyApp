@@ -11,7 +11,14 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests;
 
 public class RegisterTests
 {
-    private readonly Fixture _fixture = new();
+    private readonly Fixture _fixture;
+    private readonly IOptions<CommonConfig> _config;
+
+    public RegisterTests()
+    {
+        _fixture = new();
+        _config = Options.Create(_fixture.Create<CommonConfig>());
+    }
 
     [Fact]
     public async Task Should_Register_User()
@@ -19,12 +26,11 @@ public class RegisterTests
         // Arrange
         using AuthDbContextFactory factory = new();
 
-        IOptions<CommonConfig> config = Options.Create(_fixture.Create<CommonConfig>());
         RegisterDto registerDto = _fixture.Create<RegisterDto>();
 
         // Act
         using IAuthDbContext authDbContext = await factory.CreateContext();
-        AuthService authService = new(authDbContext, config);
+        AuthService authService = new(authDbContext, _config);
 
         int userId = await authService.Register(registerDto);
 
@@ -50,15 +56,13 @@ public class RegisterTests
         await arrangeDbContext.Users.AddAsync(userInDb);
         await arrangeDbContext.SaveChangesAsync();
 
-        IOptions<CommonConfig> config = Options.Create(_fixture.Create<CommonConfig>());
-
         RegisterDto registerDto = _fixture.Build<RegisterDto>()
             .With(dto => dto.Email, userInDb.Email)
             .Create();
 
         // Act
         using IAuthDbContext authDbContext = await factory.CreateContext();
-        AuthService authService = new(authDbContext, config);
+        AuthService authService = new(authDbContext, _config);
 
         // Assert
         await Assert.ThrowsAsync<ArgumentException>(() => authService.Register(registerDto));
@@ -80,11 +84,9 @@ public class RegisterTests
             .With(dto => dto.Email, userInDb.Email)
             .Create();
 
-        IOptions<CommonConfig> config = Options.Create(_fixture.Create<CommonConfig>());
-
         // Act
         using IAuthDbContext authDbContext = await factory.CreateContext();
-        AuthService authService = new(authDbContext, config);
+        AuthService authService = new(authDbContext, _config);
 
         // Act & Assert
         await Assert.ThrowsAsync<ArgumentException>(() => authService.Register(registerDto));
