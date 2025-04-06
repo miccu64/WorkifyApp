@@ -17,7 +17,9 @@ namespace Workify.Api.Workout.Models.Entities.Abstractions
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
-            builder.Property(e => e.Name).IsRequired();
+
+            builder.Property(e => e.Name).IsRequired().HasMaxLength(255);
+            builder.Property(e => e.Description).HasMaxLength(1023);
         }
     }
 }

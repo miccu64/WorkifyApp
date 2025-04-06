@@ -46,5 +46,20 @@ namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
             Assert.Equal(userId, createdPlan.UserId);
             Assert.True(createPlanDto.ExercisesIds.Order().SequenceEqual(createdPlan.Exercises.Select(e => e.Id).Order()));
         }
+
+        [Fact]
+        public async Task Should_Throw_When_Exercise_Does_Not_Exist()
+        {
+            // Arrange
+            using WorkoutDbContextFactory factory = new();
+
+            CreatePlanDto createPlanDto = _fixture.Create<CreatePlanDto>();
+            const int userId = 11;
+
+            using IWorkoutDbContext dbContext = await factory.CreateContext();
+
+            // Act / Assert
+            await Assert.ThrowsAsync<KeyNotFoundException>(() => new PlanService(dbContext).CreatePlan(userId, createPlanDto));
+        }
     }
 }
