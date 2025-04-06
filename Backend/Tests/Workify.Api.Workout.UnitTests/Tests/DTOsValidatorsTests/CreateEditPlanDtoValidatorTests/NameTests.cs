@@ -2,11 +2,11 @@
 using FluentValidation.TestHelper;
 using Workify.Api.Workout.Models.DTOs.Parameters;
 
-namespace Workify.Api.Workout.UnitTests.Tests.DTOsValidatorsTests.CreatePlanDtoValidatorTests
+namespace Workify.Api.Workout.UnitTests.Tests.DTOsValidatorsTests.CreateEditPlanDtoValidatorTests
 {
     public class NameTests
     {
-        private readonly CreatePlanDtoValidator _validator = new();
+        private readonly CreateEditPlanDtoValidator _validator = new();
         private readonly Fixture _fixture = new();
 
         public static TheoryData<string> ProperNames =>
@@ -21,12 +21,12 @@ namespace Workify.Api.Workout.UnitTests.Tests.DTOsValidatorsTests.CreatePlanDtoV
         public void Should_Allow_Proper_Names(string name)
         {
             // Arrange
-            CreatePlanDto dto = _fixture.Build<CreatePlanDto>()
+            CreateEditPlanDto dto = _fixture.Build<CreateEditPlanDto>()
                 .With(dto => dto.Name, name)
                 .Create();
 
             // Act
-            TestValidationResult<CreatePlanDto> result = _validator.TestValidate(dto);
+            TestValidationResult<CreateEditPlanDto> result = _validator.TestValidate(dto);
 
             // Assert
             result.ShouldNotHaveValidationErrorFor(x => x.Name);
@@ -42,15 +42,15 @@ namespace Workify.Api.Workout.UnitTests.Tests.DTOsValidatorsTests.CreatePlanDtoV
 
         [Theory]
         [MemberData(nameof(WrongNames))]
-        public void Should_Throw_When_Null_Or_EmptyOr_Too_Long(string name)
+        public void Should_Throw_When_Null_Or_Empty_Or_Too_Long(string name)
         {
             // Arrange
-            CreatePlanDto dto = _fixture.Build<CreatePlanDto>()
+            CreateEditPlanDto dto = _fixture.Build<CreateEditPlanDto>()
                 .With(dto => dto.Name, name)
                 .Create();
 
             // Act
-            TestValidationResult<CreatePlanDto> result = _validator.TestValidate(dto);
+            TestValidationResult<CreateEditPlanDto> result = _validator.TestValidate(dto);
 
             // Assert
             result.ShouldHaveValidationErrorFor(x => x.Name);

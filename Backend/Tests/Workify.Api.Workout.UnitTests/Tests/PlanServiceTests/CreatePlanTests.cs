@@ -22,7 +22,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
             Exercise exercise = (await arrangeDbContext.Exercises.AddAsync(_fixture.Create<Exercise>())).Entity;
             await arrangeDbContext.SaveChangesAsync();
 
-            CreatePlanDto createPlanDto = _fixture.Build<CreatePlanDto>()
+            CreateEditPlanDto createPlanDto = _fixture.Build<CreateEditPlanDto>()
                 .With(p => p.ExercisesIds, [exercise.Id])
                 .Create();
             const int userId = 11;
@@ -53,7 +53,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
             // Arrange
             using WorkoutDbContextFactory factory = new();
 
-            CreatePlanDto createPlanDto = _fixture.Create<CreatePlanDto>();
+            CreateEditPlanDto createPlanDto = _fixture.Create<CreateEditPlanDto>();
             const int userId = 11;
 
             using IWorkoutDbContext dbContext = await factory.CreateContext();

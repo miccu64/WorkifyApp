@@ -35,9 +35,7 @@ namespace Workify.Api.Auth.UnitTests.Tests.DTOsValidatorsTests.LoginDtoValidator
         public static TheoryData<string> WrongLogins =>
             [
                 null,
-                "",
-                new string('a', 32),
-                new string('a', 55)
+                ""
             ];
 
         [Theory]

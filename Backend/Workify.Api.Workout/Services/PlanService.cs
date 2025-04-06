@@ -18,27 +18,14 @@ namespace Workify.Api.Workout.Services
                 .ToListAsync();
         }
 
-        public async Task<int> CreatePlan(int userId, CreatePlanDto dto)
+        public async Task<int> CreatePlan(int userId, CreateEditPlanDto dto)
         {
-            List<Exercise> exercisesToAdd = [];
-            int exercisesCount = dto.ExercisesIds.Count();
-            if (exercisesCount > 0)
-            {
-                exercisesToAdd = [.. (await _workoutDbContext.Exercises
-                        .Where(e => dto.ExercisesIds.Contains(e.Id))
-                        .ToListAsync()
-                    ).Where(e => e is not UserExercise userExercise || userExercise.UserId == userId)];
-
-                if (exercisesToAdd.Count != exercisesCount)
-                    throw new KeyNotFoundException("Improper exercises ids.");
-            }
-
             UserPlan plan = new()
             {
                 Name = dto.Name,
                 UserId = userId,
                 Description = dto.Description,
-                Exercises = exercisesToAdd
+                Exercises = await GetExercisesToAdd(userId, dto)
             };
 
             await _workoutDbContext.UserPlans.AddAsync(plan);
@@ -58,29 +45,36 @@ namespace Workify.Api.Workout.Services
             return plan.Id;
         }
 
-        public async Task<int> EditPlan(int planId, int userId, EditPlanDto dto)
+        public async Task<int> EditPlan(int planId, int userId, CreateEditPlanDto dto)
         {
             UserPlan plan = await _workoutDbContext.UserPlans.SingleOrDefaultAsync(p => p.Id == planId && p.UserId == userId)
                 ?? throw new KeyNotFoundException("Plan with given id with given user id does not exist.");
 
-            int exercisesCount = dto.ExercisesIds.Count();
-            List<Exercise> exercisesToAdd = [];
-            if (exercisesCount > 0)
-            {
-                exercisesToAdd = await _workoutDbContext.Exercises
-                    .Where(e => dto.ExercisesIds.Contains(e.Id))
-                    .ToListAsync();
-                if (exercisesToAdd.Count != exercisesCount)
-                    throw new KeyNotFoundException("Not all exercises exist.");
-            }
-
             plan.Name = dto.Name;
             plan.Description = dto.Description;
-            plan.Exercises = exercisesToAdd;
+            plan.Exercises = await GetExercisesToAdd(userId, dto);
 
             await _workoutDbContext.SaveChangesAsync();
 
             return plan.Id;
+        }
+
+        private async Task<List<Exercise>> GetExercisesToAdd(int userId, CreateEditPlanDto dto)
+        {
+            List<Exercise> exercisesToAdd = [];
+            int exercisesCount = dto.ExercisesIds.Count();
+            if (exercisesCount > 0)
+            {
+                exercisesToAdd = [.. (await _workoutDbContext.Exercises
+                        .Where(e => dto.ExercisesIds.Contains(e.Id))
+                        .ToListAsync()
+                    ).Where(e => e is not UserExercise userExercise || userExercise.UserId == userId)];
+
+                if (exercisesToAdd.Count != exercisesCount)
+                    throw new KeyNotFoundException("Improper exercises ids.");
+            }
+
+            return exercisesToAdd;
         }
     }
 }
