@@ -47,7 +47,9 @@ namespace Workify.Api.Workout.Services
 
         public async Task<int> EditPlan(int planId, int userId, CreateEditPlanDto dto)
         {
-            UserPlan plan = await _workoutDbContext.UserPlans.SingleOrDefaultAsync(p => p.Id == planId && p.UserId == userId)
+            UserPlan plan = await _workoutDbContext.UserPlans
+                .Include(p => p.Exercises)
+                .SingleOrDefaultAsync(p => p.Id == planId && p.UserId == userId)
                 ?? throw new KeyNotFoundException("Plan with given id with given user id does not exist.");
 
             plan.Name = dto.Name;

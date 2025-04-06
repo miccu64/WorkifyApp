@@ -22,6 +22,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
             UserExercise otherUserExercise = (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>())).Entity;
             UserPlan otherUserPlan = _fixture.Build<UserPlan>()
                 .With(p => p.Exercises, [otherUserExercise])
+                .With(p => p.UserId, otherUserExercise.UserId)
                 .Create();
             await arrangeDbContext.UserPlans.AddAsync(otherUserPlan);
 
