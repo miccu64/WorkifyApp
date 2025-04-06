@@ -13,8 +13,9 @@ namespace Workify.Api.Workout.Services
         public async Task<IEnumerable<PlanDto>> GetPlans(int userId)
         {
             return await _workoutDbContext.UserPlans.AsNoTracking()
+                .Include(p => p.Exercises)
                 .Where(p => p.UserId == userId)
-                .Select(p => new PlanDto(p.Id, p.Name, p.Description, p.Exercises.Select(e => e.Id)))
+                .Select(p => PlanDto.FromEntity(p))
                 .ToListAsync();
         }
 

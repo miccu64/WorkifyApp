@@ -1,8 +1,8 @@
 ﻿using AutoFixture;
 using Microsoft.EntityFrameworkCore;
 using Workify.Api.Workout.Database;
-using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Models.Entities;
+using Workify.Api.Workout.Models.Entities.Abstractions;
 using Workify.Api.Workout.Services;
 using Workify.Api.Workout.UnitTests.Utils;
 

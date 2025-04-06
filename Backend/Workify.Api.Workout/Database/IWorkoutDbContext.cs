@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Workify.Api.Workout.Models.Entities;
+using Workify.Api.Workout.Models.Entities.Abstractions;
 
 namespace Workify.Api.Workout.Database
 {
