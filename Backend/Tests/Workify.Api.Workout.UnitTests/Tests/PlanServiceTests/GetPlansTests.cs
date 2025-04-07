@@ -10,7 +10,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
 {
     public class GetPlansTests
     {
-        private readonly Fixture _fixture = new();
+        private readonly Fixture _fixture = EntityFixtureFactory.Create();
 
         [Fact]
         public async Task Should_Return_Plan()

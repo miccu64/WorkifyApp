@@ -1,4 +1,5 @@
 ﻿using Workify.Api.Workout.Models.Entities;
+using Workify.Api.Workout.Models.Entities.Abstractions;
 using Workify.Api.Workout.Models.Others;
 
 namespace Workify.Api.Workout.Models.DTOs

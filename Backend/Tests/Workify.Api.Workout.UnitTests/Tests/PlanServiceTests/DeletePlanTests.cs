@@ -10,7 +10,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
 {
     public class DeletePlanTests
     {
-        private readonly Fixture _fixture = new();
+        private readonly Fixture _fixture = EntityFixtureFactory.Create();
 
         [Fact]
         public async Task Should_Delete_Plan_And_Leave_Exercises()
@@ -20,7 +20,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
-            Exercise exercise = (await arrangeDbContext.Exercises.AddAsync(_fixture.Create<Exercise>())).Entity;
+            PredefinedExercise exercise = (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
             UserPlan plan = _fixture.Create<UserPlan>();
             plan.Exercises = [exercise];
             await arrangeDbContext.UserPlans.AddAsync(plan);
@@ -39,7 +39,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
             UserPlan? notExistingPlan = await assertDbContext.UserPlans.SingleOrDefaultAsync(p => p.Id == deletedPlanId);
             Assert.Null(notExistingPlan);
 
-            Exercise existingExercise = await assertDbContext.Exercises.SingleAsync(e => e.Id == exercise.Id);
+            Exercise existingExercise = await assertDbContext.AllExercises.SingleAsync(e => e.Id == exercise.Id);
             Assert.NotNull(existingExercise);
         }
 

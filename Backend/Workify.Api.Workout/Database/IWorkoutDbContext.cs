@@ -9,7 +9,8 @@ namespace Workify.Api.Workout.Database
         DbSet<PredefinedPlan> PredefinedPlans { get; set; }
         DbSet<UserPlan> UserPlans { get; set; }
 
-        DbSet<Exercise> Exercises { get; set; }
+        DbSet<Exercise> AllExercises { get; set; }
+        DbSet<PredefinedExercise> PredefinedExercises { get; set; }
         DbSet<UserExercise> UserExercises { get; set; }
 
         Task<int> SaveChangesAsync();

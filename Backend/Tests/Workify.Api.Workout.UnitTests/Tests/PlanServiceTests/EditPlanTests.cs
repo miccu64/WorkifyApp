@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Workify.Api.Workout.Database;
 using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Models.Entities;
-using Workify.Api.Workout.Models.Entities.Abstractions;
 using Workify.Api.Workout.Services;
 using Workify.Api.Workout.UnitTests.Utils;
 
@@ -11,7 +10,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
 {
     public class EditPlanTests
     {
-        private readonly Fixture _fixture = new();
+        private readonly Fixture _fixture = EntityFixtureFactory.Create();
 
         [Fact]
         public async Task Should_Edit_Plan()
@@ -21,8 +20,8 @@ namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
-            Exercise exercise1 = (await arrangeDbContext.Exercises.AddAsync(_fixture.Create<Exercise>())).Entity;
-            Exercise exercise2 = (await arrangeDbContext.Exercises.AddAsync(_fixture.Create<Exercise>())).Entity;
+            PredefinedExercise exercise1 = (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
+            PredefinedExercise exercise2 = (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
             UserPlan plan = _fixture.Build<UserPlan>()
                 .With(p => p.Exercises, [exercise1])
                 .Create();

@@ -11,14 +11,14 @@ namespace Workify.Api.Workout.Services
     {
         private readonly IWorkoutDbContext _workoutDbContext = workoutDbContext;
 
-        public async Task<IEnumerable<ExerciseDto>> GetExercises(int userId)
-        {
-            return await _workoutDbContext.Exercises.AsNoTracking()
-                .Where(e => EF.Property<ExerciseTypeEnum>(e, "Type") == ExerciseTypeEnum.Predefined
-                    || (e is UserExercise && ((UserExercise)e).UserId == userId)
-                ).Select(e => ExerciseDto.FromEntity(e))
-                .ToListAsync();
-        }
+        //public async Task<IEnumerable<ExerciseDto>> GetExercises(int userId)
+        //{
+        //    return await _workoutDbContext.Exercises.AsNoTracking()
+        //        .Where(e => EF.Property<ExerciseTypeEnum>(e, "Type") == ExerciseTypeEnum.Predefined
+        //            || (e is UserExercise && ((UserExercise)e).UserId == userId)
+        //        ).Select(e => ExerciseDto.FromEntity(e))
+        //        .ToListAsync();
+        //}
 
         public async Task<int> CreateExercise()
         {

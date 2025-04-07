@@ -1,12 +1,13 @@
 ﻿using AutoFixture;
 using Workify.Api.Workout.Models.DTOs;
 using Workify.Api.Workout.Models.Entities;
+using Workify.Api.Workout.UnitTests.Utils;
 
 namespace Workify.Api.Workout.UnitTests.Tests.DTOsFromEntityTests
 {
     public class PlanDtoTests
     {
-        private readonly Fixture _fixture = new();
+        private readonly Fixture _fixture = EntityFixtureFactory.Create();
 
         [Fact]
         public void Should_Properly_Map_User_Plan()

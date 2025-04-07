@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Workify.Api.Workout.Models.Others;
 
-namespace Workify.Api.Workout.Models.Entities
+namespace Workify.Api.Workout.Models.Entities.Abstractions
 {
-    internal class Exercise
+    internal abstract class Exercise
     {
         public int Id { get; set; }
         public required string Name { get; set; }

@@ -3,6 +3,7 @@ using Workify.Api.Workout.Database;
 using Workify.Api.Workout.Models.DTOs;
 using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Models.Entities;
+using Workify.Api.Workout.Models.Entities.Abstractions;
 
 namespace Workify.Api.Workout.Services
 {
@@ -68,10 +69,13 @@ namespace Workify.Api.Workout.Services
             int exercisesCount = dto.ExercisesIds.Count();
             if (exercisesCount > 0)
             {
-                exercisesToAdd = [.. (await _workoutDbContext.Exercises
-                        .Where(e => dto.ExercisesIds.Contains(e.Id))
-                        .ToListAsync()
-                    ).Where(e => e is not UserExercise userExercise || userExercise.UserId == userId)];
+                exercisesToAdd.AddRange(await _workoutDbContext.PredefinedExercises
+                    .Where(e => dto.ExercisesIds.Contains(e.Id))
+                    .ToListAsync()
+                );
+                exercisesToAdd.AddRange(await _workoutDbContext.UserExercises
+                    .Where(e => e.UserId == userId && dto.ExercisesIds.Contains(e.Id))
+                    .ToListAsync());
 
                 if (exercisesToAdd.Count != exercisesCount)
                     throw new KeyNotFoundException("Improper exercises ids.");

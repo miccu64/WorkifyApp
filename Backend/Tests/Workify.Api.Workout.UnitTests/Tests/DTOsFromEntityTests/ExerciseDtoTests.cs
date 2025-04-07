@@ -9,10 +9,10 @@ namespace Workify.Api.Workout.UnitTests.Tests.DTOsFromEntityTests
         private readonly Fixture _fixture = new();
 
         [Fact]
-        public void Should_Properly_Map_Exercise()
+        public void Should_Properly_Map_Predefined_Exercise()
         {
             // Arrange
-            Exercise exercise = _fixture.Create<Exercise>();
+            PredefinedExercise exercise = _fixture.Create<PredefinedExercise>();
 
             // Act
             ExerciseDto dto = ExerciseDto.FromEntity(exercise);

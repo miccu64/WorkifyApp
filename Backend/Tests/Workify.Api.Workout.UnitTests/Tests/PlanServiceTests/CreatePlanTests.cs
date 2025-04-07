@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Workify.Api.Workout.Database;
 using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Models.Entities;
-using Workify.Api.Workout.Models.Entities.Abstractions;
 using Workify.Api.Workout.Services;
 using Workify.Api.Workout.UnitTests.Utils;
 
@@ -20,7 +19,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
             using WorkoutDbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
-            Exercise exercise = (await arrangeDbContext.Exercises.AddAsync(_fixture.Create<Exercise>())).Entity;
+            PredefinedExercise exercise = (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
             await arrangeDbContext.SaveChangesAsync();
 
             CreateEditPlanDto createPlanDto = _fixture.Build<CreateEditPlanDto>()

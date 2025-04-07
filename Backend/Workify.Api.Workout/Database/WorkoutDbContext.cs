@@ -10,7 +10,8 @@ namespace Workify.Api.Workout.Database
         public DbSet<PredefinedPlan> PredefinedPlans { get; set; }
         public DbSet<UserPlan> UserPlans { get; set; }
 
-        public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<Exercise> AllExercises { get; set; }
+        public DbSet<PredefinedExercise> PredefinedExercises { get; set; }
         public DbSet<UserExercise> UserExercises { get; set; }
 
 
@@ -26,7 +27,7 @@ namespace Workify.Api.Workout.Database
             modelBuilder.Entity<UserPlan>().ToTable("UserPlans");
 
             modelBuilder.Entity<Exercise>().HasDiscriminator<ExerciseTypeEnum>("ExerciseType")
-                .HasValue<Exercise>(ExerciseTypeEnum.Predefined)
+                .HasValue<PredefinedExercise>(ExerciseTypeEnum.Predefined)
                 .HasValue<UserExercise>(ExerciseTypeEnum.User);
 
             modelBuilder.ApplyConfiguration(new PlanConfiguration());
