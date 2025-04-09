@@ -2,7 +2,7 @@
 
 namespace Workify.Api.Workout.Models.DTOs.Parameters
 {
-    public record CreateEditPlanDto(string Name, string? Description, IEnumerable<int> ExercisesIds);
+    internal record CreateEditPlanDto(string Name, string? Description, IEnumerable<int> ExercisesIds);
 
     internal class CreateEditPlanDtoValidator : AbstractValidator<CreateEditPlanDto>
     {
