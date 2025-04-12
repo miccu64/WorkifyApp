@@ -10,7 +10,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
 {
     public class DeletePlanTests
     {
-        private readonly Fixture _fixture = EntityFixtureFactory.Create();
+        private readonly Fixture _fixture = FixtureFactory.ExerciseRelayCreate();
 
         [Fact]
         public async Task Should_Delete_Plan_And_Leave_Exercises()

@@ -10,7 +10,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
 {
     public class EditPlanTests
     {
-        private readonly Fixture _fixture = EntityFixtureFactory.Create();
+        private readonly Fixture _fixture = FixtureFactory.ExerciseRelayCreate();
 
         [Fact]
         public async Task Should_Edit_Plan()

@@ -7,7 +7,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.DTOsFromEntityTests
 {
     public class PlanDtoTests
     {
-        private readonly Fixture _fixture = EntityFixtureFactory.Create();
+        private readonly Fixture _fixture = FixtureFactory.ExerciseRelayCreate();
 
         [Fact]
         public void Should_Properly_Map_User_Plan()

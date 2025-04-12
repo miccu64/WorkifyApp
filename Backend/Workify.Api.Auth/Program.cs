@@ -1,16 +1,13 @@
 using FluentValidation;
-
 using Microsoft.EntityFrameworkCore;
-
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-
 using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Models.DTOs;
 using Workify.Api.Auth.Services;
 using Workify.Utils.Config;
 using Workify.Utils.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 CommonConfig config = builder.CommonApiInitialization<CommonConfig>();
 
@@ -22,11 +19,11 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthDbContext>(provider => provider.GetService<AuthDbContext>()!);
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
-using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+using (IServiceScope serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
 {
-    var context = serviceScope.ServiceProvider.GetService<AuthDbContext>()!;
+    AuthDbContext context = serviceScope.ServiceProvider.GetService<AuthDbContext>()!;
     context.Database.Migrate();
 }
 
