@@ -84,8 +84,13 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
             // Arrange
             using WorkoutDbContextFactory factory = new();
 
+            using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
+            List<PredefinedExercise> exercises = _fixture.CreateMany<PredefinedExercise>().ToList();
+            await arrangeDbContext.PredefinedExercises.AddRangeAsync(exercises);
+            await arrangeDbContext.SaveChangesAsync();
+
             CreateEditPlanDto createPlanDto = _fixture.Build<CreateEditPlanDto>()
-                .With(p => p.ExercisesIds, [])
+                .With(p => p.ExercisesIds, exercises.Select(e => e.Id))
                 .Create();
             const int userId = 11;
 
@@ -99,6 +104,21 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
             Assert.True(plan1Id > 0);
             Assert.True(plan2Id > 0);
             Assert.NotEqual(plan1Id, plan2Id);
+
+            using IWorkoutDbContext assertDbContext = await factory.CreateContext();
+            List<UserPlan> dbPlans = await assertDbContext.UserPlans.AsNoTracking()
+                .Include(p => p.Exercises)
+                .Where(p => p.UserId == userId)
+                .ToListAsync();
+            Assert.Equal(2, dbPlans.Count);
+
+            IEnumerable<int> expectedExercisesIds = createPlanDto.ExercisesIds.Order();
+
+            UserPlan dbPlan1 = dbPlans.Single(p => p.Id == plan1Id);
+            Assert.True(dbPlan1.Exercises.Select(e => e.Id).Order().SequenceEqual(expectedExercisesIds));
+
+            UserPlan dbPlan2 = dbPlans.Single(p => p.Id == plan2Id);
+            Assert.True(dbPlan2.Exercises.Select(e => e.Id).Order().SequenceEqual(expectedExercisesIds));
         }
 
         [Fact]

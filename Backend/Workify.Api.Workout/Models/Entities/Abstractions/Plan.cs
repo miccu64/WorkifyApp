@@ -15,6 +15,8 @@ namespace Workify.Api.Workout.Models.Entities.Abstractions
     {
         public void Configure(EntityTypeBuilder<Plan> builder)
         {
+            builder.HasMany(p => p.Exercises).WithMany();
+
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
 

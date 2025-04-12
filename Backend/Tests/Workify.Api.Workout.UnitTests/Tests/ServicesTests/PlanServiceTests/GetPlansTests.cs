@@ -13,7 +13,45 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         private readonly Fixture _fixture = EntityFixtureFactory.Create();
 
         [Fact]
-        public async Task Should_Return_Plan()
+        public async Task Should_Return_User_Plans()
+        {
+            // Arrange
+            using WorkoutDbContextFactory factory = new();
+
+            using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
+
+            const int userId = 11;
+            List<UserExercise> exercises = _fixture.Build<UserExercise>()
+                .With(e => e.UserId, userId)
+                .CreateMany(3)
+                .ToList();
+            await arrangeDbContext.UserExercises.AddRangeAsync(exercises);
+
+            List<UserPlan> plans = _fixture.Build<UserPlan>()
+                .With(p => p.Exercises, [.. exercises.Cast<Exercise>()])
+                .With(p => p.UserId, userId)
+                .CreateMany(3)
+                .ToList();
+            await arrangeDbContext.UserPlans.AddRangeAsync(plans);
+
+            await arrangeDbContext.SaveChangesAsync();
+
+            using IWorkoutDbContext dbContext = await factory.CreateContext();
+
+            // Act
+            IEnumerable<PlanDto> plansResponse = await new PlanService(dbContext).GetPlans(userId);
+
+            // Assert
+            Assert.Equal(plans.Count(), plansResponse.Count());
+            foreach (PlanDto planDto in plansResponse)
+            {
+                Plan plan = plans.Single(p => p.Id == planDto.Id);
+                Assert.True(plan.Exercises.Select(e => e.Id).Order().SequenceEqual(planDto.ExercisesIds.Order()));
+            }
+        }
+
+        [Fact]
+        public async Task Should_Return_Plan_Which_Belongs_To_User()
         {
             // Arrange
             using WorkoutDbContextFactory factory = new();
@@ -27,10 +65,11 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
                 .Create();
             await arrangeDbContext.UserPlans.AddAsync(otherUserPlan);
 
-            const int userId = 11;
-            IEnumerable<UserExercise> exercises = _fixture.Build<UserExercise>()
+            int userId = otherUserPlan.UserId + 1;
+            List<UserExercise> exercises = _fixture.Build<UserExercise>()
                 .With(e => e.UserId, userId)
-                .CreateMany(3);
+                .CreateMany(3)
+                .ToList();
             await arrangeDbContext.UserExercises.AddRangeAsync(exercises);
 
             UserPlan plan = _fixture.Build<UserPlan>()
@@ -57,7 +96,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         }
 
         [Fact]
-        public async Task Should_Return_Empty_Collection_When_Plans_For_User_Id_Do_Not_Exist()
+        public async Task Should_Return_Empty_Collection_When_Plans_For_Not_Existing_User()
         {
             // Arrange
             using WorkoutDbContextFactory factory = new();
