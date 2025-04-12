@@ -1,15 +1,18 @@
 using Microsoft.AspNetCore.Builder;
+using Workify.Utils.Middlewares;
 
 namespace Workify.Utils.Extensions
 {
     public static class WebApplicationExtensions
     {
-        public static void CommonApiInitialization(this WebApplication webApplication)
+        public static void CommonApiInitialization(this WebApplication app)
         {
-            webApplication.UseAuthentication();
-            webApplication.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-            webApplication.MapControllers();
+            app.UseMiddleware<ExceptionMiddleware>();
+
+            app.MapControllers();
         }
     }
 }

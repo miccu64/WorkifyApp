@@ -12,13 +12,13 @@ namespace Workify.Api.Auth.UnitTests.Tests.DTOsValidatorsTests.RegisterDtoValida
         public static TheoryData<string> ProperLogins =>
             [
                 new string('a', 4),
-                new string('a', 32),
+                new string('a', 31),
                 new string('a', 21)
             ];
 
         [Theory]
         [MemberData(nameof(ProperLogins))]
-        public void Should_Allow_4_To_32_Length(string login)
+        public void Should_Allow_4_To_31_Length(string login)
         {
             // Arrange
             RegisterDto dto = _fixture.Build<RegisterDto>()
