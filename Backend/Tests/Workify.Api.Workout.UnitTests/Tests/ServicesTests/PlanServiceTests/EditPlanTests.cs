@@ -6,7 +6,7 @@ using Workify.Api.Workout.Models.Entities;
 using Workify.Api.Workout.Services;
 using Workify.Api.Workout.UnitTests.Utils;
 
-namespace Workify.Api.Workout.UnitTests.Tests.PlanServiceTests
+namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
 {
     public class EditPlanTests
     {
