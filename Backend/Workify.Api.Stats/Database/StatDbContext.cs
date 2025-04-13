@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Workify.Api.Stats.Models.Entities;
+using Workify.Api.ExerciseStat.Models.Entities;
 
-namespace Workify.Api.Stats.Database
+namespace Workify.Api.ExerciseStat.Database
 {
-    internal class StatsDbContext(DbContextOptions<StatsDbContext> options) : DbContext(options), IStatsDbContext
+    internal class StatDbContext(DbContextOptions<StatDbContext> options) : DbContext(options), IStatDbContext
     {
         public DbSet<Stat> Stats { get; set; }
 

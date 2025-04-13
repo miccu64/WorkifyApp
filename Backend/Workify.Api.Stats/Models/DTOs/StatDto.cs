@@ -1,6 +1,6 @@
-﻿using Workify.Api.Stats.Models.Entities;
+﻿using Workify.Api.ExerciseStat.Models.Entities;
 
-namespace Workify.Api.Stats.Models.DTOs
+namespace Workify.Api.ExerciseStat.Models.DTOs
 {
     internal record StatDto(int Id, int ExerciseId, DateTime Time, double Weight, int Reps, string? Note)
     {

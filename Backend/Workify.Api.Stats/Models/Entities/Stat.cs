@@ -1,4 +1,4 @@
-﻿namespace Workify.Api.Stats.Models.Entities
+﻿namespace Workify.Api.ExerciseStat.Models.Entities
 {
     internal class Stat
     {
