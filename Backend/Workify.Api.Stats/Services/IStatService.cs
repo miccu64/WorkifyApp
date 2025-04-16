@@ -3,7 +3,7 @@ using Workify.Api.ExerciseStat.Models.DTOs.Parameters;
 
 namespace Workify.Api.ExerciseStat.Services
 {
-    internal interface IStatService
+    public interface IStatService
     {
         Task<IEnumerable<StatDto>> GetAllStats(int userId);
         Task<IEnumerable<StatDto>> GetExerciseStats(int userId, int exerciseId);
