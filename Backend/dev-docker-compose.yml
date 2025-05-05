@@ -31,16 +31,16 @@ services:
     networks:
       - workify-backend
 
-  workify-stats-api:
+  workify-exercise-stat-api:
     build:
       context: .
-      dockerfile: ./Workify.Api.Stats/Dockerfile
-    container_name: workify-stats-api
+      dockerfile: ./Workify.Api.ExerciseStat/Dockerfile
+    container_name: workify-exercise-stat-api
     ports:
       - "5012:8080"
     env_file:
       - dev-common.env
-      - ./Workify.Api.Stats/dev.env
+      - ./Workify.Api.ExerciseStat/dev.env
     depends_on:
       workify-postgres-db:
         condition: service_healthy
