@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Workify.Api.Stats\Workify.Api.ExerciseStat.csproj" />
+    <ProjectReference Include="..\..\Workify.Api.ExerciseStat\Workify.Api.ExerciseStat.csproj" />
   </ItemGroup>
 
   <ItemGroup>

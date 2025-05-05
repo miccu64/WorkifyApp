@@ -15,9 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workify.Api.Workout", "Work
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workify.Api.Workout.UnitTests", "Tests\Workify.Api.Workout.UnitTests\Workify.Api.Workout.UnitTests.csproj", "{C7117AA7-790F-4FB5-B165-C4B0B872CCB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workify.Api.ExerciseStat", "Workify.Api.Stats\Workify.Api.ExerciseStat.csproj", "{64B1D27C-BC81-4FC5-9BA7-16F83807B4CF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workify.Api.ExerciseStat.UnitTests", "Tests\Workify.Api.ExerciseStat.UnitTests\Workify.Api.ExerciseStat.UnitTests.csproj", "{88BD0E1A-CFDB-4784-AD88-95A918995D6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workify.Api.ExerciseStat", "Workify.Api.ExerciseStat\Workify.Api.ExerciseStat.csproj", "{9E03C86D-4965-EB09-CD06-9C169CCCD3D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,14 +45,14 @@ Global
 		{C7117AA7-790F-4FB5-B165-C4B0B872CCB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7117AA7-790F-4FB5-B165-C4B0B872CCB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7117AA7-790F-4FB5-B165-C4B0B872CCB2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64B1D27C-BC81-4FC5-9BA7-16F83807B4CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64B1D27C-BC81-4FC5-9BA7-16F83807B4CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64B1D27C-BC81-4FC5-9BA7-16F83807B4CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64B1D27C-BC81-4FC5-9BA7-16F83807B4CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{88BD0E1A-CFDB-4784-AD88-95A918995D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{88BD0E1A-CFDB-4784-AD88-95A918995D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88BD0E1A-CFDB-4784-AD88-95A918995D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88BD0E1A-CFDB-4784-AD88-95A918995D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E03C86D-4965-EB09-CD06-9C169CCCD3D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E03C86D-4965-EB09-CD06-9C169CCCD3D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E03C86D-4965-EB09-CD06-9C169CCCD3D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E03C86D-4965-EB09-CD06-9C169CCCD3D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
