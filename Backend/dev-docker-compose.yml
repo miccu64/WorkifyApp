@@ -31,6 +31,38 @@ services:
     networks:
       - workify-backend
 
+  workify-stats-api:
+    build:
+      context: .
+      dockerfile: ./Workify.Api.Stats/Dockerfile
+    container_name: workify-stats-api
+    ports:
+      - "5012:8080"
+    env_file:
+      - dev-common.env
+      - ./Workify.Api.Stats/dev.env
+    depends_on:
+      workify-postgres-db:
+        condition: service_healthy
+    networks:
+      - workify-backend
+
+  workify-workout-api:
+    build:
+      context: .
+      dockerfile: ./Workify.Api.Workout/Dockerfile
+    container_name: workify-workout-api
+    ports:
+      - "5013:8080"
+    env_file:
+      - dev-common.env
+      - ./Workify.Api.Workout/dev.env
+    depends_on:
+      workify-postgres-db:
+        condition: service_healthy
+    networks:
+      - workify-backend
+
 networks:
   workify-backend:
     driver: bridge
