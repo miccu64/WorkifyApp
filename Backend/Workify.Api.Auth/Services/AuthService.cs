@@ -1,10 +1,10 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Models.DTOs;
 using Workify.Api.Auth.Models.Entities;
@@ -57,11 +57,10 @@ namespace Workify.Api.Auth.Services
             SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
             JwtSecurityToken token = new(
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: signingCredentials,
                 issuer: _config.JwtIssuer,
-                claims: [new Claim(_config.JwtClaimUserId, userId.ToString())]
-            );
+                claims: [new Claim(_config.JwtClaimUserId, userId.ToString())],
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: signingCredentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

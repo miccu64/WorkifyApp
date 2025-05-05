@@ -1,6 +1,6 @@
 ﻿namespace Workify.Api.Workout.Models.Others
 {
-    internal enum BodyPartEnum
+    public enum BodyPartEnum
     {
         Abs,
         Back,

@@ -38,7 +38,8 @@ namespace Workify.Api.Workout.Services
 
         public async Task<int> DeletePlan(int planId, int userId)
         {
-            UserPlan plan = await _workoutDbContext.UserPlans.AsNoTracking().SingleOrDefaultAsync(p => p.Id == planId && p.UserId == userId)
+            UserPlan plan = await _workoutDbContext.UserPlans.AsNoTracking()
+                .SingleOrDefaultAsync(p => p.Id == planId && p.UserId == userId)
                 ?? throw new ArgumentException("Plan with given id with given user id does not exist.");
 
             _workoutDbContext.UserPlans.Remove(plan);

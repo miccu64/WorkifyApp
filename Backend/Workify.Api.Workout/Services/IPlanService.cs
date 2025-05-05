@@ -3,7 +3,7 @@ using Workify.Api.Workout.Models.DTOs.Parameters;
 
 namespace Workify.Api.Workout.Services
 {
-    internal interface IPlanService
+    public interface IPlanService
     {
         Task<IEnumerable<PlanDto>> GetPlans(int userId);
         Task<int> CreatePlan(int userId, CreateEditPlanDto dto);

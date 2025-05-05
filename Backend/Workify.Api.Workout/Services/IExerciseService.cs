@@ -3,7 +3,7 @@ using Workify.Api.Workout.Models.DTOs.Parameters;
 
 namespace Workify.Api.Workout.Services
 {
-    internal interface IExerciseService
+    public interface IExerciseService
     {
         Task<IEnumerable<ExerciseDto>> GetExercises(int userId);
         Task<int> CreateExercise(int userId, CreateEditExerciseDto dto);

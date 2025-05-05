@@ -3,7 +3,7 @@ using Workify.Api.Workout.Models.Others;
 
 namespace Workify.Api.Workout.Models.DTOs.Parameters
 {
-    internal record CreateEditExerciseDto(string Name, BodyPartEnum BodyPart, string? Description);
+    public record CreateEditExerciseDto(string Name, BodyPartEnum BodyPart, string? Description);
 
     internal class CreateEditExerciseDtoValidator : AbstractValidator<CreateEditExerciseDto>
     {

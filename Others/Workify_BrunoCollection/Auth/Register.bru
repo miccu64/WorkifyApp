@@ -5,15 +5,15 @@ meta {
 }
 
 post {
-  url: http://192.168.0.123:5011/api/auth/register
+  url: {{VM}}:{{AuthApiPort}}/api/auth/register
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "Login": "Losgifs2n",
+    "Login": "Losgifs222n",
     "Password": "11111111",
-    "Email": "sfs@22"
+    "Email": "sfs2@222"
   }
 }
