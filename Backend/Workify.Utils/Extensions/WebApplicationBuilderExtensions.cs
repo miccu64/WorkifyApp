@@ -51,8 +51,18 @@ namespace Workify.Utils.Extensions
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.BearerKey)),
                         ValidateIssuer = true,
+                        ValidIssuer = config.JwtIssuer,
                         ValidateAudience = false,
                         ClockSkew = TimeSpan.Zero,
+                    };
+
+                    x.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            Console.WriteLine($"JWT Auth failed: {context.Exception.Message}");
+                            return Task.CompletedTask;
+                        }
                     };
                 });
             builder.Services.AddAuthorization(options =>
