@@ -51,7 +51,7 @@ namespace Workify.Utils.Extensions
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.BearerKey)),
                         ValidateIssuer = true,
-                        ValidIssuer = config.JwtIssuer,
+                        ValidIssuer = CommonConfig.JwtIssuer,
                         ValidateAudience = false,
                         ClockSkew = TimeSpan.Zero,
                     };
