@@ -13,7 +13,7 @@ namespace Workify.Api.ExerciseStat.Controllers
     {
         private readonly IStatService _statService = statService;
 
-        [HttpGet()]
+        [HttpGet]
         public async Task<IEnumerable<StatDto>> GetAllStats()
         {
             int userId = User.GetUserId();
