@@ -33,7 +33,7 @@ namespace Workify.Api.ExerciseStat.Services
             {
                 ExerciseId = exerciseId,
                 UserId = userId,
-                Time = dto.Time.ToUniversalTime(),
+                Time = dto.Time,
                 Reps = dto.Reps,
                 Weight = dto.Weight,
                 Note = dto.Note
@@ -49,7 +49,7 @@ namespace Workify.Api.ExerciseStat.Services
             Stat stat = await _dbContext.Stats.FirstOrDefaultAsync(s => s.Id == statId && s.UserId == userId)
                 ?? throw new KeyNotFoundException("No stat with given id and user.");
 
-            stat.Time = dto.Time.ToUniversalTime();
+            stat.Time = dto.Time;
             stat.Reps = dto.Reps;
             stat.Weight = dto.Weight;
             stat.Note = dto.Note;

@@ -9,5 +9,6 @@ namespace Workify.Api.Workout.Services
         Task<int> CreatePlan(int userId, CreateEditPlanDto dto);
         Task<int> DeletePlan(int planId, int userId);
         Task<int> EditPlan(int planId, int userId, CreateEditPlanDto dto);
+        Task<IEnumerable<int>> CopyPredefinedPlansForUser(int userId);
     }
 }

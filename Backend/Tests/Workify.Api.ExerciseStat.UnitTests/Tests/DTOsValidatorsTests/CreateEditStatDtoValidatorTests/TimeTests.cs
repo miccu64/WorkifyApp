@@ -9,7 +9,7 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.DTOsValidatorsTests.CreateEdi
         private readonly CreateEditStatDtoValidator _validator = new();
         private readonly Fixture _fixture = new();
 
-        public static TheoryData<DateTime> ProperTimes =>
+        public static TheoryData<DateTimeOffset> ProperTimes =>
             [
                 new DateTime(2025, 1, 1),
                 new DateTime(2111, 1, 3),
@@ -17,7 +17,7 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.DTOsValidatorsTests.CreateEdi
             ];
         [Theory]
         [MemberData(nameof(ProperTimes))]
-        public void Should_Allow(DateTime time)
+        public void Should_Allow(DateTimeOffset time)
         {
             // Arrange
             CreateEditStatDto dto = _fixture.Build<CreateEditStatDto>()
@@ -36,7 +36,7 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.DTOsValidatorsTests.CreateEdi
         {
             // Arrange
             CreateEditStatDto dto = _fixture.Build<CreateEditStatDto>()
-                .With(dto => dto.Time, DateTime.MinValue)
+                .With(dto => dto.Time, DateTimeOffset.MinValue)
                 .Create();
 
             // Act
