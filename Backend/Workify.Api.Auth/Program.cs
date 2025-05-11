@@ -1,6 +1,11 @@
 using FluentValidation;
+
+using MassTransit;
+
 using Microsoft.EntityFrameworkCore;
+
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+
 using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Models.DTOs;
 using Workify.Api.Auth.Services;
@@ -18,6 +23,18 @@ builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthDbContext>(provider => provider.GetService<AuthDbContext>()!);
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(config.RabbitMqHostname, "/", h =>
+        {
+            h.Username(config.RabbitMqUsername);
+            h.Password(config.RabbitMqPassword);
+        });
+    });
+});
 
 WebApplication app = builder.Build();
 

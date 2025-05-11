@@ -1,6 +1,12 @@
 using FluentValidation;
+
+using MassTransit;
+
 using Microsoft.EntityFrameworkCore;
+
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+
+using Workify.Api.Workout.Communication.Consumers;
 using Workify.Api.Workout.Database;
 using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Services;
@@ -20,6 +26,22 @@ builder.Services.AddScoped<IWorkoutDbContext, WorkoutDbContext>();
 builder.Services.AddScoped<IWorkoutDbContext>(provider => provider.GetService<WorkoutDbContext>()!);
 builder.Services.AddScoped<IPlanService, PlanService>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
+
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<CreatedUserConsumer>();
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(config.RabbitMqHostname, "/", h =>
+        {
+            h.Username(config.RabbitMqUsername);
+            h.Password(config.RabbitMqPassword);
+        });
+
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
 WebApplication app = builder.Build();
 

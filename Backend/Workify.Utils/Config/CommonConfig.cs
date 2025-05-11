@@ -8,5 +8,9 @@ namespace Workify.Utils.Config
 
         public required string DbConnectionString { get; set; }
         public required string BearerKey { get; set; }
+
+        public required string RabbitMqHostname { get; set; }
+        public required string RabbitMqUsername { get; set; }
+        public required string RabbitMqPassword { get; set; }
     }
 }
