@@ -10,5 +10,6 @@ namespace Workify.Api.ExerciseStat.Services
         Task<int> CreateStat(int userId, int exerciseId, CreateEditStatDto dto);
         Task<int> EditStat(int userId, int statId, CreateEditStatDto dto);
         Task<int> DeleteStat(int userId, int statId);
+        Task<IEnumerable<int>> DeleteAllExerciseStats(int userId, int exerciseId);
     }
 }

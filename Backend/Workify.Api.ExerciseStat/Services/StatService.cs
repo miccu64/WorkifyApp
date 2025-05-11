@@ -69,5 +69,19 @@ namespace Workify.Api.ExerciseStat.Services
 
             return stat.Id;
         }
+
+        public async Task<IEnumerable<int>> DeleteAllExerciseStats(int userId, int exerciseId)
+        {
+            List<Stat> stats = await _dbContext.Stats.Where(s => s.UserId == userId && s.ExerciseId == exerciseId)
+                .ToListAsync();
+
+            if (stats.Any())
+            {
+                _dbContext.Stats.RemoveRange(stats);
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return stats.Select(s => s.Id);
+        }
     }
 }
