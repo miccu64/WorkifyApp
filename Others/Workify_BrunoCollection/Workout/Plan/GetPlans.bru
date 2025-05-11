@@ -1,0 +1,11 @@
+meta {
+  name: GetPlans
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{VM}}:{{WorkoutApiPort}}/api/plans
+  body: none
+  auth: inherit
+}

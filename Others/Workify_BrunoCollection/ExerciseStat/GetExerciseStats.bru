@@ -1,0 +1,15 @@
+meta {
+  name: GetExerciseStats
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{VM}}:{{ExerciseStatApiPort}}/api/stats/exercises/{{exerciseId}}
+  body: none
+  auth: inherit
+}
+
+vars:pre-request {
+  exerciseId: 1
+}

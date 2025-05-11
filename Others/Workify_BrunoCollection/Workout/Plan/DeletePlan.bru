@@ -1,0 +1,15 @@
+meta {
+  name: DeletePlan
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{VM}}:{{WorkoutApiPort}}/api/plans/{{planId}}
+  body: none
+  auth: inherit
+}
+
+vars:pre-request {
+  planId: 1
+}

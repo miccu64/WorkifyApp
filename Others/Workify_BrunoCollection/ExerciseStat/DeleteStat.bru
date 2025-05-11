@@ -1,0 +1,24 @@
+meta {
+  name: DeleteStat
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{VM}}:{{ExerciseStatApiPort}}/api/stats/{{statId}}
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+    "Time": "2025-04-04",
+    "Weight": "1.2",
+    "Reps": "3",
+    "Note": "a"
+  }
+}
+
+vars:pre-request {
+  statId: 1
+}

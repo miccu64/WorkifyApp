@@ -5,11 +5,11 @@ meta {
 }
 
 get {
-  url: {{VM}}:{{ExerciseStatApiPort}}/api/users/{userId}/stats
+  url: {{VM}}:{{ExerciseStatApiPort}}/api/stats
   body: none
-  auth: inherit
+  auth: none
 }
 
 vars:pre-request {
-  userId: 
+  : 
 }

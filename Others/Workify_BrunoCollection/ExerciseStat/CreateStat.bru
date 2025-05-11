@@ -1,0 +1,24 @@
+meta {
+  name: CreateStat
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{VM}}:{{ExerciseStatApiPort}}/api/stats/exercises/{{exerciseId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "Time": "2025-04-04",
+    "Weight": "1.2",
+    "Reps": "3",
+    "Note": null
+  }
+}
+
+vars:pre-request {
+  exerciseId: 1
+}

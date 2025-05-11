@@ -1,0 +1,11 @@
+meta {
+  name: GetExercises
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{VM}}:{{WorkoutApiPort}}/api/exercises
+  body: none
+  auth: inherit
+}

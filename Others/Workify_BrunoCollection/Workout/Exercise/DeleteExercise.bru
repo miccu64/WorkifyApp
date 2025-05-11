@@ -1,0 +1,23 @@
+meta {
+  name: DeleteExercise
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{VM}}:{{WorkoutApiPort}}/api/exercises/{{exerciseId}}
+  body: none
+  auth: inherit
+}
+
+body:json {
+  {
+    "Name": "A",
+    "BodyPart": 1,
+    "Description": null
+  }
+}
+
+vars:pre-request {
+  exerciseId: 1
+}

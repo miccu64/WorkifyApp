@@ -1,0 +1,23 @@
+meta {
+  name: EditPlan
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{VM}}:{{WorkoutApiPort}}/api/plans/{{planId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "Name": "Test",
+    "Description": "D",
+    "ExercisesIds": [1]
+  }
+}
+
+vars:pre-request {
+  planId: 1
+}
