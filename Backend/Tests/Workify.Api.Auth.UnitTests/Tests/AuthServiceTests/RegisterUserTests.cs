@@ -9,12 +9,12 @@ using Workify.Utils.Config;
 
 namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests;
 
-public class RegisterTests
+public class RegisterUserTests
 {
     private readonly Fixture _fixture;
     private readonly IOptions<CommonConfig> _config;
 
-    public RegisterTests()
+    public RegisterUserTests()
     {
         _fixture = new();
         _config = Options.Create(_fixture.Create<CommonConfig>());
@@ -32,7 +32,7 @@ public class RegisterTests
         using IAuthDbContext authDbContext = await factory.CreateContext();
         AuthService authService = new(authDbContext, _config);
 
-        int userId = await authService.Register(registerDto);
+        int userId = await authService.RegisterUser(registerDto);
 
         // Assert
         using IAuthDbContext assertDbContext = await factory.CreateContext();
@@ -65,7 +65,7 @@ public class RegisterTests
         AuthService authService = new(authDbContext, _config);
 
         // Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => authService.Register(registerDto));
+        await Assert.ThrowsAsync<ArgumentException>(() => authService.RegisterUser(registerDto));
     }
 
     [Fact]
@@ -89,6 +89,6 @@ public class RegisterTests
         AuthService authService = new(authDbContext, _config);
 
         // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => authService.Register(registerDto));
+        await Assert.ThrowsAsync<ArgumentException>(() => authService.RegisterUser(registerDto));
     }
 }

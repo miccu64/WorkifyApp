@@ -19,7 +19,7 @@ namespace Workify.Api.Auth.Services
         private readonly IAuthDbContext _dbContext = dbContext;
         private readonly CommonConfig _config = config.Value;
 
-        public async Task<string> LogIn(LogInDto dto)
+        public async Task<string> LogInUser(LogInDto dto)
         {
             User? user = await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Login == dto.Login)
                 ?? throw new UnauthorizedAccessException("Wrong login or password.");
@@ -32,11 +32,11 @@ namespace Workify.Api.Auth.Services
             return GenerateJwtToken(user.Id);
         }
 
-        public async Task<int> Register(RegisterDto dto)
+        public async Task<int> RegisterUser(RegisterDto dto)
         {
-            if (_dbContext.Users.Any(user => user.Login == dto.Login))
+            if (await _dbContext.Users.AnyAsync(user => user.Login == dto.Login))
                 throw new ArgumentException("User with given login already exists.");
-            if (_dbContext.Users.Any(user => user.Email == dto.Email))
+            if (await _dbContext.Users.AnyAsync(user => user.Email == dto.Email))
                 throw new ArgumentException("User with given email already exists.");
 
             User newUser = new()

@@ -4,7 +4,7 @@ namespace Workify.Api.Auth.Services
 {
     public interface IAuthService
     {
-        public Task<string> LogIn(LogInDto dto);
-        public Task<int> Register(RegisterDto dto);
+        Task<string> LogInUser(LogInDto dto);
+        Task<int> RegisterUser(RegisterDto dto);
     }
 }

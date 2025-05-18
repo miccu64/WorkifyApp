@@ -24,7 +24,7 @@ public class AuthController(IAuthService authService, IPublishEndpoint publishEn
     {
         try
         {
-            return Ok(await _authService.LogIn(dto));
+            return Ok(await _authService.LogInUser(dto));
         }
         catch (UnauthorizedAccessException)
         {
@@ -36,7 +36,7 @@ public class AuthController(IAuthService authService, IPublishEndpoint publishEn
     [HttpPost("register")]
     public async Task<ActionResult<int>> Register(RegisterDto dto)
     {
-        int createdUserId = await _authService.Register(dto);
+        int createdUserId = await _authService.RegisterUser(dto);
 
         await _publishEndpoint.Publish(new CreatedUserContract(createdUserId));
 

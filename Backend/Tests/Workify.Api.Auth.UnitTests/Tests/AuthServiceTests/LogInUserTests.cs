@@ -9,12 +9,12 @@ using Workify.Utils.Config;
 
 namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
 {
-    public class LogInTests
+    public class LogInUserTests
     {
         private readonly Fixture _fixture;
         private readonly IOptions<CommonConfig> _config;
 
-        public LogInTests()
+        public LogInUserTests()
         {
             _fixture = new();
             _config = Options.Create(_fixture.Create<CommonConfig>());
@@ -34,7 +34,7 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             LogInDto dto = new(registerDto.Login, registerDto.Password);
 
             // Act
-            string jwtToken = await authService.LogIn(dto);
+            string jwtToken = await authService.LogInUser(dto);
 
             // Assert
             Assert.NotEmpty(jwtToken);
@@ -60,7 +60,7 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             LogInDto wrongLogInDto = new(registerDto1.Login, registerDto2.Password);
 
             // Act & Assert
-            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => authService.LogIn(wrongLogInDto));
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => authService.LogInUser(wrongLogInDto));
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             LogInDto dto = _fixture.Create<LogInDto>();
 
             // Act & Assert
-            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => authService.LogIn(dto));
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => authService.LogInUser(dto));
         }
 
         private async Task<RegisterDto> RegisterUserViaService(AuthDbContextFactory factory)
@@ -86,7 +86,7 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             AuthService authService = new(arrangeDbContext, _config);
 
             RegisterDto registerDto = _fixture.Create<RegisterDto>();
-            int userId = await authService.Register(registerDto);
+            int userId = await authService.RegisterUser(registerDto);
 
             Assert.True(userId > 0);
 
