@@ -28,6 +28,7 @@ builder.Services.AddScoped<IStatDbContext>(provider => provider.GetService<StatD
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<DeletedExerciseConsumer>();
+    x.AddConsumer<DeletedUserConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {

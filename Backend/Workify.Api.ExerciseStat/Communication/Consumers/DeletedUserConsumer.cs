@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using Workify.Api.ExerciseStat.Models.DTOs;
 using Workify.Api.ExerciseStat.Services;
 using Workify.Utils.Communication.Contracts;
 
@@ -10,7 +11,11 @@ namespace Workify.Api.ExerciseStat.Communication.Consumers
 
         public async Task Consume(ConsumeContext<DeletedUserContract> context)
         {
-            // TODO: delete user stats
+            int userId = context.Message.UserId;
+            IEnumerable<StatDto> userStats = await _statService.GetAllStats(userId);
+            IEnumerable<int> exercisesIds = userStats.Select(stat => stat.ExerciseId).Distinct();
+            foreach (int exerciseId in exercisesIds)
+                await _statService.DeleteAllExerciseStats(userId, exerciseId);
         }
     }
 }

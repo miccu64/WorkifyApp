@@ -30,6 +30,7 @@ builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<CreatedUserConsumer>();
+    x.AddConsumer<DeletedUserConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
