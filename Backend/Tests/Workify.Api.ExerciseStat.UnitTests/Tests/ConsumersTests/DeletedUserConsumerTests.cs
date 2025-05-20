@@ -43,5 +43,27 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.ConsumersTests
             mockStatService.Verify(service => service.DeleteAllExerciseStats(userId, stats2[0].ExerciseId), Times.Once);
             Assert.Equal(3, mockStatService.Invocations.Count);
         }
+
+        [Fact]
+        public async Task Should_Not_Invoke_Delete_When_User_Has_Not_Exercises()
+        {
+            // Arrange
+            const int userId = 6;
+
+            Mock<IStatService> mockStatService = new();
+            mockStatService.Setup(s => s.GetAllStats(userId)).ReturnsAsync([]);
+
+            Mock<ConsumeContext<DeletedUserContract>> mockContext = new();
+            mockContext.Setup(c => c.Message).Returns(new DeletedUserContract(userId));
+
+            DeletedUserConsumer consumer = new(mockStatService.Object);
+
+            // Act
+            await consumer.Consume(mockContext.Object);
+
+            // Assert
+            mockStatService.Verify(service => service.GetAllStats(userId), Times.Once);
+            Assert.Single(mockStatService.Invocations);
+        }
     }
 }

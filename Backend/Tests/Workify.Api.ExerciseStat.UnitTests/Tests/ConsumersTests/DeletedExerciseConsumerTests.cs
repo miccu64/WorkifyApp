@@ -1,8 +1,6 @@
-﻿using AutoFixture;
-using MassTransit;
+﻿using MassTransit;
 using Moq;
 using Workify.Api.ExerciseStat.Communication.Consumers;
-using Workify.Api.ExerciseStat.Models.DTOs;
 using Workify.Api.ExerciseStat.Services;
 using Workify.Utils.Communication.Contracts;
 
@@ -10,8 +8,6 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.ConsumersTests
 {
     public class DeletedExerciseConsumerTests
     {
-        private readonly Fixture _fixture = new();
-
         [Fact]
         public async Task Should_Invoke_DeleteAllExerciseStats_Once()
         {
