@@ -24,4 +24,4 @@ jobs:
         run: dotnet build ./Backend/Workify.Backend.sln
 
       - name: Run all tests
-        run: dotnet test ./Backend/Tests/**/*.csproj --no-build --verbosity normal
+        run: dotnet test ./Backend/Workify.Backend.sln --no-build --verbosity normal
