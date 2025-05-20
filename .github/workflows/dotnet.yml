@@ -21,7 +21,7 @@ jobs:
           dotnet-version: '9.0.x'  # Use preview version if needed
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore Backend/Workify.Backend.sln
 
       - name: Build all test projects
         run: dotnet build ./Tests/**/*.csproj --no-restore
