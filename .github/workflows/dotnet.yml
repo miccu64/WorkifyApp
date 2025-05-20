@@ -1,0 +1,30 @@
+name: 🧪 .NET Test Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Run All Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'  # Use preview version if needed
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build all test projects
+        run: dotnet build ./Tests/**/*.csproj --no-restore
+
+      - name: Run all tests
+        run: dotnet test ./Tests/**/*.csproj --no-build --verbosity normal
