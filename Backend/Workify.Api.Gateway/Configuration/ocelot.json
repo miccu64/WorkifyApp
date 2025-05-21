@@ -19,6 +19,24 @@
             ]
         },
         {
+            "DownstreamPathTemplate": "/api/user-management/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "workify-auth-api",
+                    "Port": 8080
+                }
+            ],
+            "UpstreamPathTemplate": "/api/user-management/{everything}",
+            "UpstreamHttpMethod": [
+                "GET",
+                "POST",
+                "PUT",
+                "PATCH",
+                "DELETE"
+            ]
+        },
+        {
             "DownstreamPathTemplate": "/api/stats/{everything}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
