@@ -1,4 +1,18 @@
 services:
+  workify-gateway-api:
+    build:
+      context: .
+      dockerfile: ./Workify.Api.Gateway/Dockerfile
+    container_name: workify-gateway-api
+    ports:
+      - "5030:8080"
+    depends_on:
+      - workify-auth-api
+      - workify-workout-api
+      - workify-exercise-stat-api
+    networks:
+      - workify-backend
+
   workify-rabbitmq:
     image: rabbitmq:management
     ports:
