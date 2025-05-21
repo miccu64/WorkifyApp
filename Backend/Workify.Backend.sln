@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workify.Api.ExerciseStat.Un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workify.Api.ExerciseStat", "Workify.Api.ExerciseStat\Workify.Api.ExerciseStat.csproj", "{9E03C86D-4965-EB09-CD06-9C169CCCD3D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workify.Api.Gateway", "Workify.Api.Gateway\Workify.Api.Gateway.csproj", "{2C3CBB8E-BEBF-433D-A713-D808B5C947F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{9E03C86D-4965-EB09-CD06-9C169CCCD3D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E03C86D-4965-EB09-CD06-9C169CCCD3D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E03C86D-4965-EB09-CD06-9C169CCCD3D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C3CBB8E-BEBF-433D-A713-D808B5C947F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C3CBB8E-BEBF-433D-A713-D808B5C947F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C3CBB8E-BEBF-433D-A713-D808B5C947F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C3CBB8E-BEBF-433D-A713-D808B5C947F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
