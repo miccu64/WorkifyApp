@@ -22,6 +22,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<LogInDtoValidator>(includeI
 builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 builder.Services.AddScoped<IAuthDbContext>(provider => provider.GetService<AuthDbContext>()!);
 
 builder.Services.AddMassTransit(x =>
