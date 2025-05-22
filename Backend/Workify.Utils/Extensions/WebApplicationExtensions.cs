@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Serilog;
 using Workify.Utils.Middlewares;
 
 namespace Workify.Utils.Extensions
@@ -11,6 +12,8 @@ namespace Workify.Utils.Extensions
             app.UseAuthorization();
 
             app.UseMiddleware<ExceptionMiddleware>();
+
+            app.UseSerilogRequestLogging();
 
             app.MapControllers();
         }

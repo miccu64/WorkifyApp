@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-
+using Serilog;
 using Workify.Utils.Config;
 
 namespace Workify.Utils.Extensions
@@ -19,6 +19,7 @@ namespace Workify.Utils.Extensions
             T config = builder.InitConfigFromEnvironmentVariables<T>();
 
             builder.AddJwtAuth(config);
+            builder.AddLogging(config);
 
             builder.Services.AddControllers();
 
@@ -71,6 +72,19 @@ namespace Workify.Utils.Extensions
                     .RequireAuthenticatedUser()
                     .Build();
             });
+        }
+
+        private static void AddLogging<T>(this WebApplicationBuilder builder, T config)
+            where T : CommonConfig
+        {
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.Seq(config.SeqConnectionString)
+                .WriteTo.Console()
+                .MinimumLevel.Information()
+                .CreateLogger();
+
+            builder.Host.UseSerilog();
         }
     }
 }

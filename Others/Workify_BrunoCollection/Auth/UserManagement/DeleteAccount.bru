@@ -1,0 +1,11 @@
+meta {
+  name: DeleteAccount
+  type: http
+  seq: 1
+}
+
+delete {
+  url: {{VM}}:5011/api/user-management
+  body: none
+  auth: inherit
+}
