@@ -42,6 +42,21 @@ services:
       timeout: 5s
       retries: 50
 
+  workify-seq:
+    image: datalust/seq
+    container_name: workify-seq
+    ports:
+      - "5022:80"
+    environment:
+      - ACCEPT_EULA=Y
+    networks:
+      - workify-backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 1s
+      timeout: 5s
+      retries: 50
+
   workify-auth-api:
     build:
       context: .
@@ -56,6 +71,8 @@ services:
       workify-postgres-db:
         condition: service_healthy
       workify-rabbitmq:
+        condition: service_healthy
+      workify-seq:
         condition: service_healthy
     networks:
       - workify-backend
@@ -75,6 +92,8 @@ services:
         condition: service_healthy
       workify-rabbitmq:
         condition: service_healthy
+      workify-seq:
+        condition: service_healthy
     networks:
       - workify-backend
 
@@ -92,6 +111,8 @@ services:
       workify-postgres-db:
         condition: service_healthy
       workify-rabbitmq:
+        condition: service_healthy
+      workify-seq:
         condition: service_healthy
     networks:
       - workify-backend
