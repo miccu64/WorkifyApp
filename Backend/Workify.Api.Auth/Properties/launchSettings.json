@@ -1,23 +1,29 @@
-﻿{
-  "$schema": "https://json.schemastore.org/launchsettings.json",
+{
   "profiles": {
     "http": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": false,
-      "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Workify__DbConnectionString": "Host=192.168.0.123;Port=5010;Database=WorkifyAuth;Username=admin;Password=Admin123!",
+        "Workify__BearerKey": "SomeBearerKey1234567890SomeBearerKey1234567890",
+        "Workify__EnvironmentName": "Development",
+        "Workify__RabbitMqHostname": "192.168.0.123",
+        "Workify__RabbitMqPort": "5020",
+        "Workify__RabbitMqUsername": "guest",
+        "Workify__RabbitMqPassword": "guest",
+        "Workify__SeqConnectionString": "http://192.168.0.123:5022"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5000"
     },
     "https": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": false,
-      "applicationUrl": "https://localhost:7251;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7251;http://localhost:5000"
     }
-  }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
 }

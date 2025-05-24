@@ -27,9 +27,9 @@ builder.Services.AddScoped<IAuthDbContext>(provider => provider.GetService<AuthD
 
 builder.Services.AddMassTransit(x =>
 {
-    x.UsingRabbitMq((context, cfg) =>
+    x.UsingRabbitMq((_, cfg) =>
     {
-        cfg.Host(config.RabbitMqHostname, "/", h =>
+        cfg.Host(config.RabbitMqHostname, config.RabbitMqPort, "/", h =>
         {
             h.Username(config.RabbitMqUsername);
             h.Password(config.RabbitMqPassword);
