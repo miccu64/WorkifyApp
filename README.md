@@ -2,7 +2,7 @@
 
 # Workout Microservices Backend
 
-A modern, event-driven microservices backend for a workout tracking application built with **.NET 9**, using **MassTransit**, **RabbitMQ**, **PostgreSQL**, and **Docker Compose**.
+A modern, event-driven microservices backend for a workout tracking application built with **.NET 9**, using **Entity Framework Core**, **MassTransit**, **RabbitMQ**, **PostgreSQL**, **Serilog** and **Docker Compose**.
 
 ---
 
@@ -69,5 +69,12 @@ For example:
 
 * `UserDeleted` published by Auth service
 * Subscribed by ExerciseStat and Wourkout services to clean up unnecessary user data
+
+---
+
+## 📊 Logging & Observability
+
+Logging across all services is handled using Serilog, a structured logging library that integrates seamlessly with the .NET ecosystem.
+Logs are written to the console and forwarded to Seq
 
 ---
