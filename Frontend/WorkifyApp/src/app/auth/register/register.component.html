@@ -1,10 +1,10 @@
 <mat-card class="card">
-  <mat-card-title class="title">Login</mat-card-title>
+  <mat-card-title class="title">Register</mat-card-title>
   <mat-card-content>
-    <form [formGroup]="loginForm" (ngSubmit)="logIn()">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Login</mat-label>
-        <input matInput formControlName="login" required />
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" required />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
@@ -17,8 +17,8 @@
       </button>
     </form>
 
-    <button mat-stroked-button color="primary" class="full-width register-margin" (click)="(btnRegisterClick)">
-      <mat-icon class="icon">group_add</mat-icon>Register
+    <button mat-stroked-button color="primary" class="full-width register-margin" (click)="(btnLoginClick)">
+      <mat-icon class="icon">login</mat-icon>Login
     </button>
   </mat-card-content>
 </mat-card>

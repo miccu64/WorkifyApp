@@ -8,9 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
   imports: [
     MatFabButton,
     MatButton,
@@ -25,23 +25,23 @@ import { Router } from '@angular/router';
     MatIcon
   ]
 })
-export class LoginComponent {
+export class RegisterComponent {
   loginForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.loginForm = this.formBuilder.group({
-      login: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
 
-  logIn(): void {
+  onSubmit(): void {
     if (this.loginForm.valid) {
       console.log('Login form data:', this.loginForm.value);
     }
   }
 
-  btnRegisterClick(): void {
+  btnLoginClick(): void {
     this.router.navigate(['auth/register']);
   }
 }
