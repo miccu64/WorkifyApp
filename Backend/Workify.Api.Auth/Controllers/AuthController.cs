@@ -1,10 +1,7 @@
-using System.Net;
-
 using MassTransit;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Net;
 using Workify.Api.Auth.Models.DTOs;
 using Workify.Api.Auth.Services;
 using Workify.Utils.Communication.Contracts;

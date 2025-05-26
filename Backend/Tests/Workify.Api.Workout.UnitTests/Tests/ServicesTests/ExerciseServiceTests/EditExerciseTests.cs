@@ -53,7 +53,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
 
             // Act / Assert
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            await Assert.ThrowsAsync<KeyNotFoundException>(()=>new ExerciseService(dbContext).EditExercise(exercise.Id, 1, dto));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() => new ExerciseService(dbContext).EditExercise(exercise.Id, 1, dto));
         }
 
         [Fact]
