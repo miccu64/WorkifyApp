@@ -51,7 +51,7 @@ export class LoginComponent {
 
     const dto: LogInDto = this.loginForm.value;
     this.authService.login(dto).subscribe({
-      next: () => this.router.navigate(['plans']),
+      next: () => this.router.navigate(['plans/list']),
       error: (e: HttpErrorResponse) => {
         this.toastr.error(e.status === 401 ? 'Wrong login or password.' : e.message);
       }

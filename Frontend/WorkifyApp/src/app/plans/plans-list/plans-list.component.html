@@ -1,0 +1,18 @@
+<div class="plans-container">
+  @for (plan of plans; track plan){
+  <mat-card class="plan-card">
+    <mat-card-title>{{ plan.name }}</mat-card-title>
+    <mat-card-subtitle>{{ plan.price }}</mat-card-subtitle>
+    <mat-card-content>
+      <ul>
+        @for (f of plan.features; track f){
+        <li>f</li>
+        }
+      </ul>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary">Choose</button>
+    </mat-card-actions>
+  </mat-card>
+  }
+</div>
