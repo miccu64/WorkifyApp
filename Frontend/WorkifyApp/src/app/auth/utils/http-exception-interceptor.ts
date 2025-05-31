@@ -46,11 +46,10 @@ export const httpExceptionInterceptor: HttpInterceptorFn = (req, next) => {
               break;
           }
 
-          const errorMessageObj = error.error?.errors;
+          const errorMessageObj = error.error;
           if (errorMessageObj) {
             message += ' ' + JSON.stringify(errorMessageObj);
           }
-
           toastr.error(message, 'Error');
         }
       } else {

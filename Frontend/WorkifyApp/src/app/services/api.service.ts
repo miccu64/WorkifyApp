@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -25,19 +26,26 @@ export class ApiService {
     return new HttpHeaders().set('Authorization', 'Bearer ' + this.jwtToken);
   }
 
-  get<T>(url: string, params?: HttpParams) {
-    return this.httpClient.get<T>(this.baseUrl + url, { headers: this.headers, params });
+  get<T>(url: string, params?: HttpParams): Observable<T> {
+    return this.httpClient.get<T>(this.baseUrl + url, {
+      headers: this.headers,
+      params
+    });
   }
 
-  post<T>(url: string, body?: object, params?: HttpParams) {
-    return this.httpClient.post<T>(this.baseUrl + url, body, { headers: this.headers, params });
+  post<T>(url: string, body?: object, params?: HttpParams, isPlainTextResponse?: boolean): Observable<T> {
+    return this.httpClient.post<T>(this.baseUrl + url, body, {
+      headers: this.headers,
+      params,
+      responseType: (isPlainTextResponse ? 'text' : 'json') as 'json'
+    });
   }
 
-  put<T>(url: string, body?: object, params?: HttpParams) {
+  put<T>(url: string, body?: object, params?: HttpParams): Observable<T> {
     return this.httpClient.put<T>(this.baseUrl + url, body, { headers: this.headers, params });
   }
 
-  delete<T>(url: string, params?: HttpParams) {
+  delete<T>(url: string, params?: HttpParams): Observable<T> {
     return this.httpClient.delete<T>(this.baseUrl + url, { headers: this.headers, params });
   }
 }

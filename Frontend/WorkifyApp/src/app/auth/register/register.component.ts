@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { RegisterDto } from '../dtos/register.dto';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -30,11 +31,16 @@ import { RegisterDto } from '../dtos/register.dto';
 export class RegisterComponent {
   registerForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {
     this.registerForm = this.formBuilder.group({
-      login: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      login: ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(31)])],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+      password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(255)])]
     });
   }
 
@@ -44,8 +50,10 @@ export class RegisterComponent {
     }
 
     const dto: RegisterDto = this.registerForm.value;
-    console.log(dto);
-    this.authService.register(dto).subscribe(() => this.router.navigate(['auth/login']));
+    this.authService.register(dto).subscribe(() => {
+      this.toastr.success('Registered!');
+      this.router.navigate(['auth/login']);
+    });
   }
 
   btnLoginClick(): void {

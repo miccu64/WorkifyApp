@@ -9,10 +9,12 @@ export class AuthService {
   private apiService = inject(ApiService);
 
   register(dto: RegisterDto): Observable<number> {
-    return this.apiService.post<number>('auth/register', dto);
+    return this.apiService.post<number>('auth/register', dto, undefined, true);
   }
 
   login(dto: LogInDto): Observable<string> {
-    return this.apiService.post<string>('auth/login', dto).pipe(tap(jwtToken => (this.apiService.jwtToken = jwtToken)));
+    return this.apiService
+      .post<string>('auth/login', dto, undefined, true)
+      .pipe(tap(jwtToken => (this.apiService.jwtToken = jwtToken)));
   }
 }
