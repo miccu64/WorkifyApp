@@ -1,97 +1,67 @@
 {
-    "Routes": [
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/auth/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
         {
-            "DownstreamPathTemplate": "/api/auth/{everything}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "workify-auth-api",
-                    "Port": 8080
-                }
-            ],
-            "UpstreamPathTemplate": "/api/auth/{everything}",
-            "UpstreamHttpMethod": [
-                "GET",
-                "POST",
-                "PUT",
-                "PATCH",
-                "DELETE"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/user-management/{everything}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "workify-auth-api",
-                    "Port": 8080
-                }
-            ],
-            "UpstreamPathTemplate": "/api/user-management/{everything}",
-            "UpstreamHttpMethod": [
-                "GET",
-                "POST",
-                "PUT",
-                "PATCH",
-                "DELETE"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/stats/{everything}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "workify-exercise-stat-api",
-                    "Port": 8080
-                }
-            ],
-            "UpstreamPathTemplate": "/api/stats/{everything}",
-            "UpstreamHttpMethod": [
-                "GET",
-                "POST",
-                "PUT",
-                "PATCH",
-                "DELETE"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/plans/{everything}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "workify-workout-api",
-                    "Port": 8080
-                }
-            ],
-            "UpstreamPathTemplate": "/api/plans/{everything}",
-            "UpstreamHttpMethod": [
-                "GET",
-                "POST",
-                "PUT",
-                "PATCH",
-                "DELETE"
-            ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/exercises/{everything}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "workify-workout-api",
-                    "Port": 8080
-                }
-            ],
-            "UpstreamPathTemplate": "/api/exercises/{everything}",
-            "UpstreamHttpMethod": [
-                "GET",
-                "POST",
-                "PUT",
-                "PATCH",
-                "DELETE"
-            ]
+          "Host": "workify-auth-api",
+          "Port": 8080
         }
-    ],
-    "GlobalConfiguration": {
-        "BaseUrl": "http://localhost:5030"
+      ],
+      "UpstreamPathTemplate": "/api/auth/{everything}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/user-management/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "workify-auth-api",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/user-management/{everything}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/stats/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "workify-exercise-stat-api",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/stats/{everything}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/plans/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "workify-workout-api",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/plans/{everything}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/exercises/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "workify-workout-api",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/exercises/{everything}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5030"
+  }
 }
