@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using Workify.Api.Workout.Models.Entities.Abstractions.Relationships;
+
 namespace Workify.Api.Workout.Models.Entities.Abstractions
 {
     internal abstract class Plan
@@ -15,7 +17,7 @@ namespace Workify.Api.Workout.Models.Entities.Abstractions
     {
         public void Configure(EntityTypeBuilder<Plan> builder)
         {
-            builder.HasMany(p => p.Exercises).WithMany();
+            builder.HasMany(p => p.Exercises).WithMany().UsingEntity<PlanExercise>();
 
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Id).ValueGeneratedOnAdd();

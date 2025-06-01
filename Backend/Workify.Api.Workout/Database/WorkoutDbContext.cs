@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+
 using Workify.Api.Workout.Models.Entities;
 using Workify.Api.Workout.Models.Entities.Abstractions;
+using Workify.Api.Workout.Models.Entities.Abstractions.Relationships;
 using Workify.Api.Workout.Models.Entities.Enums;
+using Workify.Api.Workout.Models.Others;
 
 namespace Workify.Api.Workout.Database
 {
@@ -35,6 +38,37 @@ namespace Workify.Api.Workout.Database
 
             modelBuilder.ApplyConfiguration(new ExerciseConfiguration());
             modelBuilder.ApplyConfiguration(new UserExerciseConfiguration());
+
+            SeedData(modelBuilder);
+        }
+
+        private static void SeedData(ModelBuilder modelBuilder)
+        {
+            List<PredefinedExercise> exercises = [
+                new() { Id = 1, BodyPart = BodyPartEnum.Chest, Name = "Bench press" },
+                new() { Id = 2, BodyPart = BodyPartEnum.Legs, Name = "Squat" },
+                new() { Id = 3, BodyPart = BodyPartEnum.Legs, Name = "Deadlift" },
+                new() { Id = 4, BodyPart = BodyPartEnum.Back, Name = "Rows" }
+            ];
+            List<PredefinedPlan> plans = [
+                new() { Id = 1, Name = "FBW" },
+                new() { Id = 2, Name = "Upper body" },
+                new() { Id = 3, Name = "Lower body" }
+            ];
+
+            modelBuilder.Entity<PredefinedExercise>().HasData(exercises);
+            modelBuilder.Entity<PredefinedPlan>().HasData(plans);
+
+            Dictionary<int, IEnumerable<int>> planExerciseRelationships = new()
+            {
+                { plans[0].Id, exercises.Select(e => e.Id) },
+                { plans[1].Id, [exercises[0].Id, exercises[3].Id] },
+                { plans[2].Id, [exercises[1].Id, exercises[2].Id] },
+            };
+            IEnumerable<PlanExercise> planExerciseList = planExerciseRelationships.SelectMany(x =>
+                x.Value.Select(exerciseId => new PlanExercise() { PlanId = x.Key, ExerciseId = exerciseId })
+            );
+            modelBuilder.Entity<PlanExercise>().HasData(planExerciseList);
         }
     }
 }
