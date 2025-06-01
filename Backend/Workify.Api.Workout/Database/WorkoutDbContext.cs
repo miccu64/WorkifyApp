@@ -25,7 +25,7 @@ namespace Workify.Api.Workout.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Plan>().UseTpcMappingStrategy();
+            modelBuilder.Entity<Plan>().UseTptMappingStrategy();
             modelBuilder.Entity<PredefinedPlan>().ToTable("PredefinedPlans");
             modelBuilder.Entity<UserPlan>().ToTable("UserPlans");
 

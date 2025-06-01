@@ -28,6 +28,11 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
             List<PredefinedPlan> plans = _fixture.Build<PredefinedPlan>()
                 .With(p => p.Exercises, [.. exercises.Cast<Exercise>()])
                 .CreateMany(3)
+                .Select((p, i) =>
+                {
+                    p.Id = i + 1;
+                    return p;
+                })
                 .ToList();
             await arrangeDbContext.PredefinedPlans.AddRangeAsync(plans);
 
