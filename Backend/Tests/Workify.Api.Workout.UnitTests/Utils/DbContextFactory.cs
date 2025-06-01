@@ -5,7 +5,7 @@ using Workify.Api.Workout.Database;
 
 namespace Workify.Api.Workout.UnitTests.Utils
 {
-    internal class WorkoutDbContextFactory : IDisposable
+    internal class DbContextFactory : IDisposable
     {
         private DbConnection? _connection;
 
@@ -19,6 +19,10 @@ namespace Workify.Api.Workout.UnitTests.Utils
                 DbContextOptions<WorkoutDbContext> options = CreateOptions();
                 await using WorkoutDbContext context = new(options);
                 await context.Database.EnsureCreatedAsync();
+
+                context.PredefinedExercises.RemoveRange(context.PredefinedExercises);
+                context.PredefinedPlans.RemoveRange(context.PredefinedPlans);
+                await context.SaveChangesAsync();
             }
 
             return new WorkoutDbContext(CreateOptions());

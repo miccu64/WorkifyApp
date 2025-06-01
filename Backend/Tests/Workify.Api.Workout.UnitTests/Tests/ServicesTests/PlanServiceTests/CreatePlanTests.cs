@@ -16,7 +16,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Create_Plan_With_Exercise_Assignation()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
             PredefinedExercise exercise = (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
@@ -51,7 +51,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Create_Plan_Without_Exercise_Assignation()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             CreateEditPlanDto createPlanDto = _fixture.Build<CreateEditPlanDto>()
                 .With(p => p.ExercisesIds, [])
@@ -82,7 +82,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Create_Two_Plans_With_Same_Data()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
             List<PredefinedExercise> exercises = _fixture.CreateMany<PredefinedExercise>().ToList();
@@ -125,7 +125,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Throw_When_Exercise_Does_Not_Exist()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             CreateEditPlanDto createPlanDto = _fixture.Create<CreateEditPlanDto>();
             const int userId = 11;

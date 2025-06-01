@@ -16,7 +16,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Edit_Plan()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
@@ -57,7 +57,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Throw_When_Plan_Does_Not_Exist()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
             using IWorkoutDbContext dbContext = await factory.CreateContext();
 
             CreateEditPlanDto editPlanDto = _fixture.Create<CreateEditPlanDto>();
@@ -70,7 +70,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Throw_When_Plan_Does_Not_Belong_To_User()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
             UserPlan plan = _fixture.Build<UserPlan>()

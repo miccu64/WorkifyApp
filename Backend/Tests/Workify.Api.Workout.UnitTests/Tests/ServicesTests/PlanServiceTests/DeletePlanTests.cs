@@ -16,7 +16,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Delete_Plan_And_Leave_Exercises()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
@@ -47,7 +47,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Throw_When_User_Is_Not_Owner_Of_Plan()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
             UserPlan plan = (await arrangeDbContext.UserPlans.AddAsync(_fixture.Create<UserPlan>())).Entity;
@@ -64,7 +64,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Throw_When_Plan_Does_Not_Exist()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
             UserPlan plan = (await arrangeDbContext.UserPlans.AddAsync(_fixture.Create<UserPlan>())).Entity;

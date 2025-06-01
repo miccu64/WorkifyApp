@@ -15,7 +15,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
         public async Task Should_Delete_User_Exercise_Not_Assigned_To_Plan()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
             UserExercise exercise = (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>())).Entity;
@@ -36,7 +36,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
         public async Task Should_Delete_User_Exercise_With_Removal_From_Plan()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
             UserExercise exercise1 = _fixture.Create<UserExercise>();
@@ -72,7 +72,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
         public async Task Should_Throw_When_Exercise_Does_Not_Belong_To_User()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
             UserExercise exercise = (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>())).Entity;
@@ -87,7 +87,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
         public async Task Should_Throw_When_Exercise_Does_Not_Exist()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             // Act / Assert
             using IWorkoutDbContext dbContext = await factory.CreateContext();
@@ -98,7 +98,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
         public async Task Should_Throw_When_Tried_To_Delete_Predefined_Exercise()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
             PredefinedExercise exercise = (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;

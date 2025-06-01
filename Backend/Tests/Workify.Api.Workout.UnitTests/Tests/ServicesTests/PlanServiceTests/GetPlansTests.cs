@@ -16,7 +16,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Return_User_Plans()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
@@ -54,7 +54,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Return_Plan_Which_Belongs_To_User()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
@@ -99,7 +99,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Return_Empty_Collection_When_Plans_For_Not_Existing_User()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
             using IWorkoutDbContext dbContext = await factory.CreateContext();
             const int userId = 3;
 

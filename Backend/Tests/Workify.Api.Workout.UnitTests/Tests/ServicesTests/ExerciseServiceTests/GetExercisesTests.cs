@@ -16,7 +16,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
         public async Task Should_Return_Empty_Collection()
         {
             // Assert
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             // Act
             using IWorkoutDbContext dbContext = await factory.CreateContext();
@@ -30,7 +30,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
         public async Task Should_Return_Predefined_And_Current_User_Exercises()
         {
             // Assert
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
             List<PredefinedExercise> predefinedExercises = _fixture.CreateMany<PredefinedExercise>(5).ToList();
@@ -67,7 +67,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
         public async Task Should_Return_Correct_Exercises_Data()
         {
             // Assert
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
             PredefinedExercise predefinedExercise = (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;

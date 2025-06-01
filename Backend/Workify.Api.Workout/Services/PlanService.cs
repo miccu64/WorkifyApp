@@ -68,14 +68,14 @@ namespace Workify.Api.Workout.Services
         {
             List<UserPlan> predefinedUserPlans = (await _workoutDbContext.PredefinedPlans
                 .Include(p => p.Exercises)
-                .ToListAsync())
-                .ConvertAll(p => new UserPlan
-                {
-                    UserId = userId,
-                    Name = p.Name,
-                    Description = p.Description,
-                    Exercises = p.Exercises
-                });
+                .ToListAsync()
+            ).ConvertAll(p => new UserPlan
+            {
+                UserId = userId,
+                Name = p.Name,
+                Description = p.Description,
+                Exercises = p.Exercises
+            });
 
             await _workoutDbContext.UserPlans.AddRangeAsync(predefinedUserPlans);
             await _workoutDbContext.SaveChangesAsync();

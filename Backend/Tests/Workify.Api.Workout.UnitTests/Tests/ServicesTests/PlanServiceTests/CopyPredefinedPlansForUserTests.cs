@@ -16,7 +16,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Copy_Predefined_Plans_For_User()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
@@ -49,7 +49,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
         public async Task Should_Copy_Predefined_Plan_And_Assign_Its_Exercises_For_User()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
@@ -85,13 +85,16 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
             Assert.Equal(plan.Description, createdPlan.Description);
             Assert.Equal(userId, createdPlan.UserId);
             Assert.True(exercises.Select(e => e.Id).Order().SequenceEqual(createdPlan.Exercises.Select(e => e.Id).Order()));
+
+            Assert.Equal(exercises.Count, await assertDbContext.AllExercises.CountAsync());
+
         }
 
         [Fact]
         public async Task Should_Return_Empty_Result_When_No_Predefined_Plans_Exist()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
 
             const int userId = 22;
 

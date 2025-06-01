@@ -15,7 +15,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
         public async Task Should_Create_Exercise()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
             CreateEditExerciseDto dto = _fixture.Create<CreateEditExerciseDto>();
             const int userId = 44;
 
@@ -41,7 +41,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
         public async Task Should_Create_Two_Exercises_With_Same_Data()
         {
             // Arrange
-            using WorkoutDbContextFactory factory = new();
+            using DbContextFactory factory = new();
             CreateEditExerciseDto dto = _fixture.Create<CreateEditExerciseDto>();
             const int userId = 44;
 
