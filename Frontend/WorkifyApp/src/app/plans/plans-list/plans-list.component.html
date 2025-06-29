@@ -1,16 +1,13 @@
-<mat-toolbar color="primary">Plans</mat-toolbar>
+<div class="plans-container">
+  <h3 class="title">Plans</h3>
 
-<mat-list>
-  @for(plan of plans; track plan){
-  <mat-list-item>
-    <h3 matLine>{{ plan.name }}</h3>
-    <p matLine>{{ plan.description }}</p>
-  </mat-list-item>
-  }
-</mat-list>
+  <div class="plan-list">
+    @for(plan of plans; track plan.id){
+    <app-plan-card [plan]="plan"> </app-plan-card>
+    }
+  </div>
 
-<ng-container>
   <button mat-fab color="accent" class="fab-button">
     <mat-icon>add</mat-icon>
   </button>
-</ng-container>
+</div>

@@ -1,15 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { MatCard, MatCardModule, MatCardTitle } from '@angular/material/card';
 import { ActivatedRoute } from '@angular/router';
 import { PlanDto } from '../../dtos/plan.dto';
+import { PlanCardComponent } from '../subcomponents/plan-card/plan-card.component';
 
 @Component({
   selector: 'app-plans-list',
-  imports: [MatToolbarModule, MatListModule, MatIconModule, MatButtonModule, MatCardModule],
+  imports: [MatCard, MatCardTitle, MatListModule, MatIconModule, MatButtonModule, MatCardModule, PlanCardComponent],
   templateUrl: './plans-list.component.html',
   styleUrl: './plans-list.component.scss'
 })

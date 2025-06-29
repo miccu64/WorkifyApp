@@ -1,5 +1,38 @@
+:host {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  height: 0;
+}
+
+.plans-container {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  height: 100%;
+  padding: 2px;
+  position: relative;
+}
+
+.plan-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: normal;
+  margin-top: 2px;
+  margin-bottom: 6px;
+  color: white;
+}
+
 .fab-button {
-  position: fixed;
+  position: absolute;
   bottom: 24px;
   right: 24px;
 }
