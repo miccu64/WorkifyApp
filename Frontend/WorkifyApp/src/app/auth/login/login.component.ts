@@ -14,7 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['../auth-styles.scss'],
   imports: [
     MatFabButton,
     MatButton,

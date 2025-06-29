@@ -1,0 +1,27 @@
+.card {
+  width: 300px;
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  padding: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.title {
+  text-align: center;
+  margin: 10px;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.icon {
+  margin: 0 5px;
+}
+
+.top-button-margin {
+  margin-top: 10px;
+}

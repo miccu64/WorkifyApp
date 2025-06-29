@@ -1,6 +1,15 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="toolbar">
   <span class="app-title">Workify</span>
+
   <span class="spacer"></span>
-  <button mat-button routerLink="/plans">Plans</button>
-  <button mat-button routerLink="/settings">Settings</button>
+
+  <a mat-button routerLink="/plans">
+    <mat-icon>calendar_month</mat-icon>
+    <span class="link-text">Plans</span>
+  </a>
+
+  <a mat-button routerLink="/settings">
+    <mat-icon>settings</mat-icon>
+    <span class="link-text">Settings</span>
+  </a>
 </mat-toolbar>

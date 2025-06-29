@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  styleUrls: ['../auth-styles.scss'],
   imports: [
     MatFabButton,
     MatButton,

@@ -3,6 +3,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { PlansListComponent } from './plans/plans-list/plans-list.component';
 import { canActivateByJwt } from './utils/can-activate-by-jwt';
+import { PlansResolver } from './resolvers/plans.resolver';
+import { BaseComponent } from './layout/base/base.component';
 
 export const routes: Routes = [
   {
@@ -13,14 +15,21 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'plans',
+    path: '',
+    component: BaseComponent,
     children: [
       {
-        path: 'list',
-        component: PlansListComponent
+        path: 'plans',
+        children: [
+          {
+            path: 'list',
+            component: PlansListComponent,
+            resolve: { plans: PlansResolver }
+          }
+        ],
+        canActivate: [canActivateByJwt]
       }
-    ],
-    canActivate: [canActivateByJwt]
+    ]
   },
   { path: '**', redirectTo: 'auth/login' }
 ];

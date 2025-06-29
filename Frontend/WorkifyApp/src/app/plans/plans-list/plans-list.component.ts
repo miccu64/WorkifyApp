@@ -1,16 +1,24 @@
-import { Component } from '@angular/core';
-import { MatCard, MatCardActions, MatCardContent, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
+import { Component, inject, OnInit } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { ActivatedRoute } from '@angular/router';
+import { PlanDto } from '../../dtos/plan.dto';
 
 @Component({
   selector: 'app-plans-list',
-  imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardActions, MatCardContent],
+  imports: [MatToolbarModule, MatListModule, MatIconModule, MatButtonModule, MatCardModule],
   templateUrl: './plans-list.component.html',
   styleUrl: './plans-list.component.scss'
 })
-export class PlansListComponent {
-  plans = [
-    { name: 'Basic', price: '$10/mo', features: ['Feature A', 'Feature B'] },
-    { name: 'Pro', price: '$25/mo', features: ['Feature A', 'Feature B', 'Feature C'] },
-    { name: 'Enterprise', price: 'Contact us', features: ['All features'] }
-  ];
+export class PlansListComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+
+  plans: PlanDto[] = [];
+
+  ngOnInit(): void {
+    this.plans = this.route.snapshot.data['plans'];
+  }
 }

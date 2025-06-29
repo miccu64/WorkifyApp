@@ -4,12 +4,12 @@
     <form [formGroup]="loginForm" (ngSubmit)="logIn()">
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Login</mat-label>
-        <input matInput formControlName="login" required />
+        <input matInput name="username" formControlName="login" required />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" required />
+        <input matInput name="password" type="password" formControlName="password" required />
       </mat-form-field>
 
       <button mat-fab color="primary" class="full-width" type="submit">
@@ -17,7 +17,7 @@
       </button>
     </form>
 
-    <button mat-stroked-button color="primary" class="full-width register-margin" (click)="btnRegisterClick()">
+    <button mat-stroked-button color="primary" class="full-width top-button-margin" (click)="btnRegisterClick()">
       <mat-icon class="icon">group_add</mat-icon>Register
     </button>
   </mat-card-content>

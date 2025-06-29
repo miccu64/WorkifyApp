@@ -1,0 +1,14 @@
+:host {
+  height: 100%;
+  width: 100%;
+}
+
+.base-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+}

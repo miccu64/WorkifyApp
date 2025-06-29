@@ -1,8 +1,37 @@
-.app-title {
-  font-weight: bold;
-  font-size: 1.2rem;
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 12px;
+
+  .app-title {
+    font-weight: bold;
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  a[mat-button] {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    margin-left: 8px;
+
+    mat-icon {
+      margin-right: 4px;
+    }
+
+    .link-text {
+      font-size: 0.95rem;
+    }
+  }
 }
 
-.spacer {
-  flex: 1 1 auto;
+@media (max-width: 480px) {
+  .link-text {
+    display: none;
+  }
 }
