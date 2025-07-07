@@ -17,4 +17,8 @@ export class AuthService {
       .post<string>('auth/login', dto, undefined, true)
       .pipe(tap(jwtToken => (this.apiService.jwtToken = jwtToken)));
   }
+
+  logout(): void {
+    this.apiService.jwtToken = null;
+  }
 }

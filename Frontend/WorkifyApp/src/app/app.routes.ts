@@ -15,7 +15,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: '',
+    path: 'app',
     component: BaseComponent,
     children: [
       {

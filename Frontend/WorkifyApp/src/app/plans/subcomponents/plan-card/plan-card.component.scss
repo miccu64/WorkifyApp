@@ -1,8 +1,36 @@
 .plan-card {
   cursor: pointer;
-  transition: box-shadow 0.2s ease;
+  padding: 16px;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  background-color: #474747;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
 
-  &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.plan-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.plan-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.plan-card mat-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.plan-card mat-card-content {
+  padding: 0;
+
+  p {
+    font-size: 0.95rem;
+    color: #ffffff;
+    margin: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }

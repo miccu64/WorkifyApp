@@ -19,7 +19,8 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  padding: 8px;
 }
 
 .title {
@@ -33,6 +34,6 @@
 
 .fab-button {
   position: absolute;
-  bottom: 24px;
-  right: 24px;
+  bottom: 32px;
+  right: 32px;
 }
