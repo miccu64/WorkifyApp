@@ -8,16 +8,16 @@ export class ApiService {
   private httpClient: HttpClient = inject(HttpClient);
 
   private readonly jwtTokenStorageName = 'JwtToken';
-  private _jwtToken: string | null = localStorage.getItem(this.jwtTokenStorageName);
+  private _jwtToken: string | null = sessionStorage.getItem(this.jwtTokenStorageName);
   public get jwtToken(): string | null {
     return this._jwtToken;
   }
   public set jwtToken(value: string | null) {
     this._jwtToken = value;
     if (value) {
-      localStorage.setItem(this.jwtTokenStorageName, value);
+      sessionStorage.setItem(this.jwtTokenStorageName, value);
     } else {
-      localStorage.removeItem(this.jwtTokenStorageName);
+      sessionStorage.removeItem(this.jwtTokenStorageName);
     }
   }
 

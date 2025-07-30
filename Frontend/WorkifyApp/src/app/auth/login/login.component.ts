@@ -10,6 +10,8 @@ import { AuthService } from '../auth.service';
 import { LogInDto } from '../dtos/log-in.dto';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
+import { WorkoutService } from '../../services/workout.service';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +38,8 @@ export class LoginComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private workoutService: WorkoutService
   ) {
     this.loginForm = this.formBuilder.group({
       login: ['', Validators.required],
@@ -44,18 +47,33 @@ export class LoginComponent {
     });
   }
 
-  logIn(): void {
+  async logIn(): Promise<void> {
     if (!this.loginForm.valid) {
       return;
     }
 
     const dto: LogInDto = this.loginForm.value;
-    this.authService.login(dto).subscribe({
-      next: () => this.router.navigate(['app/plans/list']),
-      error: (e: HttpErrorResponse) => {
-        this.toastr.error(e.status === 401 ? 'Wrong login or password.' : e.message);
+
+    try {
+      await firstValueFrom(this.authService.login(dto));
+
+      const [plans, exercises] = await Promise.all([
+        firstValueFrom(this.workoutService.getPlans()),
+        firstValueFrom(this.workoutService.getExercises())
+      ]);
+      this.workoutService.plans = plans;
+      this.workoutService.exercises = exercises;
+
+      this.router.navigate(['app/plans/list']);
+    } catch (e: unknown) {
+      if (e instanceof HttpErrorResponse) {
+        if (e.status === 401) {
+          this.toastr.error('Wrong login or password.');
+        } else {
+          this.toastr.error(e.message || 'Login failed.');
+        }
       }
-    });
+    }
   }
 
   btnRegisterClick(): void {

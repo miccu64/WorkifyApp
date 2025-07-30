@@ -3,8 +3,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { PlansListComponent } from './plans/plans-list/plans-list.component';
 import { canActivateByJwt } from './utils/can-activate-by-jwt';
-import { PlansResolver } from './resolvers/plans.resolver';
 import { BaseComponent } from './layout/base/base.component';
+import { ExercisesListComponent } from './exercises/exercises-list/exercises-list.component';
 
 export const routes: Routes = [
   {
@@ -23,13 +23,21 @@ export const routes: Routes = [
         children: [
           {
             path: 'list',
-            component: PlansListComponent,
-            resolve: { plans: PlansResolver }
+            component: PlansListComponent
           }
-        ],
-        canActivate: [canActivateByJwt]
+        ]
+      },
+      {
+        path: 'exercises',
+        children: [
+          {
+            path: 'list',
+            component: ExercisesListComponent
+          }
+        ]
       }
-    ]
+    ],
+    canActivate: [canActivateByJwt]
   },
   { path: '**', redirectTo: 'auth/login' }
 ];
