@@ -41,4 +41,8 @@ export class WorkoutService {
   createPlan(parameters: CreateEditPlanDto): Observable<number> {
     return this.apiService.post<number>('plans', parameters);
   }
+
+  editPlan(planId: number, parameters: CreateEditPlanDto): Observable<number> {
+    return this.apiService.patch<number>(`plans/${planId}`, parameters);
+  }
 }

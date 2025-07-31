@@ -1,6 +1,7 @@
 <mat-card class="plan-card" (click)="onPlanClick()">
   <mat-card-title>{{ plan()?.name }}</mat-card-title>
   <mat-card-content>
+    <p>{{ 'Exercises: ' + plan()?.exercisesIds?.length }}</p>
     <p>{{ plan()?.description ?? '(no description)' }}</p>
   </mat-card-content>
 </mat-card>

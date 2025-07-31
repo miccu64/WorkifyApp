@@ -1,0 +1,11 @@
+<div class="container">
+  <h3 class="title">{{ title() }}</h3>
+
+  <div class="list">
+    <ng-content></ng-content>
+  </div>
+
+  <button mat-fab color="accent" class="fab-button" (click)="onFabClicked()">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

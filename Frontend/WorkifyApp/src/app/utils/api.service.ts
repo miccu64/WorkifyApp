@@ -40,6 +40,14 @@ export class ApiService {
     });
   }
 
+  patch<T>(url: string, body?: object, params?: HttpParams, isPlainTextResponse?: boolean): Observable<T> {
+    return this.httpClient.patch<T>(environment.apiUrl + url, body, {
+      headers: this.headers,
+      params,
+      responseType: (isPlainTextResponse ? 'text' : 'json') as 'json'
+    });
+  }
+
   put<T>(url: string, body?: object, params?: HttpParams): Observable<T> {
     return this.httpClient.put<T>(environment.apiUrl + url, body, { headers: this.headers, params });
   }

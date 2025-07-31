@@ -51,8 +51,7 @@ export class CreateEditPlanFormComponent implements OnInit {
     if (this.plan == null) {
       request = this.workoutService.createPlan(parameters);
     } else {
-      // TODO: edit
-      request = this.workoutService.createPlan(parameters);
+      request = this.workoutService.editPlan(this.plan.id, parameters);
     }
 
     await firstValueFrom(request);
