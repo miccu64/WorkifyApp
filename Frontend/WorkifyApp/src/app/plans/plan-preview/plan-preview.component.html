@@ -1,0 +1,9 @@
+<h2>Plan preview</h2>
+<h3>Name: + {{ plan.name }}</h3>
+<h4>Description: + {{ plan.description }}</h4>
+
+<app-list [title]="'Assigned exercises'" (fabClicked)="assignExercise()">
+  @for(exercise of exercises; track exercise.id){
+  <app-exercise-card [exercise]="exercise"> </app-exercise-card>
+  }
+</app-list>

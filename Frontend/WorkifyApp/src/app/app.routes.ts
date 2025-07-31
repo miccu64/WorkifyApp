@@ -5,6 +5,7 @@ import { PlansListComponent } from './plans/plans-list/plans-list.component';
 import { canActivateByJwt } from './utils/can-activate-by-jwt';
 import { BaseComponent } from './layout/base/base.component';
 import { ExercisesListComponent } from './exercises/exercises-list/exercises-list.component';
+import { PlanPreviewComponent } from './plans/plan-preview/plan-preview.component';
 
 export const routes: Routes = [
   {
@@ -24,7 +25,8 @@ export const routes: Routes = [
           {
             path: 'list',
             component: PlansListComponent
-          }
+          },
+          { path: 'preview/:planId', component: PlanPreviewComponent }
         ]
       },
       {

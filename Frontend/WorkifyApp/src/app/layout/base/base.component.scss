@@ -12,3 +12,10 @@
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
   background: rgb(31, 31, 31);
 }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  margin: 0 2vw;
+}

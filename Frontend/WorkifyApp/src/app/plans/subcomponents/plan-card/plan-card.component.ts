@@ -1,8 +1,7 @@
-import { Component, EventEmitter, inject, input, Input, Output } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { Router } from '@angular/router';
 import { PlanDto } from '../../../dtos/plan.dto';
-import { CreateEditPlanFormComponent } from '../create-edit-plan/create-edit-plan-form.component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-plan-card',
@@ -13,11 +12,9 @@ import { MatDialog } from '@angular/material/dialog';
 export class PlanCardComponent {
   plan = input<PlanDto>();
 
-  private dialog = inject(MatDialog);
+  private router = inject(Router);
 
-  onPlanClick() {
-    this.dialog.open(CreateEditPlanFormComponent, {
-      data: { plan: this.plan() }
-    });
+  planPreview() {
+    this.router.navigate([`app/plans/preview/${this.plan()?.id}`]);
   }
 }
