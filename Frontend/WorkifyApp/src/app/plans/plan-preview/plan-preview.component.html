@@ -1,8 +1,17 @@
-<h2>Plan preview</h2>
-<h3>Name: + {{ plan.name }}</h3>
-<h4>Description: + {{ plan.description }}</h4>
+<app-info-table [title]="'Plan preview'" [data]="tableData"></app-info-table>
 
-<app-list [title]="'Assigned exercises'" (fabClicked)="assignExercise()">
+<div class="button-center">
+  <button mat-fab extended (click)="editPlan()">
+    <mat-icon>edit</mat-icon>
+    Edit plan
+  </button>
+  <button mat-fab class="warning" extended (click)="deletePlan()">
+    <mat-icon>delete</mat-icon>
+    Delete plan
+  </button>
+</div>
+
+<app-list [title]="'Assigned exercises'">
   @for(exercise of exercises; track exercise.id){
   <app-exercise-card [exercise]="exercise"> </app-exercise-card>
   }

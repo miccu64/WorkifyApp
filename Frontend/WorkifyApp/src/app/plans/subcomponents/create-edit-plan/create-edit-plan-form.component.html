@@ -1,7 +1,9 @@
 <mat-card>
-  <mat-card-title>
-    {{ plan ? 'Edit Plan' : 'Create Plan' }}
-  </mat-card-title>
+  <mat-card-header>
+    <mat-card-title>
+      {{ plan ? 'Edit Plan' : 'Create Plan' }}
+    </mat-card-title>
+  </mat-card-header>
 
   <mat-card-content>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -12,7 +14,7 @@
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Description</mat-label>
-        <textarea matInput formControlName="description" rows="3"></textarea>
+        <textarea matInput formControlName="description" rows="2"></textarea>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">

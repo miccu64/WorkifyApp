@@ -18,3 +18,12 @@ app-root {
   height: 100%;
   width: 100%;
 }
+
+.warning {
+  background-color: var(--mat-sys-error) !important;
+  color: var(--mat-sys-on-error) !important;
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+}
