@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { PlanDto } from '../../dtos/plan.dto';
 import { PlanCardComponent } from '../subcomponents/plan-card/plan-card.component';
 import { WorkoutService } from '../../services/workout.service';
-import { CreateEditPlanFormComponent } from '../create-edit-plan/create-edit-plan-form.component';
+import { CreateEditPlanFormComponent } from '../subcomponents/create-edit-plan/create-edit-plan-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ListComponent } from '../../layout/list/list.component';
 
@@ -24,8 +24,11 @@ export class PlansListComponent implements OnInit {
 
   openCreateForm(): void {
     const dialogRef = this.dialog.open(CreateEditPlanFormComponent);
-    dialogRef.afterClosed().subscribe(() => {
-      this.plans = this.workoutService.plans;
+    dialogRef.afterClosed().subscribe((refreshedPlans: PlanDto[]) => {
+      if (refreshedPlans) {
+        this.workoutService.plans = refreshedPlans;
+        this.plans = this.workoutService.plans;
+      }
     });
   }
 }

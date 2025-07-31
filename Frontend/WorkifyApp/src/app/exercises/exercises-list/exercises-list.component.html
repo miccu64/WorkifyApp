@@ -1,13 +1,5 @@
-<div class="exercises-container">
-  <h3 class="title">Exercises</h3>
-
-  <div class="exercise-list">
-    @for(exercise of exercises; track exercise.id){
-    <app-exercise-card [exercise]="exercise"> </app-exercise-card>
-    }
-  </div>
-
-  <button mat-fab color="accent" class="fab-button">
-    <mat-icon>add</mat-icon>
-  </button>
-</div>
+<app-list [title]="'Exercises'" (fabClicked)="openCreateForm()">
+  @for(exercise of exercises; track exercise.id){
+  <app-exercise-card [exercise]="exercise"> </app-exercise-card>
+  }
+</app-list>

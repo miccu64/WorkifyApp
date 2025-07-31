@@ -1,4 +1,4 @@
-<app-list [title]="'Plans'">
+<app-list [title]="'Plans'" (fabClicked)="openCreateForm()">
   @for(plan of plans; track plan.id){
   <app-plan-card [plan]="plan"> </app-plan-card>
   }

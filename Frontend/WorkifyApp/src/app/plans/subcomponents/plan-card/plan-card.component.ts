@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, input, Input, Output } from '@angular/core';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { PlanDto } from '../../../dtos/plan.dto';
-import { CreateEditPlanFormComponent } from '../../create-edit-plan/create-edit-plan-form.component';
+import { CreateEditPlanFormComponent } from '../create-edit-plan/create-edit-plan-form.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

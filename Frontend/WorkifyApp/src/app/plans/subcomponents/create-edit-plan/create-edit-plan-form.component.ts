@@ -1,16 +1,15 @@
-import { Component, Input, Output, EventEmitter, OnInit, inject, input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreateEditPlanDto } from '../../dtos/parameters/create-edit-plan.dto';
-import { ExerciseDto } from '../../dtos/exercise.dto';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardModule } from '@angular/material/card';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ReactiveFormsModule } from '@angular/forms';
-import { WorkoutService } from '../../services/workout.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PlanDto } from '../../dtos/plan.dto';
-import { MatButton, MatButtonModule } from '@angular/material/button';
 import { firstValueFrom, Observable } from 'rxjs';
+import { ExerciseDto } from '../../../dtos/exercise.dto';
+import { CreateEditPlanDto } from '../../../dtos/parameters/create-edit-plan.dto';
+import { PlanDto } from '../../../dtos/plan.dto';
+import { WorkoutService } from '../../../services/workout.service';
 
 @Component({
   selector: 'app-create-edit-plan-form',
@@ -55,8 +54,8 @@ export class CreateEditPlanFormComponent implements OnInit {
     }
 
     await firstValueFrom(request);
-    this.workoutService.plans = await firstValueFrom(this.workoutService.getPlans());
+    const plans = await firstValueFrom(this.workoutService.getPlans());
 
-    this.dialogRef.close();
+    this.dialogRef.close(plans);
   }
 }

@@ -1,15 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCard, MatCardModule, MatCardTitle } from '@angular/material/card';
 import { ExerciseDto } from '../../dtos/exercise.dto';
-import { ExerciseCardComponent } from '../subcomponents/exercise-card/exercise-card.component';
+import { ListComponent } from '../../layout/list/list.component';
 import { WorkoutService } from '../../services/workout.service';
+import { ExerciseCardComponent } from '../subcomponents/exercise-card/exercise-card.component';
 
 @Component({
   selector: 'app-exercises-list',
-  imports: [MatCard, MatCardTitle, MatListModule, MatIconModule, MatButtonModule, MatCardModule, ExerciseCardComponent],
+  imports: [ExerciseCardComponent, ListComponent],
   templateUrl: './exercises-list.component.html',
   styleUrl: './exercises-list.component.scss'
 })
@@ -20,5 +17,9 @@ export class ExercisesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.exercises = this.workoutService.exercises;
+  }
+
+  openCreateForm(): void {
+    // TODO:
   }
 }
