@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { PlanDto } from '../../dtos/plan.dto';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from '../../services/workout.service';
 import { ExerciseDto } from '../../dtos/exercise.dto';
 import { ListComponent } from '../../layout/list/list.component';
@@ -33,32 +33,46 @@ export class PlanPreviewComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private workoutService = inject(WorkoutService);
   private dialog = inject(MatDialog);
+  private router = inject(Router);
 
   ngOnInit(): void {
     const planId = Number(this.activatedRoute.snapshot.paramMap.get('planId'));
-    const plan = this.workoutService.plans.find(p => p.id == planId);
-    if (plan) {
-      this.plan = plan;
-      this.exercises = this.workoutService.exercises.filter(e => plan.exercisesIds.includes(e.id));
-
-      this.tableData = new Map<string, string>([
-        ['Name', this.plan.name],
-        ['Description', this.plan.description ?? '-'],
-        ['Exercises', this.plan.exercisesIds.length.toString()]
-      ]);
-    } else {
-      throw new Error('Plan not found', { cause: planId });
-    }
+    this.refreshData(planId);
   }
 
   editPlan(): void {
-    const dialogRef = this.dialog.open(CreateEditPlanFormComponent);
+    const dialogRef = this.dialog.open(CreateEditPlanFormComponent, { data: { plan: this.plan } });
     dialogRef.afterClosed().subscribe((refreshedPlans: PlanDto[]) => {
       if (refreshedPlans) {
         this.workoutService.plans = refreshedPlans;
+
+        this.refreshData(this.plan.id);
       }
     });
   }
 
-  deletePlan(): void {}
+  deletePlan(): void {
+    if (confirm('Are you sure to delete plan "' + this.plan.name + '"?')) {
+      this.workoutService.deletePlan(this.plan.id).subscribe((planId: number) => {
+        this.workoutService.plans = this.workoutService.plans.filter(p => p.id !== planId);
+
+        this.router.navigate(['/app/plans/list']);
+      });
+    }
+  }
+
+  private refreshData(planId: number): void {
+    const plan = this.workoutService.plans.find(p => p.id === planId);
+    if (!plan) {
+      throw new Error('Plan not found');
+    }
+
+    this.plan = plan;
+    this.exercises = this.workoutService.exercises.filter(e => plan.exercisesIds.includes(e.id));
+    this.tableData = new Map<string, string>([
+      ['Name', this.plan.name],
+      ['Description', this.plan.description ?? '-'],
+      ['Exercises', this.plan.exercisesIds.length.toString()]
+    ]);
+  }
 }
