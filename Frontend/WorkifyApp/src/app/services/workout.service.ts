@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { ApiService } from '../utils/api.service';
 import { PlanDto } from '../dtos/plan.dto';
 import { ExerciseDto } from '../dtos/exercise.dto';
@@ -14,24 +14,42 @@ export class WorkoutService {
   private readonly exercisesKey = 'Exercises';
 
   private _plans: PlanDto[] = JSON.parse(sessionStorage.getItem(this.plansKey) ?? '[]');
-  public get plans(): PlanDto[] {
+  get plans(): PlanDto[] {
     return this._plans;
   }
-  public set plans(value: PlanDto[]) {
+  private set plans(value: PlanDto[]) {
     sessionStorage.setItem(this.plansKey, JSON.stringify(value));
     this._plans = value;
   }
 
   private _exercises: ExerciseDto[] = JSON.parse(sessionStorage.getItem(this.exercisesKey) ?? '[]');
-  public get exercises(): ExerciseDto[] {
+  get exercises(): ExerciseDto[] {
     return this._exercises;
   }
-  public set exercises(value: ExerciseDto[]) {
+  private set exercises(value: ExerciseDto[]) {
     sessionStorage.setItem(this.exercisesKey, JSON.stringify(value));
     this._exercises = value;
   }
 
-  getPlans(): Observable<PlanDto[]> {
+  async refreshPlans(): Promise<PlanDto[]> {
+    const plans = await firstValueFrom(this.getPlans());
+    this.plans = plans;
+
+    return plans;
+  }
+
+  async refreshExercises(): Promise<ExerciseDto[]> {
+    const exercises = await firstValueFrom(this.getExercises());
+    this.exercises = exercises;
+
+    return exercises;
+  }
+
+  async refreshPlansAndExercises(): Promise<[PlanDto[], ExerciseDto[]]> {
+    return await Promise.all([await this.refreshPlans(), await this.refreshExercises()]);
+  }
+
+  private getPlans(): Observable<PlanDto[]> {
     return this.apiService.get<PlanDto[]>('plans');
   }
 
@@ -47,7 +65,7 @@ export class WorkoutService {
     return this.apiService.delete<number>(`plans/${planId}`);
   }
 
-  getExercises(): Observable<ExerciseDto[]> {
+  private getExercises(): Observable<ExerciseDto[]> {
     return this.apiService.get<ExerciseDto[]>('exercises');
   }
 

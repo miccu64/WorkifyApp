@@ -24,11 +24,8 @@ export class ExercisesListComponent implements OnInit {
 
   openCreateExerciseForm(): void {
     const dialogRef = this.dialog.open(CreateEditExerciseFormComponent);
-    dialogRef.afterClosed().subscribe((refreshedExercises: ExerciseDto[]) => {
-      if (refreshedExercises) {
-        this.workoutService.exercises = refreshedExercises;
-        this.exercises = this.workoutService.exercises;
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      this.exercises = this.workoutService.exercises;
     });
   }
 }

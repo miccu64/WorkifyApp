@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { ExerciseDto } from '../../../dtos/exercise.dto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-exercise-card',
@@ -9,10 +10,11 @@ import { ExerciseDto } from '../../../dtos/exercise.dto';
   styleUrls: ['./exercise-card.component.scss']
 })
 export class ExerciseCardComponent {
-  @Input() exercise!: ExerciseDto;
-  // @Output() click = new EventEmitter<void>();
+  exercise = input<ExerciseDto>();
 
-  onExerciseClick() {
-    //this.click.emit();
+  private router = inject(Router);
+
+  exercisePreview() {
+    this.router.navigate([`app/exercises/preview/${this.exercise()?.id}`]);
   }
 }

@@ -24,11 +24,8 @@ export class PlansListComponent implements OnInit {
 
   openCreateForm(): void {
     const dialogRef = this.dialog.open(CreateEditPlanFormComponent);
-    dialogRef.afterClosed().subscribe((refreshedPlans: PlanDto[]) => {
-      if (refreshedPlans) {
-        this.workoutService.plans = refreshedPlans;
-        this.plans = this.workoutService.plans;
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      this.plans = this.workoutService.plans;
     });
   }
 }

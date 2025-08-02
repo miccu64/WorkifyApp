@@ -54,8 +54,9 @@ export class CreateEditPlanFormComponent implements OnInit {
     }
 
     await firstValueFrom(request);
-    const plans = await firstValueFrom(this.workoutService.getPlans());
 
-    this.dialogRef.close(plans);
+    await this.workoutService.refreshPlans();
+
+    this.dialogRef.close();
   }
 }

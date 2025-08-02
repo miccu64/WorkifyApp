@@ -10,6 +10,7 @@ import { MatButtonModule, MatFabButton } from '@angular/material/button';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEditPlanFormComponent } from '../subcomponents/create-edit-plan/create-edit-plan-form.component';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-plan-preview',
@@ -42,22 +43,17 @@ export class PlanPreviewComponent implements OnInit {
 
   editPlan(): void {
     const dialogRef = this.dialog.open(CreateEditPlanFormComponent, { data: { plan: this.plan } });
-    dialogRef.afterClosed().subscribe((refreshedPlans: PlanDto[]) => {
-      if (refreshedPlans) {
-        this.workoutService.plans = refreshedPlans;
-
-        this.refreshData(this.plan.id);
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      this.refreshData(this.plan.id);
     });
   }
 
-  deletePlan(): void {
+  async deletePlan(): Promise<void> {
     if (confirm('Are you sure to delete plan "' + this.plan.name + '"?')) {
-      this.workoutService.deletePlan(this.plan.id).subscribe((planId: number) => {
-        this.workoutService.plans = this.workoutService.plans.filter(p => p.id !== planId);
+      await firstValueFrom(this.workoutService.deletePlan(this.plan.id));
+      await this.workoutService.refreshPlans();
 
-        this.router.navigate(['/app/plans/list']);
-      });
+      await this.router.navigate(['/app/plans/list']);
     }
   }
 

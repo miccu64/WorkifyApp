@@ -10,11 +10,11 @@ import { PlanDto } from '../../../dtos/plan.dto';
   styleUrls: ['./plan-card.component.scss']
 })
 export class PlanCardComponent {
-  plan = input<PlanDto>();
+  readonly plan = input<PlanDto>();
 
   private router = inject(Router);
 
-  planPreview() {
+  planPreview(): void {
     this.router.navigate([`app/plans/preview/${this.plan()?.id}`]);
   }
 }

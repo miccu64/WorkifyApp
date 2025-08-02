@@ -30,7 +30,7 @@ export class CreateEditExerciseFormComponent implements OnInit {
   ngOnInit() {
     this.form = this.formBuilder.group({
       name: [this.exercise?.name, Validators.required],
-      bodyPart: [this.exercise?.bodyPart.toString(), Validators.required],
+      bodyPart: [this.exercise?.bodyPart, Validators.required],
       description: [this.exercise?.description]
     });
   }
@@ -45,7 +45,7 @@ export class CreateEditExerciseFormComponent implements OnInit {
       bodyPart: this.form.get('bodyPart')?.value as BodyPartEnum,
       description: this.form.get('description')?.value
     };
-    console.log(parameters.bodyPart);
+
     let request: Observable<number>;
     if (this.exercise == null) {
       request = this.workoutService.createExercise(parameters);
@@ -54,8 +54,9 @@ export class CreateEditExerciseFormComponent implements OnInit {
     }
 
     await firstValueFrom(request);
-    const exercises = await firstValueFrom(this.workoutService.getExercises());
 
-    this.dialogRef.close(exercises);
+    await this.workoutService.refreshPlansAndExercises();
+
+    this.dialogRef.close();
   }
 }

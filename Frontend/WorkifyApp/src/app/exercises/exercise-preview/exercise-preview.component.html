@@ -1,0 +1,21 @@
+<app-info-table [title]="'Exercise preview'" [data]="tableData"></app-info-table>
+
+<div class="button-center">
+  <span [title]="disabledBtnText">
+    <button mat-fab extended (click)="editExercise()" [disabled]="!exercise.isCustom">
+      <mat-icon>edit</mat-icon>
+      Edit exercise
+    </button></span
+  >
+  <span [title]="disabledBtnText">
+    <button
+      mat-fab
+      [ngClass]="exercise.isCustom ? 'warning' : ''"
+      extended
+      (click)="deleteExercise()"
+      [disabled]="!exercise.isCustom">
+      <mat-icon>delete</mat-icon>
+      Delete exercise
+    </button></span
+  >
+</div>

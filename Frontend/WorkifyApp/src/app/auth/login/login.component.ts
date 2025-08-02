@@ -57,12 +57,7 @@ export class LoginComponent {
     try {
       await firstValueFrom(this.authService.login(dto));
 
-      const [plans, exercises] = await Promise.all([
-        firstValueFrom(this.workoutService.getPlans()),
-        firstValueFrom(this.workoutService.getExercises())
-      ]);
-      this.workoutService.plans = plans;
-      this.workoutService.exercises = exercises;
+      await this.workoutService.refreshPlansAndExercises();
 
       this.router.navigate(['app/plans/list']);
     } catch (e: unknown) {
