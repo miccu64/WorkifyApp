@@ -4,6 +4,7 @@ import { ApiService } from '../utils/api.service';
 import { PlanDto } from '../dtos/plan.dto';
 import { ExerciseDto } from '../dtos/exercise.dto';
 import { CreateEditPlanDto } from '../dtos/parameters/create-edit-plan.dto';
+import { CreateEditExerciseDto } from '../dtos/parameters/create-edit-exercise.dto';
 
 @Injectable({ providedIn: 'root' })
 export class WorkoutService {
@@ -34,10 +35,6 @@ export class WorkoutService {
     return this.apiService.get<PlanDto[]>('plans');
   }
 
-  getExercises(): Observable<ExerciseDto[]> {
-    return this.apiService.get<ExerciseDto[]>('exercises');
-  }
-
   createPlan(parameters: CreateEditPlanDto): Observable<number> {
     return this.apiService.post<number>('plans', parameters);
   }
@@ -48,5 +45,21 @@ export class WorkoutService {
 
   deletePlan(planId: number): Observable<number> {
     return this.apiService.delete<number>(`plans/${planId}`);
+  }
+
+  getExercises(): Observable<ExerciseDto[]> {
+    return this.apiService.get<ExerciseDto[]>('exercises');
+  }
+
+  createExercise(parameters: CreateEditExerciseDto): Observable<number> {
+    return this.apiService.post<number>('exercises', parameters);
+  }
+
+  editExercise(exerciseId: number, parameters: CreateEditExerciseDto): Observable<number> {
+    return this.apiService.patch<number>(`exercises/${exerciseId}`, parameters);
+  }
+
+  deleteExercise(exerciseId: number): Observable<number> {
+    return this.apiService.delete<number>(`exercises/${exerciseId}`);
   }
 }

@@ -3,6 +3,8 @@ import { ExerciseDto } from '../../dtos/exercise.dto';
 import { ListComponent } from '../../layout/list/list.component';
 import { WorkoutService } from '../../services/workout.service';
 import { ExerciseCardComponent } from '../subcomponents/exercise-card/exercise-card.component';
+import { CreateEditExerciseFormComponent } from '../subcomponents/create-edit-exercise/create-edit-exercise-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-exercises-list',
@@ -14,12 +16,19 @@ export class ExercisesListComponent implements OnInit {
   exercises: ExerciseDto[] = [];
 
   private workoutService = inject(WorkoutService);
+  private dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.exercises = this.workoutService.exercises;
   }
 
-  openCreateForm(): void {
-    // TODO:
+  openCreateExerciseForm(): void {
+    const dialogRef = this.dialog.open(CreateEditExerciseFormComponent);
+    dialogRef.afterClosed().subscribe((refreshedExercises: ExerciseDto[]) => {
+      if (refreshedExercises) {
+        this.workoutService.exercises = refreshedExercises;
+        this.exercises = this.workoutService.exercises;
+      }
+    });
   }
 }

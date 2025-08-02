@@ -1,4 +1,4 @@
-<app-list [title]="'Exercises'" (fabClicked)="openCreateForm()">
+<app-list [title]="'Exercises'" (fabClicked)="openCreateExerciseForm()">
   @for(exercise of exercises; track exercise.id){
   <app-exercise-card [exercise]="exercise"> </app-exercise-card>
   }
