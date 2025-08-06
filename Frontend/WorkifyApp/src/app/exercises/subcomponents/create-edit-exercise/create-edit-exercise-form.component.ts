@@ -27,7 +27,7 @@ export class CreateEditExerciseFormComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<CreateEditExerciseFormComponent>);
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = this.formBuilder.group({
       name: [this.exercise?.name, Validators.required],
       bodyPart: [this.exercise?.bodyPart, Validators.required],
@@ -35,7 +35,7 @@ export class CreateEditExerciseFormComponent implements OnInit {
     });
   }
 
-  async onSubmit() {
+  async onSubmit(): Promise<void> {
     if (!this.form.valid) {
       return;
     }
@@ -47,7 +47,7 @@ export class CreateEditExerciseFormComponent implements OnInit {
     };
 
     let request: Observable<number>;
-    if (this.exercise == null) {
+    if (this.exercise === null) {
       request = this.workoutService.createExercise(parameters);
     } else {
       request = this.workoutService.editExercise(this.exercise.id, parameters);

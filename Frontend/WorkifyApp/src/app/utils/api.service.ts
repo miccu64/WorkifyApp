@@ -9,10 +9,10 @@ export class ApiService {
 
   private readonly jwtTokenStorageName = 'JwtToken';
   private _jwtToken: string | null = sessionStorage.getItem(this.jwtTokenStorageName);
-  public get jwtToken(): string | null {
+  get jwtToken(): string | null {
     return this._jwtToken;
   }
-  public set jwtToken(value: string | null) {
+  set jwtToken(value: string | null) {
     this._jwtToken = value;
     if (value) {
       sessionStorage.setItem(this.jwtTokenStorageName, value);

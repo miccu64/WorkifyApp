@@ -1,4 +1,4 @@
-export interface LogInDto {
+export type LogInDto = {
   login: string;
   password: string;
-}
+};

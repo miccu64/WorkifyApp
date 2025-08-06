@@ -1,7 +1,7 @@
 import { BodyPartEnum } from '../enums/body-part.enum';
 
-export interface CreateEditExerciseDto {
+export type CreateEditExerciseDto = {
   name: string;
   bodyPart: BodyPartEnum;
   description: string | null;
-}
+};

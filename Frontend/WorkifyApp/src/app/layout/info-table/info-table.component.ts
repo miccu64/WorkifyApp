@@ -8,6 +8,6 @@ import { MatCard } from '@angular/material/card';
   styleUrl: './info-table.component.scss'
 })
 export class InfoTableComponent {
-  title = input.required<string>();
-  data = input.required<Map<string, string>>();
+  readonly title = input.required<string>();
+  readonly data = input.required<Map<string, string>>();
 }

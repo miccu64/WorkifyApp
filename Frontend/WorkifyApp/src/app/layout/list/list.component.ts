@@ -11,8 +11,8 @@ import { MatListModule } from '@angular/material/list';
   styleUrl: './list.component.scss'
 })
 export class ListComponent {
-  title = input.required<string>();
-  fabClicked = output<void>();
+  readonly title = input.required<string>();
+  readonly fabClicked = output<void>();
 
   onFabClicked(): void {
     this.fabClicked.emit();

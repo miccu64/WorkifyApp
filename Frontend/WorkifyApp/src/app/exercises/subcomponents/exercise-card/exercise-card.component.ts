@@ -10,11 +10,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./exercise-card.component.scss']
 })
 export class ExerciseCardComponent {
-  exercise = input<ExerciseDto>();
+  readonly exercise = input<ExerciseDto>();
 
   private router = inject(Router);
 
-  exercisePreview() {
+  exercisePreview(): void {
     this.router.navigate([`app/exercises/preview/${this.exercise()?.id}`]);
   }
 }

@@ -21,12 +21,12 @@ export class CreateEditPlanFormComponent implements OnInit {
   form!: FormGroup;
   exercises: ExerciseDto[] = [];
 
-  public plan: PlanDto = inject(MAT_DIALOG_DATA)?.plan;
+  plan: PlanDto = inject(MAT_DIALOG_DATA)?.plan;
   private workoutService = inject(WorkoutService);
   private formBuilder = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<CreateEditPlanFormComponent>);
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = this.formBuilder.group({
       name: [this.plan?.name ?? '', Validators.required],
       description: [this.plan?.description ?? ''],
@@ -35,7 +35,7 @@ export class CreateEditPlanFormComponent implements OnInit {
     this.exercises = this.workoutService.exercises;
   }
 
-  async onSubmit() {
+  async onSubmit(): Promise<void> {
     if (!this.form.valid) {
       return;
     }
@@ -47,7 +47,7 @@ export class CreateEditPlanFormComponent implements OnInit {
     };
 
     let request: Observable<number>;
-    if (this.plan == null) {
+    if (this.plan === null) {
       request = this.workoutService.createPlan(parameters);
     } else {
       request = this.workoutService.editPlan(this.plan.id, parameters);
