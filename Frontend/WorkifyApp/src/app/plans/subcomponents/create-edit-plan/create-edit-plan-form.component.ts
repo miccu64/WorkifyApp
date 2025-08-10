@@ -47,7 +47,7 @@ export class CreateEditPlanFormComponent implements OnInit {
     };
 
     let request: Observable<number>;
-    if (this.plan === null) {
+    if (!this.plan) {
       request = this.workoutService.createPlan(parameters);
     } else {
       request = this.workoutService.editPlan(this.plan.id, parameters);

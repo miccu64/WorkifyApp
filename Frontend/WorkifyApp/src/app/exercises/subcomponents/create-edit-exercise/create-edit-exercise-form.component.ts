@@ -10,6 +10,7 @@ import { ExerciseDto } from '../../../dtos/exercise.dto';
 import { WorkoutService } from '../../../services/workout.service';
 import { BodyPartEnum } from '../../../dtos/enums/body-part.enum';
 import { CreateEditExerciseDto } from '../../../dtos/parameters/create-edit-exercise.dto';
+import { getBodyParts } from '../../../utils/body-part-helpers';
 
 @Component({
   selector: 'app-create-edit-exercise-form',
@@ -19,7 +20,7 @@ import { CreateEditExerciseDto } from '../../../dtos/parameters/create-edit-exer
 })
 export class CreateEditExerciseFormComponent implements OnInit {
   form!: FormGroup;
-  kvBodyParts = Object.entries(BodyPartEnum).filter(keyValue => Number.isInteger(keyValue[1]));
+  kvBodyParts = getBodyParts();
 
   exercise: ExerciseDto = inject(MAT_DIALOG_DATA)?.exercise;
 
@@ -47,7 +48,7 @@ export class CreateEditExerciseFormComponent implements OnInit {
     };
 
     let request: Observable<number>;
-    if (this.exercise === null) {
+    if (!this.exercise) {
       request = this.workoutService.createExercise(parameters);
     } else {
       request = this.workoutService.editExercise(this.exercise.id, parameters);

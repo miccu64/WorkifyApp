@@ -1,4 +1,16 @@
-<app-list [title]="'Exercises'" (fabClicked)="openCreateExerciseForm()">
+<h3 class="title">Exercises</h3>
+
+<mat-form-field>
+  <mat-label>Filter by group</mat-label>
+  <mat-select [(value)]="selectedBodyPart" placeholder="(all)" (selectionChange)="filterChanged($event)">
+    <mat-option>(all)</mat-option>
+    @for(bodyPart of kvBodyParts; track bodyPart.bodyPart){
+    <mat-option [value]="bodyPart.bodyPart">{{ bodyPart.name }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<app-list [title]="'Filtered exercises'" (fabClicked)="openCreateExerciseForm()">
   @for(exercise of exercises; track exercise.id){
   <app-exercise-card [exercise]="exercise"> </app-exercise-card>
   }

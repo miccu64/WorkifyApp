@@ -59,7 +59,6 @@ export class ExercisePreviewComponent implements OnInit {
 
     this.exercise = exercise;
     this.tableData = new Map<string, string>([
-      ['Name', exercise.name],
       ['Body part', BodyPartEnum[exercise.bodyPart]],
       ['Description', exercise.description ?? '-']
     ]);

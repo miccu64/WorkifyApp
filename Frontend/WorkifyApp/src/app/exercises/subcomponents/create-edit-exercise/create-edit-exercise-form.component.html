@@ -15,9 +15,9 @@
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Body part</mat-label>
         <mat-select formControlName="bodyPart">
-          @for(kvBodyPart of kvBodyParts; track kvBodyPart[0]){
-          <mat-option [value]="kvBodyPart[1]">
-            {{ kvBodyPart[0] }}
+          @for(kvBodyPart of kvBodyParts; track kvBodyPart.bodyPart){
+          <mat-option [value]="kvBodyPart.bodyPart">
+            {{ kvBodyPart.name }}
           </mat-option>
           }
         </mat-select>

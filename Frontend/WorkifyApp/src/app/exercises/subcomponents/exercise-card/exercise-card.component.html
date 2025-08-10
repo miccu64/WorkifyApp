@@ -1,6 +1,7 @@
 <mat-card class="exercise-card" (click)="exercisePreview()">
   <mat-card-title>{{ exercise()?.name }}</mat-card-title>
   <mat-card-content>
+    <p>Group: {{ bodyPartName }}</p>
     <p>{{ exercise()?.description ?? '(no description)' }}</p>
   </mat-card-content>
 </mat-card>

@@ -9,5 +9,6 @@ import { MatCard } from '@angular/material/card';
 })
 export class InfoTableComponent {
   readonly title = input.required<string>();
+  readonly name = input.required<string>();
   readonly data = input.required<Map<string, string>>();
 }

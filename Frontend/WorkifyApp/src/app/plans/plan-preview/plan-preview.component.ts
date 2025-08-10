@@ -66,7 +66,6 @@ export class PlanPreviewComponent implements OnInit {
     this.plan = plan;
     this.exercises = this.workoutService.exercises.filter(e => plan.exercisesIds.includes(e.id));
     this.tableData = new Map<string, string>([
-      ['Name', this.plan.name],
       ['Description', this.plan.description ?? '-'],
       ['Exercises', this.plan.exercisesIds.length.toString()]
     ]);
