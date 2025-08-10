@@ -9,7 +9,7 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Weight</mat-label>
-        <input matInput type="number" min="1" formControlName="weight" required />
+        <input matInput type="number" min="0" formControlName="weight" required />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">

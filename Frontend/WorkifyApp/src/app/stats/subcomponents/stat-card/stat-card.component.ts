@@ -11,7 +11,7 @@ import { MatCard, MatCardContent } from '@angular/material/card';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatCardComponent {
-  readonly stat = input<StatDto>();
+  readonly stat = input.required<StatDto>();
 
   private router = inject(Router);
 

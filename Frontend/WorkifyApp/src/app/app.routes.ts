@@ -7,6 +7,7 @@ import { BaseComponent } from './layout/base/base.component';
 import { ExercisesListComponent } from './exercises/exercises-list/exercises-list.component';
 import { PlanPreviewComponent } from './plans/plan-preview/plan-preview.component';
 import { ExercisePreviewComponent } from './exercises/exercise-preview/exercise-preview.component';
+import { StatsResolver } from './exercises/exercise-preview/stats.resolver';
 
 export const routes: Routes = [
   {
@@ -37,7 +38,7 @@ export const routes: Routes = [
             path: 'list',
             component: ExercisesListComponent
           },
-          { path: 'preview/:exerciseId', component: ExercisePreviewComponent }
+          { path: 'preview/:exerciseId', component: ExercisePreviewComponent, resolve: { stats: StatsResolver } }
         ]
       }
     ],

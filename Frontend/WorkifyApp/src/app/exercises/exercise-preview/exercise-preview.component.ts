@@ -12,10 +12,21 @@ import { WorkoutService } from '../../services/workout.service';
 import { CreateEditExerciseFormComponent } from '../subcomponents/create-edit-exercise/create-edit-exercise-form.component';
 import { ListComponent } from '../../layout/list/list.component';
 import { CreateEditStatFormComponent } from '../../stats/subcomponents/create-edit-stat/create-edit-stat-form.component';
+import { StatDto } from '../../dtos/stat.dto';
+import { StatCardComponent } from '../../stats/subcomponents/stat-card/stat-card.component';
 
 @Component({
   selector: 'app-exercise-preview',
-  imports: [InfoTableComponent, MatIcon, MatIconModule, MatFabButton, MatButtonModule, CommonModule, ListComponent],
+  imports: [
+    InfoTableComponent,
+    MatIcon,
+    MatIconModule,
+    MatFabButton,
+    MatButtonModule,
+    CommonModule,
+    ListComponent,
+    StatCardComponent
+  ],
   templateUrl: './exercise-preview.component.html',
   styleUrls: ['./exercise-preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -23,6 +34,7 @@ import { CreateEditStatFormComponent } from '../../stats/subcomponents/create-ed
 export class ExercisePreviewComponent implements OnInit {
   exercise!: ExerciseDto;
   tableData!: Map<string, string>;
+  stats!: StatDto[];
 
   disabledBtnText = this.exercise?.isCustom === false ? '' : 'This exercise is predefined and cannot be modified';
 
@@ -34,6 +46,10 @@ export class ExercisePreviewComponent implements OnInit {
   private changeDetectorRef = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.stats = data['stats'];
+    });
+
     const exerciseId = Number(this.activatedRoute.snapshot.paramMap.get('exerciseId'));
     this.refreshData(exerciseId);
   }

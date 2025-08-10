@@ -1,11 +1,19 @@
 <mat-card class="stat-card" (click)="editStat()">
   <mat-card-content>
-    <table>
-      <tr>
-        <th>Company</th>
-        <th>Contact</th>
-        <th>Country</th>
-      </tr>
-    </table>
+    <div>
+      <div class="obligatory-data">
+        <p>
+          Weight: <strong>{{ stat().weight }}</strong> kg
+        </p>
+        <p>
+          Reps: <strong>{{ stat().reps }}</strong>
+        </p>
+      </div>
+      <div class="additional-data">
+        @if(stat().note){
+        <p>Note: {{ stat().note }}</p>
+        }
+      </div>
+    </div>
   </mat-card-content>
 </mat-card>

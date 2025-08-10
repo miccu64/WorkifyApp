@@ -1,0 +1,42 @@
+.stat-card {
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  background-color: #474747;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.stat-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+mat-card-content {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+p {
+  margin: 0;
+}
+
+.obligatory-data {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  p {
+    font-size: medium;
+  }
+}
+
+.additional-data {
+  p {
+    font-size: smaller;
+    font-weight: lighter;
+  }
+}
