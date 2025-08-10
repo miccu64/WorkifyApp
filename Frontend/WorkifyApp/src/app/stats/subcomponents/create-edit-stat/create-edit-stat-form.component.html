@@ -1,0 +1,39 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{ stat ? 'Edit stat' : 'Create stat' }}
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Weight</mat-label>
+        <input matInput type="number" min="1" formControlName="weight" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Reps</mat-label>
+        <input matInput type="number" min="1" formControlName="reps" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width" (click)="picker.open()">
+        <mat-label>Date</mat-label>
+        <input matInput formControlName="time" required [matDatepicker]="picker" [readonly]="true" [max]="maxDate" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Note</mat-label>
+        <textarea matInput formControlName="note" rows="2"></textarea>
+      </mat-form-field>
+
+      <div class="button-row">
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+          {{ stat ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -10,10 +10,12 @@ import { ExerciseDto } from '../../dtos/exercise.dto';
 import { InfoTableComponent } from '../../layout/info-table/info-table.component';
 import { WorkoutService } from '../../services/workout.service';
 import { CreateEditExerciseFormComponent } from '../subcomponents/create-edit-exercise/create-edit-exercise-form.component';
+import { ListComponent } from '../../layout/list/list.component';
+import { CreateEditStatFormComponent } from '../../stats/subcomponents/create-edit-stat/create-edit-stat-form.component';
 
 @Component({
   selector: 'app-exercise-preview',
-  imports: [InfoTableComponent, MatIcon, MatIconModule, MatFabButton, MatButtonModule, CommonModule],
+  imports: [InfoTableComponent, MatIcon, MatIconModule, MatFabButton, MatButtonModule, CommonModule, ListComponent],
   templateUrl: './exercise-preview.component.html',
   styleUrls: ['./exercise-preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -55,6 +57,13 @@ export class ExercisePreviewComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  addStat(): void {
+    const dialogRef = this.dialog.open(CreateEditStatFormComponent, { data: { exerciseId: this.exercise.id } });
+    dialogRef.afterClosed().subscribe(() => {
+      this.refreshData(this.exercise.id);
+    });
   }
 
   private refreshData(exerciseId: number): void {
