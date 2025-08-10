@@ -1,11 +1,10 @@
-import { Component, input } from '@angular/core';
-import { MatCard } from '@angular/material/card';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-info-table',
-  imports: [MatCard],
   templateUrl: './info-table.component.html',
-  styleUrl: './info-table.component.scss'
+  styleUrl: './info-table.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InfoTableComponent {
   readonly title = input.required<string>();

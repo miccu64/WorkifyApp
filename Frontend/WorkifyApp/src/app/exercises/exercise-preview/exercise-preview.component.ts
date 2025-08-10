@@ -1,22 +1,22 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { WorkoutService } from '../../services/workout.service';
-import { ExerciseDto } from '../../dtos/exercise.dto';
-import { ListComponent } from '../../layout/list/list.component';
-import { InfoTableComponent } from '../../layout/info-table/info-table.component';
-import { MatButtonModule, MatFabButton } from '@angular/material/button';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateEditExerciseFormComponent } from '../subcomponents/create-edit-exercise/create-edit-exercise-form.component';
-import { BodyPartEnum } from '../../dtos/enums/body-part.enum';
 import { CommonModule, Location } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { MatButtonModule, MatFabButton } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { BodyPartEnum } from '../../dtos/enums/body-part.enum';
+import { ExerciseDto } from '../../dtos/exercise.dto';
+import { InfoTableComponent } from '../../layout/info-table/info-table.component';
+import { WorkoutService } from '../../services/workout.service';
+import { CreateEditExerciseFormComponent } from '../subcomponents/create-edit-exercise/create-edit-exercise-form.component';
 
 @Component({
   selector: 'app-exercise-preview',
-  imports: [ListComponent, InfoTableComponent, MatIcon, MatIconModule, MatFabButton, MatButtonModule, CommonModule],
+  imports: [InfoTableComponent, MatIcon, MatIconModule, MatFabButton, MatButtonModule, CommonModule],
   templateUrl: './exercise-preview.component.html',
-  styleUrls: ['./exercise-preview.component.scss']
+  styleUrls: ['./exercise-preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExercisePreviewComponent implements OnInit {
   exercise!: ExerciseDto;
@@ -29,6 +29,7 @@ export class ExercisePreviewComponent implements OnInit {
   private dialog = inject(MatDialog);
   private router = inject(Router);
   private location = inject(Location);
+  private changeDetectorRef = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     const exerciseId = Number(this.activatedRoute.snapshot.paramMap.get('exerciseId'));
@@ -67,5 +68,7 @@ export class ExercisePreviewComponent implements OnInit {
       ['Body part', BodyPartEnum[exercise.bodyPart]],
       ['Description', exercise.description ?? '-']
     ]);
+
+    this.changeDetectorRef.markForCheck();
   }
 }

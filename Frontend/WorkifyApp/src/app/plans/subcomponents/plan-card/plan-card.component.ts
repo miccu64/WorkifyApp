@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { Router } from '@angular/router';
 import { PlanDto } from '../../../dtos/plan.dto';
@@ -7,7 +7,8 @@ import { PlanDto } from '../../../dtos/plan.dto';
   selector: 'app-plan-card',
   imports: [MatCard, MatCardContent, MatCardTitle],
   templateUrl: './plan-card.component.html',
-  styleUrls: ['./plan-card.component.scss']
+  styleUrls: ['./plan-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanCardComponent {
   readonly plan = input<PlanDto>();

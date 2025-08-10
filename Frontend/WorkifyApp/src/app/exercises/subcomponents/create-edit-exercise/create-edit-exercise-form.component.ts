@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardModule } from '@angular/material/card';
@@ -6,17 +6,18 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { firstValueFrom, Observable } from 'rxjs';
-import { ExerciseDto } from '../../../dtos/exercise.dto';
-import { WorkoutService } from '../../../services/workout.service';
 import { BodyPartEnum } from '../../../dtos/enums/body-part.enum';
+import { ExerciseDto } from '../../../dtos/exercise.dto';
 import { CreateEditExerciseDto } from '../../../dtos/parameters/create-edit-exercise.dto';
+import { WorkoutService } from '../../../services/workout.service';
 import { getBodyParts } from '../../../utils/body-part-helpers';
 
 @Component({
   selector: 'app-create-edit-exercise-form',
   templateUrl: './create-edit-exercise-form.component.html',
   styleUrls: ['./create-edit-exercise-form.component.scss'],
-  imports: [MatCard, MatCardModule, MatInputModule, MatSelectModule, ReactiveFormsModule, MatButton, MatButtonModule]
+  imports: [MatCard, MatCardModule, MatInputModule, MatSelectModule, ReactiveFormsModule, MatButton, MatButtonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateEditExerciseFormComponent implements OnInit {
   form!: FormGroup;

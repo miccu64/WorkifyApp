@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton, MatButtonModule, MatFabButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
@@ -6,9 +6,9 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../auth.service';
 import { RegisterDto } from '../dtos/register.dto';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -26,7 +26,8 @@ import { ToastrService } from 'ngx-toastr';
     ReactiveFormsModule,
     MatInputModule,
     MatIcon
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent {
   registerForm: FormGroup;

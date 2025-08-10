@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { PlanDto } from '../../dtos/plan.dto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from '../../services/workout.service';
@@ -25,7 +25,8 @@ import { Location } from '@angular/common';
     MatButtonModule
   ],
   templateUrl: './plan-preview.component.html',
-  styleUrls: ['./plan-preview.component.scss']
+  styleUrls: ['./plan-preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanPreviewComponent implements OnInit {
   plan!: PlanDto;
@@ -37,6 +38,7 @@ export class PlanPreviewComponent implements OnInit {
   private dialog = inject(MatDialog);
   private router = inject(Router);
   private location = inject(Location);
+  private changeDetectorRef = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     const planId = Number(this.activatedRoute.snapshot.paramMap.get('planId'));
@@ -75,5 +77,7 @@ export class PlanPreviewComponent implements OnInit {
       ['Description', this.plan.description ?? '-'],
       ['Exercises', this.plan.exercisesIds.length.toString()]
     ]);
+
+    this.changeDetectorRef.markForCheck();
   }
 }

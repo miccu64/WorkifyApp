@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -6,6 +6,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
   selector: 'app-base',
   imports: [RouterOutlet, NavbarComponent],
   templateUrl: './base.component.html',
-  styleUrl: './base.component.scss'
+  styleUrl: './base.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BaseComponent {}

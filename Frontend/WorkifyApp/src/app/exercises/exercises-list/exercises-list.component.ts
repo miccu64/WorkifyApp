@@ -1,20 +1,21 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ExerciseDto } from '../../dtos/exercise.dto';
-import { ListComponent } from '../../layout/list/list.component';
-import { WorkoutService } from '../../services/workout.service';
-import { ExerciseCardComponent } from '../subcomponents/exercise-card/exercise-card.component';
-import { CreateEditExerciseFormComponent } from '../subcomponents/create-edit-exercise/create-edit-exercise-form.component';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
-import { getBodyParts } from '../../utils/body-part-helpers';
 import { BodyPartEnum } from '../../dtos/enums/body-part.enum';
+import { ExerciseDto } from '../../dtos/exercise.dto';
+import { ListComponent } from '../../layout/list/list.component';
+import { WorkoutService } from '../../services/workout.service';
+import { getBodyParts } from '../../utils/body-part-helpers';
+import { CreateEditExerciseFormComponent } from '../subcomponents/create-edit-exercise/create-edit-exercise-form.component';
+import { ExerciseCardComponent } from '../subcomponents/exercise-card/exercise-card.component';
 
 @Component({
   selector: 'app-exercises-list',
   imports: [ExerciseCardComponent, ListComponent, MatInputModule, MatSelectModule],
   templateUrl: './exercises-list.component.html',
-  styleUrl: './exercises-list.component.scss'
+  styleUrl: './exercises-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExercisesListComponent implements OnInit {
   exercises: ExerciseDto[] = [];
@@ -25,6 +26,7 @@ export class ExercisesListComponent implements OnInit {
 
   private workoutService = inject(WorkoutService);
   private dialog = inject(MatDialog);
+  private changeDetectorRef = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.refreshData();
@@ -52,5 +54,7 @@ export class ExercisesListComponent implements OnInit {
     );
     this.exercises = [...this.allExercises];
     this.selectedBodyPart = null;
+
+    this.changeDetectorRef.markForCheck();
   }
 }

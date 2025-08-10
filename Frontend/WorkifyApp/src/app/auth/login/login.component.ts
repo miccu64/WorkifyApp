@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton, MatButtonModule, MatFabButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
@@ -6,12 +7,11 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
-import { LogInDto } from '../dtos/log-in.dto';
 import { ToastrService } from 'ngx-toastr';
-import { HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { WorkoutService } from '../../services/workout.service';
+import { AuthService } from '../auth.service';
+import { LogInDto } from '../dtos/log-in.dto';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +29,8 @@ import { WorkoutService } from '../../services/workout.service';
     ReactiveFormsModule,
     MatInputModule,
     MatIcon
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
   loginForm: FormGroup;

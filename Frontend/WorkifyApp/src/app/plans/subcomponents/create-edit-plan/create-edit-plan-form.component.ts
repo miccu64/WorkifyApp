@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardModule } from '@angular/material/card';
@@ -15,7 +15,8 @@ import { WorkoutService } from '../../../services/workout.service';
   selector: 'app-create-edit-plan-form',
   templateUrl: './create-edit-plan-form.component.html',
   styleUrls: ['./create-edit-plan-form.component.scss'],
-  imports: [MatCard, MatCardModule, MatInputModule, MatSelectModule, ReactiveFormsModule, MatButton, MatButtonModule]
+  imports: [MatCard, MatCardModule, MatInputModule, MatSelectModule, ReactiveFormsModule, MatButton, MatButtonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateEditPlanFormComponent implements OnInit {
   form!: FormGroup;
