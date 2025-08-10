@@ -9,7 +9,7 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEditExerciseFormComponent } from '../subcomponents/create-edit-exercise/create-edit-exercise-form.component';
 import { BodyPartEnum } from '../../dtos/enums/body-part.enum';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -28,6 +28,7 @@ export class ExercisePreviewComponent implements OnInit {
   private workoutService = inject(WorkoutService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
+  private location = inject(Location);
 
   ngOnInit(): void {
     const exerciseId = Number(this.activatedRoute.snapshot.paramMap.get('exerciseId'));
@@ -49,6 +50,10 @@ export class ExercisePreviewComponent implements OnInit {
 
       await this.router.navigate(['/app/exercises/list']);
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   private refreshData(exerciseId: number): void {

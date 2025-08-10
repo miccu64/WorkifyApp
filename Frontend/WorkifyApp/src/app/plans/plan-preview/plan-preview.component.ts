@@ -11,6 +11,7 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEditPlanFormComponent } from '../subcomponents/create-edit-plan/create-edit-plan-form.component';
 import { firstValueFrom } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-plan-preview',
@@ -35,6 +36,7 @@ export class PlanPreviewComponent implements OnInit {
   private workoutService = inject(WorkoutService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
+  private location = inject(Location);
 
   ngOnInit(): void {
     const planId = Number(this.activatedRoute.snapshot.paramMap.get('planId'));
@@ -55,6 +57,10 @@ export class PlanPreviewComponent implements OnInit {
 
       await this.router.navigate(['/app/plans/list']);
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   private refreshData(planId: number): void {
