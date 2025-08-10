@@ -14,6 +14,7 @@ import { ListComponent } from '../../layout/list/list.component';
 import { CreateEditStatFormComponent } from '../../stats/subcomponents/create-edit-stat/create-edit-stat-form.component';
 import { StatDto } from '../../dtos/stat.dto';
 import { StatCardComponent } from '../../stats/subcomponents/stat-card/stat-card.component';
+import { StatService } from '../../services/stat.service';
 
 @Component({
   selector: 'app-exercise-preview',
@@ -40,6 +41,7 @@ export class ExercisePreviewComponent implements OnInit {
 
   private activatedRoute = inject(ActivatedRoute);
   private workoutService = inject(WorkoutService);
+  private statService = inject(StatService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
   private location = inject(Location);
@@ -51,13 +53,13 @@ export class ExercisePreviewComponent implements OnInit {
     });
 
     const exerciseId = Number(this.activatedRoute.snapshot.paramMap.get('exerciseId'));
-    this.refreshData(exerciseId);
+    this.refreshExercise(exerciseId);
   }
 
   editExercise(): void {
     const dialogRef = this.dialog.open(CreateEditExerciseFormComponent, { data: { exercise: this.exercise } });
     dialogRef.afterClosed().subscribe(() => {
-      this.refreshData(this.exercise.id);
+      this.refreshExercise(this.exercise.id);
     });
   }
 
@@ -78,11 +80,20 @@ export class ExercisePreviewComponent implements OnInit {
   addStat(): void {
     const dialogRef = this.dialog.open(CreateEditStatFormComponent, { data: { exerciseId: this.exercise.id } });
     dialogRef.afterClosed().subscribe(() => {
-      this.refreshData(this.exercise.id);
+      this.refreshExercise(this.exercise.id);
+      this.refreshStats();
     });
   }
 
-  private refreshData(exerciseId: number): void {
+  refreshStats(): void {
+    this.statService.getExerciseStats(this.exercise.id).subscribe(stats => {
+      this.stats = stats;
+
+      this.changeDetectorRef.markForCheck();
+    });
+  }
+
+  private refreshExercise(exerciseId: number): void {
     const exercise = this.workoutService.exercises.find(e => e.id === exerciseId);
     if (!exercise) {
       throw new Error('Exercise not found');

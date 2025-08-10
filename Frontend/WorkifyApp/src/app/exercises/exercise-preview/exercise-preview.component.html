@@ -28,6 +28,6 @@
 
 <app-list title="Stats" (fabClicked)="addStat()">
   @for(stat of stats; track stat.id){
-  <app-stat-card [stat]="stat"></app-stat-card>
+  <app-stat-card [stat]="stat" (statEdited)="refreshStats()"></app-stat-card>
   }
 </app-list>

@@ -75,6 +75,14 @@ export class CreateEditStatFormComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  deleteStat(): void {
+    if (confirm('Are you sure to delete selected stat?')) {
+      this.statService.deleteStat(this.stat.id).subscribe(() => {
+        this.dialogRef.close();
+      });
+    }
+  }
+
   private integerValidator(control: FormControl): ValidationErrors | null {
     if (control.value) {
       const number = Number(control.value);
