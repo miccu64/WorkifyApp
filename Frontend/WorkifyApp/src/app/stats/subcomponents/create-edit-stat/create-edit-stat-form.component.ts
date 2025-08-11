@@ -38,6 +38,10 @@ export class CreateEditStatFormComponent implements OnInit {
   exerciseId: number = this.matDialogData.exerciseId;
   readonly maxDate = new Date();
 
+  private get isEditMode(): boolean {
+    return this.stat ? true : false;
+  }
+
   private statService = inject(StatService);
   private formBuilder = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<CreateEditStatFormComponent>);
@@ -49,6 +53,10 @@ export class CreateEditStatFormComponent implements OnInit {
       time: [this.stat?.time ?? new Date(), [Validators.required]],
       note: [this.stat?.note]
     });
+
+    if (this.isEditMode) {
+      this.form.get('time')?.disable();
+    }
   }
 
   async onSubmit(): Promise<void> {
@@ -64,10 +72,10 @@ export class CreateEditStatFormComponent implements OnInit {
     };
 
     let request: Observable<number>;
-    if (!this.stat) {
-      request = this.statService.createStat(this.exerciseId, parameters);
-    } else {
+    if (this.isEditMode) {
       request = this.statService.editStat(this.stat.id, parameters);
+    } else {
+      request = this.statService.createStat(this.exerciseId, parameters);
     }
 
     await firstValueFrom(request);

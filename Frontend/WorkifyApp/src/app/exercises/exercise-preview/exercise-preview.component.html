@@ -27,7 +27,11 @@
 </div>
 
 <app-list title="Stats" (fabClicked)="addStat()">
-  @for(stat of stats; track stat.id){
+  @if(getGroupedDates().length === 0){
+  <h4>There are no stats for given exercise</h4>
+  } @for(date of getGroupedDates(); track date) {
+  <h4>{{ date }}</h4>
+  @for(stat of groupedStatsByDate[date]; track stat.id){
   <app-stat-card [stat]="stat" (statEdited)="refreshStats()"></app-stat-card>
-  }
+  } }
 </app-list>

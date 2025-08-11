@@ -35,7 +35,7 @@ import { StatService } from '../../services/stat.service';
 export class ExercisePreviewComponent implements OnInit {
   exercise!: ExerciseDto;
   tableData!: Map<string, string>;
-  stats!: StatDto[];
+  groupedStatsByDate!: Record<string, StatDto[]>;
 
   disabledBtnText = this.exercise?.isCustom === false ? '' : 'This exercise is predefined and cannot be modified';
 
@@ -49,7 +49,8 @@ export class ExercisePreviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {
-      this.stats = data['stats'];
+      const stats: StatDto[] = data['stats'];
+      this.setGroupedStatsByDate(stats);
     });
 
     const exerciseId = Number(this.activatedRoute.snapshot.paramMap.get('exerciseId'));
@@ -87,10 +88,28 @@ export class ExercisePreviewComponent implements OnInit {
 
   refreshStats(): void {
     this.statService.getExerciseStats(this.exercise.id).subscribe(stats => {
-      this.stats = stats;
+      this.setGroupedStatsByDate(stats);
 
       this.changeDetectorRef.markForCheck();
     });
+  }
+
+  getGroupedDates(): string[] {
+    return Object.keys(this.groupedStatsByDate);
+  }
+
+  private setGroupedStatsByDate(stats: StatDto[]): void {
+    this.groupedStatsByDate = stats
+      .sort((a, b) => (a.time < b.time ? 1 : -1))
+      .reduce((groups, stat) => {
+        const key = new Date(stat.time).toLocaleDateString('en-US');
+        if (!groups[key]) {
+          groups[key] = [];
+        }
+        groups[key].push(stat);
+
+        return groups;
+      }, {} as Record<string, StatDto[]>);
   }
 
   private refreshExercise(exerciseId: number): void {
