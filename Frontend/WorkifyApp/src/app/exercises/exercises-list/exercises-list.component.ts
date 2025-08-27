@@ -49,9 +49,7 @@ export class ExercisesListComponent implements OnInit {
   }
 
   private refreshData(): void {
-    this.allExercises = this.workoutService.exercises.sort((a, b) =>
-      a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase() ? 1 : -1
-    );
+    this.allExercises = [...this.workoutService.exercises];
     this.exercises = [...this.allExercises];
     this.selectedBodyPart = null;
 

@@ -14,6 +14,7 @@ import { MatListModule } from '@angular/material/list';
 export class ListComponent {
   readonly title = input.required<string>();
   readonly fabClicked = output<void>();
+  readonly fabHidden = input<boolean>();
 
   onFabClicked(): void {
     this.fabClicked.emit();

@@ -5,7 +5,9 @@
     <ng-content></ng-content>
   </div>
 
+  @if (!fabHidden()) {
   <button mat-fab color="accent" class="fab-button" (click)="onFabClicked()">
     <mat-icon>add</mat-icon>
   </button>
+  }
 </div>

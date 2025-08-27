@@ -7,3 +7,7 @@ export function getBodyParts(): { bodyPart: BodyPartEnum; name: string }[] {
       return { bodyPart: kv[1] as BodyPartEnum, name: kv[0] };
     });
 }
+
+export function getBodyPartName(bodyPart: BodyPartEnum): string {
+  return BodyPartEnum[bodyPart];
+}

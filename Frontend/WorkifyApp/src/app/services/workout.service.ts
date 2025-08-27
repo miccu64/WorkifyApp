@@ -27,6 +27,7 @@ export class WorkoutService {
     return this._exercises;
   }
   private set exercises(value: ExerciseDto[]) {
+    value = value?.sort((a, b) => (a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase() ? 1 : -1));
     sessionStorage.setItem(this.exercisesKey, JSON.stringify(value));
     this._exercises = value;
   }

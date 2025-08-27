@@ -17,16 +17,17 @@
         <textarea matInput formControlName="description" rows="2"></textarea>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Exercises</mat-label>
-        <mat-select formControlName="exercisesIds" multiple>
-          @for(exercise of exercises; track exercise.id){
-          <mat-option [value]="exercise.id">
-            {{ exercise.name }}
-          </mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <ng-select
+        class="custom"
+        [multiple]="true"
+        [items]="exercises"
+        bindLabel="name"
+        formControlName="exercises"
+        [searchFn]="customSearchFn">
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.name }} <small class="smaller">({{ getBodyPartAsString(item) }})</small>
+        </ng-template>
+      </ng-select>
 
       <div class="button-row">
         <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">

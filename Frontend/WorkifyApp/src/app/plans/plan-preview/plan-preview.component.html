@@ -17,7 +17,7 @@
   </button>
 </div>
 
-<app-list [title]="'Assigned exercises'">
+<app-list [title]="'Assigned exercises'" [fabHidden]="true">
   @for(exercise of exercises; track exercise.id){
   <app-exercise-card [exercise]="exercise"> </app-exercise-card>
   }
