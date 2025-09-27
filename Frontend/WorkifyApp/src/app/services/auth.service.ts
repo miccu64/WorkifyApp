@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { ApiService } from '../utils/api.service';
-import { RegisterDto } from '../dtos/register.dto';
 import { LogInDto } from '../dtos/log-in.dto';
+import { RegisterDto } from '../dtos/register.dto';
+import { ApiService } from '../utils/api.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

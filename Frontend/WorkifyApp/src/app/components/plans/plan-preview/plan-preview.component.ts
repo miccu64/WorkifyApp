@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { PlanDto } from '../../../dtos/plan.dto';
-import { ActivatedRoute, Router } from '@angular/router';
-import { WorkoutService } from '../../../services/workout.service';
-import { ExerciseDto } from '../../../dtos/exercise.dto';
-import { ListComponent } from '../../../layout/list/list.component';
-import { InfoTableComponent } from '../../../layout/info-table/info-table.component';
-import { MatButtonModule, MatFabButton } from '@angular/material/button';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateEditPlanFormComponent } from '../subcomponents/create-edit-plan/create-edit-plan-form.component';
-import { firstValueFrom } from 'rxjs';
 import { Location } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { MatButtonModule, MatFabButton } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute, Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { ExerciseCardComponent } from '../../../components/exercises/subcomponents/exercise-card/exercise-card.component';
+import { ExerciseDto } from '../../../dtos/exercise.dto';
+import { PlanDto } from '../../../dtos/plan.dto';
+import { InfoTableComponent } from '../../../layout/info-table/info-table.component';
+import { ListComponent } from '../../../layout/list/list.component';
+import { WorkoutService } from '../../../services/workout.service';
+import { CreateEditPlanFormComponent } from '../subcomponents/create-edit-plan/create-edit-plan-form.component';
 
 @Component({
   selector: 'app-plan-preview',

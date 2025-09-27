@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { StatDto } from '../../../dtos/stat.dto';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
-import { StatService } from '../../../services/stat.service';
 import { Observable, of } from 'rxjs';
+import { StatDto } from '../../../dtos/stat.dto';
+import { StatService } from '../../../services/stat.service';
 
 @Injectable({ providedIn: 'root' })
 export class StatsResolver implements Resolve<StatDto[]> {

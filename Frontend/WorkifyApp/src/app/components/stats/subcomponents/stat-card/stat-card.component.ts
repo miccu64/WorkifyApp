@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { StatDto } from '../../../dtos/stat.dto';
+import { StatDto } from '../../../../dtos/stat.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEditStatFormComponent } from '../create-edit-stat/create-edit-stat-form.component';
 

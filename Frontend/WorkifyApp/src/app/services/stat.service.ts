@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { ApiService } from '../utils/api.service';
-import { StatDto } from '../dtos/stat.dto';
 import { Observable, tap } from 'rxjs';
 import { CreateEditStatDto } from '../dtos/parameters/create-edit-stat.dto';
+import { StatDto } from '../dtos/stat.dto';
+import { ApiService } from '../utils/api.service';
 
 @Injectable({ providedIn: 'root' })
 export class StatService {

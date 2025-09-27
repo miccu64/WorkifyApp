@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
-import { ApiService } from '../utils/api.service';
-import { PlanDto } from '../dtos/plan.dto';
 import { ExerciseDto } from '../dtos/exercise.dto';
-import { CreateEditPlanDto } from '../dtos/parameters/create-edit-plan.dto';
 import { CreateEditExerciseDto } from '../dtos/parameters/create-edit-exercise.dto';
+import { CreateEditPlanDto } from '../dtos/parameters/create-edit-plan.dto';
+import { PlanDto } from '../dtos/plan.dto';
+import { ApiService } from '../utils/api.service';
 
 @Injectable({ providedIn: 'root' })
 export class WorkoutService {

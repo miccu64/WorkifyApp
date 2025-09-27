@@ -7,14 +7,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { BodyPartEnum } from '../../../dtos/enums/body-part.enum';
 import { ExerciseDto } from '../../../dtos/exercise.dto';
-import { InfoTableComponent } from '../../../layout/info-table/info-table.component';
-import { WorkoutService } from '../../../services/workout.service';
-import { CreateEditExerciseFormComponent } from '../subcomponents/create-edit-exercise/create-edit-exercise-form.component';
-import { ListComponent } from '../../../layout/list/list.component';
-import { CreateEditStatFormComponent } from '../../../stats/subcomponents/create-edit-stat/create-edit-stat-form.component';
 import { StatDto } from '../../../dtos/stat.dto';
-import { StatCardComponent } from '../../../stats/subcomponents/stat-card/stat-card.component';
+import { InfoTableComponent } from '../../../layout/info-table/info-table.component';
+import { ListComponent } from '../../../layout/list/list.component';
 import { StatService } from '../../../services/stat.service';
+import { WorkoutService } from '../../../services/workout.service';
+import { CreateEditStatFormComponent } from '../../stats/subcomponents/create-edit-stat/create-edit-stat-form.component';
+import { StatCardComponent } from '../../stats/subcomponents/stat-card/stat-card.component';
+import { CreateEditExerciseFormComponent } from '../subcomponents/create-edit-exercise/create-edit-exercise-form.component';
 
 @Component({
   selector: 'app-exercise-preview',

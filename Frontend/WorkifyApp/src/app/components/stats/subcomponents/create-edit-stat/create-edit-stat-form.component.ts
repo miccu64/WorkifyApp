@@ -8,9 +8,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { firstValueFrom, Observable } from 'rxjs';
-import { CreateEditStatDto } from '../../../dtos/parameters/create-edit-stat.dto';
-import { StatDto } from '../../../dtos/stat.dto';
-import { StatService } from '../../../services/stat.service';
+import { CreateEditStatDto } from '../../../../dtos/parameters/create-edit-stat.dto';
+import { StatDto } from '../../../../dtos/stat.dto';
+import { StatService } from '../../../../services/stat.service';
 
 @Component({
   selector: 'app-create-edit-stat-form',
