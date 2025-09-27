@@ -46,9 +46,9 @@ export const httpExceptionInterceptor: HttpInterceptorFn = (req, next) => {
               break;
           }
 
-          const errorMessageObj = error.error;
-          if (errorMessageObj) {
-            message += ' ' + JSON.stringify(errorMessageObj);
+          const errorMessage = formatServerError(error);
+          if (errorMessage) {
+            message += ' ' + JSON.stringify(errorMessage);
           }
           toastr.error(message, 'Error');
         }
@@ -61,3 +61,31 @@ export const httpExceptionInterceptor: HttpInterceptorFn = (req, next) => {
     })
   );
 };
+
+function formatServerError(error: HttpErrorResponse): string {
+  let errorObj = error.error;
+
+  if (!error.error) {
+    return '';
+  }
+
+  try {
+    errorObj = JSON.parse(errorObj);
+
+    if (errorObj.title && errorObj.status) {
+      return errorObj.title;
+    }
+
+    if (errorObj.message) {
+      return errorObj.message;
+    }
+
+    if (Array.isArray(errorObj.errors)) {
+      return errorObj.errors.join(', ');
+    }
+
+    return JSON.stringify(errorObj);
+  } catch {
+    return errorObj;
+  }
+}

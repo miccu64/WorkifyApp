@@ -5,17 +5,12 @@ import { MatCard, MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { NgOptionTemplateDirective, NgSelectComponent } from '@ng-select/ng-select';
 import { firstValueFrom, Observable } from 'rxjs';
 import { ExerciseDto } from '../../../dtos/exercise.dto';
 import { CreateEditPlanDto } from '../../../dtos/parameters/create-edit-plan.dto';
 import { PlanDto } from '../../../dtos/plan.dto';
 import { WorkoutService } from '../../../services/workout.service';
-import {
-  NgLabelTemplateDirective,
-  NgOptionComponent,
-  NgOptionTemplateDirective,
-  NgSelectComponent
-} from '@ng-select/ng-select';
 import { getBodyPartName } from '../../../utils/body-part-helpers';
 
 @Component({
@@ -31,10 +26,8 @@ import { getBodyPartName } from '../../../utils/body-part-helpers';
     MatButton,
     MatButtonModule,
     FormsModule,
-    NgLabelTemplateDirective,
     NgOptionTemplateDirective,
-    NgSelectComponent,
-    NgOptionComponent
+    NgSelectComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

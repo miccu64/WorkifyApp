@@ -18,7 +18,11 @@ export class AuthService {
       .pipe(tap(jwtToken => (this.apiService.jwtToken = jwtToken)));
   }
 
-  logout(): void {
+  clearToken(): void {
     this.apiService.jwtToken = null;
+  }
+
+  deleteAccount(): Observable<number> {
+    return this.apiService.delete<number>('user-management');
   }
 }

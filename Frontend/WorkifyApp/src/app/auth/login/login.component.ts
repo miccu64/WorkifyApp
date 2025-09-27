@@ -60,7 +60,7 @@ export class LoginComponent {
 
       await this.workoutService.refreshPlansAndExercises();
 
-      this.router.navigate(['app/plans/list']);
+      await this.router.navigate(['app/plans/list']);
     } catch (e: unknown) {
       if (e instanceof HttpErrorResponse) {
         if (e.status === 401) {

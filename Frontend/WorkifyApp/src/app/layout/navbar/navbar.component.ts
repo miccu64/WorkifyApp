@@ -15,6 +15,6 @@ export class NavbarComponent {
   private authService = inject(AuthService);
 
   logout(): void {
-    this.authService.logout();
+    this.authService.clearToken();
   }
 }
