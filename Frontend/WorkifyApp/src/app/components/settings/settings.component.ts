@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { AuthService } from '../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-settings',

@@ -7,11 +7,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NgOptionTemplateDirective, NgSelectComponent } from '@ng-select/ng-select';
 import { firstValueFrom, Observable } from 'rxjs';
-import { ExerciseDto } from '../../../dtos/exercise.dto';
-import { CreateEditPlanDto } from '../../../dtos/parameters/create-edit-plan.dto';
-import { PlanDto } from '../../../dtos/plan.dto';
-import { WorkoutService } from '../../../services/workout.service';
-import { getBodyPartName } from '../../../utils/body-part-helpers';
+import { ExerciseDto } from '../../../../dtos/exercise.dto';
+import { CreateEditPlanDto } from '../../../../dtos/parameters/create-edit-plan.dto';
+import { PlanDto } from '../../../../dtos/plan.dto';
+import { WorkoutService } from '../../../../services/workout.service';
+import { getBodyPartName } from '../../../../utils/body-part-helpers';
 
 @Component({
   selector: 'app-create-edit-plan-form',

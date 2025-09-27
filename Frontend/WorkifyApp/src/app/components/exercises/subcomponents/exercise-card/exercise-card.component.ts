@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { Router } from '@angular/router';
-import { BodyPartEnum } from '../../../dtos/enums/body-part.enum';
-import { ExerciseDto } from '../../../dtos/exercise.dto';
+import { ExerciseDto } from '../../../../dtos/exercise.dto';
+import { BodyPartEnum } from '../../../../dtos/enums/body-part.enum';
 
 @Component({
   selector: 'app-exercise-card',

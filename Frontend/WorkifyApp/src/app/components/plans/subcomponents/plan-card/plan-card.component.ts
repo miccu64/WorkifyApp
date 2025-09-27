@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { Router } from '@angular/router';
-import { PlanDto } from '../../../dtos/plan.dto';
+import { PlanDto } from '../../../../dtos/plan.dto';
 
 @Component({
   selector: 'app-plan-card',

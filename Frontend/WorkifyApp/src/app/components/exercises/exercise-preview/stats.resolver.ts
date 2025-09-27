@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { StatDto } from '../../dtos/stat.dto';
+import { StatDto } from '../../../dtos/stat.dto';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
-import { StatService } from '../../services/stat.service';
+import { StatService } from '../../../services/stat.service';
 import { Observable, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

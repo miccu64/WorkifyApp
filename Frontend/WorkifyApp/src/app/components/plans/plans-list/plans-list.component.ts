@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PlanDto } from '../../dtos/plan.dto';
-import { ListComponent } from '../../layout/list/list.component';
-import { WorkoutService } from '../../services/workout.service';
+import { PlanDto } from '../../../dtos/plan.dto';
+import { ListComponent } from '../../../layout/list/list.component';
+import { WorkoutService } from '../../../services/workout.service';
 import { CreateEditPlanFormComponent } from '../subcomponents/create-edit-plan/create-edit-plan-form.component';
 import { PlanCardComponent } from '../subcomponents/plan-card/plan-card.component';
 

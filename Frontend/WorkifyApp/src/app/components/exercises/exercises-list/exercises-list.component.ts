@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit }
 import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
-import { BodyPartEnum } from '../../dtos/enums/body-part.enum';
-import { ExerciseDto } from '../../dtos/exercise.dto';
-import { ListComponent } from '../../layout/list/list.component';
-import { WorkoutService } from '../../services/workout.service';
-import { getBodyParts } from '../../utils/body-part-helpers';
+import { BodyPartEnum } from '../../../dtos/enums/body-part.enum';
+import { ExerciseDto } from '../../../dtos/exercise.dto';
+import { ListComponent } from '../../../layout/list/list.component';
+import { WorkoutService } from '../../../services/workout.service';
+import { getBodyParts } from '../../../utils/body-part-helpers';
 import { CreateEditExerciseFormComponent } from '../subcomponents/create-edit-exercise/create-edit-exercise-form.component';
 import { ExerciseCardComponent } from '../subcomponents/exercise-card/exercise-card.component';
 

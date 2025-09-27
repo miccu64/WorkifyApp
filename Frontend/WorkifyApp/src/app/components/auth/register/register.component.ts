@@ -7,8 +7,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../auth.service';
-import { RegisterDto } from '../dtos/register.dto';
+import { AuthService } from '../../../services/auth.service';
+import { RegisterDto } from '../../../dtos/register.dto';
 
 @Component({
   selector: 'app-register',

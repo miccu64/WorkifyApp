@@ -6,11 +6,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { firstValueFrom, Observable } from 'rxjs';
-import { BodyPartEnum } from '../../../dtos/enums/body-part.enum';
-import { ExerciseDto } from '../../../dtos/exercise.dto';
-import { CreateEditExerciseDto } from '../../../dtos/parameters/create-edit-exercise.dto';
-import { WorkoutService } from '../../../services/workout.service';
-import { getBodyParts } from '../../../utils/body-part-helpers';
+import { BodyPartEnum } from '../../../../dtos/enums/body-part.enum';
+import { ExerciseDto } from '../../../../dtos/exercise.dto';
+import { CreateEditExerciseDto } from '../../../../dtos/parameters/create-edit-exercise.dto';
+import { WorkoutService } from '../../../../services/workout.service';
+import { getBodyParts } from '../../../../utils/body-part-helpers';
 
 @Component({
   selector: 'app-create-edit-exercise-form',

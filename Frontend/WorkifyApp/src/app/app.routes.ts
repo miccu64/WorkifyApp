@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { ExercisePreviewComponent } from './exercises/exercise-preview/exercise-preview.component';
-import { StatsResolver } from './exercises/exercise-preview/stats.resolver';
-import { ExercisesListComponent } from './exercises/exercises-list/exercises-list.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { ExercisePreviewComponent } from './components/exercises/exercise-preview/exercise-preview.component';
+import { StatsResolver } from './components/exercises/exercise-preview/stats.resolver';
+import { ExercisesListComponent } from './components/exercises/exercises-list/exercises-list.component';
 import { BaseComponent } from './layout/base/base.component';
-import { PlanPreviewComponent } from './plans/plan-preview/plan-preview.component';
-import { PlansListComponent } from './plans/plans-list/plans-list.component';
-import { SettingsComponent } from './settings/settings.component';
+import { PlanPreviewComponent } from './components/plans/plan-preview/plan-preview.component';
+import { PlansListComponent } from './components/plans/plans-list/plans-list.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { canActivateByJwt } from './utils/can-activate-by-jwt';
 
 export const routes: Routes = [

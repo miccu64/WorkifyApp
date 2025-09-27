@@ -9,9 +9,9 @@ import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
-import { WorkoutService } from '../../services/workout.service';
-import { AuthService } from '../auth.service';
-import { LogInDto } from '../dtos/log-in.dto';
+import { WorkoutService } from '../../../services/workout.service';
+import { AuthService } from '../../../services/auth.service';
+import { LogInDto } from '../../../dtos/log-in.dto';
 
 @Component({
   selector: 'app-login',
