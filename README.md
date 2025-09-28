@@ -4,6 +4,11 @@ A modern **workout tracking application** consisting of:
 - **Frontend (Angular 20)**: A responsive web app for managing workouts, tracking progress, and visualizing exercise stats.  
 - **Backend (.NET 9 Microservices)**: An event-driven system handling authentication, workouts, and exercise statistics.
 
+## 📖 Table of Contents
+- [Backend](#workout-microservices-backend)
+- [Frontend](#workifyapp-frontend)
+- [Screenshots](#screenshots)
+
 ---
 
 # Workout Microservices Backend
@@ -74,7 +79,7 @@ All services publish and subscribe to domain events via RabbitMQ.
 For example:
 
 * `UserDeleted` published by Auth service
-* Subscribed by ExerciseStat and Wourkout services to clean up unnecessary user data
+* Subscribed by ExerciseStat and Workout services to clean up unnecessary user data
 
 ---
 
@@ -85,7 +90,7 @@ Logs are written to the console and forwarded to Seq
 
 ---
 
-# 🖥️ Frontend (WorkifyApp)
+# WorkifyApp Frontend
 
 The frontend is built with **Angular 20** and provides a modern, responsive user interface for the workout tracking application.
 
@@ -118,4 +123,18 @@ Navigate into the frontend project folder:
 cd Frontend/WorkifyApp
 npm install
 npm start
+```
 
+---
+
+## Screenshots
+
+<img src="./Others/Screenshots/ss1_login.png" alt="App Screenshot" width="400"/>
+<img src="./Others/Screenshots/ss2_register.png" alt="App Screenshot" width="400"/>
+<img src="./Others/Screenshots/ss3_plans.png" alt="App Screenshot" width="400"/>
+<img src="./Others/Screenshots/ss4_plan-preview.png" alt="App Screenshot" width="400"/>
+<img src="./Others/Screenshots/ss5_plan-edit.png" alt="App Screenshot" width="400"/>
+<img src="./Others/Screenshots/ss6_exercises.png" alt="App Screenshot" width="400"/>
+<img src="./Others/Screenshots/ss7_exercise_edit.png" alt="App Screenshot" width="400"/>
+<img src="./Others/Screenshots/ss8_stats.png" alt="App Screenshot" width="400"/>
+<img src="./Others/Screenshots/ss9_stat-edit.png" alt="App Screenshot" width="400"/>
