@@ -20,9 +20,12 @@ jobs:
         with:
           node-version: '24'
           cache: 'npm'
+          cache-dependency-path: Frontend/WorkifyApp/package-lock.json
 
       - name: Install dependencies
+        working-directory: Frontend/WorkifyApp
         run: npm ci
 
       - name: Run tests
+        working-directory: Frontend/WorkifyApp
         run: npm test -- --ci --coverage
