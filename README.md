@@ -1,5 +1,11 @@
 # WorkifyApp
 
+A modern **workout tracking application** consisting of:
+- **Frontend (Angular 20)**: A responsive web app for managing workouts, tracking progress, and visualizing exercise stats.  
+- **Backend (.NET 9 Microservices)**: An event-driven system handling authentication, workouts, and exercise statistics.
+
+---
+
 # Workout Microservices Backend
 
 A modern, event-driven microservices backend for a workout tracking application built with **.NET 9**, using **Entity Framework Core**, **MassTransit**, **RabbitMQ**, **PostgreSQL**, **Serilog** and **Docker Compose**.
@@ -78,3 +84,38 @@ Logging across all services is handled using Serilog, a structured logging libra
 Logs are written to the console and forwarded to Seq
 
 ---
+
+# 🖥️ Frontend (WorkifyApp)
+
+The frontend is built with **Angular 20** and provides a modern, responsive user interface for the workout tracking application.
+
+---
+
+## ✨ Features
+- User authentication (login, signup, JWT-based session handling)
+- Workout and exercise plan management
+- Real-time updates and data synchronization with backend services
+- Visualization of exercise statistics
+- Responsive UI with **Angular Material**
+
+---
+
+## 🛠️ Technologies Used
+- **Angular 20**
+- **TypeScript**
+- **RxJS**
+- **Angular Material**
+- **Jest** for unit testing
+- **Docker** for containerized deployments
+
+---
+
+## 🚀 Running the Frontend
+
+Navigate into the frontend project folder:
+
+```bash
+cd Frontend/WorkifyApp
+npm install
+npm start
+
