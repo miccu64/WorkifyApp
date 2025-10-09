@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System.Security.Cryptography;
+using AutoFixture;
 using Microsoft.Extensions.Options;
 using System.Text;
 using Workify.Api.Auth.Config;
@@ -17,7 +18,18 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
         public LogInUserTests()
         {
             _fixture = new();
-            _config = Options.Create(_fixture.Create<AuthConfig>());
+
+            using var rsa = RSA.Create(2048);
+
+            string privateKeyBase64 = Convert.ToBase64String(rsa.ExportPkcs8PrivateKey());
+            string publicKeyBase64 = Convert.ToBase64String(rsa.ExportSubjectPublicKeyInfo());
+
+            _config = Options.Create(
+                _fixture.Build<AuthConfig>()
+                    .With(c => c.BearerPrivateKey, privateKeyBase64)
+                    .With(c => c.BearerPublicKey, publicKeyBase64)
+                    .Create()
+            );
         }
 
         [Fact]
@@ -41,7 +53,7 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             Assert.Contains(".", jwtToken);
 
             string tokenFirstPart = Encoding.UTF8.GetString(Convert.FromBase64String(jwtToken.Split('.')[0]));
-            Assert.Contains("HS256", tokenFirstPart);
+            Assert.Contains("RS256", tokenFirstPart);
             Assert.Contains("JWT", tokenFirstPart);
         }
 

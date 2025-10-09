@@ -24,7 +24,7 @@ This system is split into 3 independent, containerized microservices:
 ### 1. **Auth Service**
 
 * Handles user registration, login, and user deletion
-* Uses **JWT** for authentication
+* Uses **asymmetric JWT** for authentication
 
 ### 2. **Workout Service**
 
@@ -46,7 +46,7 @@ All services communicate asynchronously via **MassTransit** using **RabbitMQ**.
 * **RabbitMQ**
 * **Entity Framework Core**
 * **PostgreSQL**
-* **JWT**
+* **asymmetric JWT**
 * **Docker & Docker Compose**
 * **xUnit & Moq**
 
@@ -97,7 +97,7 @@ The frontend is built with **Angular 20** and provides a modern, responsive user
 ---
 
 ## ✨ Features
-- User authentication (login, signup, JWT-based session handling)
+- User authentication (login, signup, asymmetric JWT-based session handling)
 - Workout and exercise plan management
 - Real-time updates and data synchronization with backend services
 - Visualization of exercise statistics
@@ -115,7 +115,7 @@ The frontend is built with **Angular 20** and provides a modern, responsive user
 
 ---
 
-## 🚀 Running the Frontend
+## 🚀 Running the frontend
 
 Navigate into the frontend project folder:
 
