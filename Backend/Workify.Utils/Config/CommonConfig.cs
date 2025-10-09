@@ -7,7 +7,7 @@ namespace Workify.Utils.Config
         public const string JwtClaimUserId = "UserId";
 
         public required string DbConnectionString { get; set; }
-        public required string BearerKey { get; set; }
+        public required string BearerPublicKey { get; set; }
 
         public required string RabbitMqHostname { get; set; }
         public required ushort RabbitMqPort { get; set; }

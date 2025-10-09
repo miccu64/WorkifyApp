@@ -1,23 +1,23 @@
 ﻿using AutoFixture;
 using Microsoft.Extensions.Options;
 using System.Text;
+using Workify.Api.Auth.Config;
 using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Models.DTOs;
 using Workify.Api.Auth.Services;
 using Workify.Api.Auth.UnitTests.Utils;
-using Workify.Utils.Config;
 
 namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
 {
     public class LogInUserTests
     {
         private readonly Fixture _fixture;
-        private readonly IOptions<CommonConfig> _config;
+        private readonly IOptions<AuthConfig> _config;
 
         public LogInUserTests()
         {
             _fixture = new();
-            _config = Options.Create(_fixture.Create<CommonConfig>());
+            _config = Options.Create(_fixture.Create<AuthConfig>());
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             Assert.NotEmpty(jwtToken);
             Assert.Contains(".", jwtToken);
 
-            string tokenFirstPart = Encoding.UTF8.GetString(Convert.FromBase64String(jwtToken.Split('.')[0]))!;
+            string tokenFirstPart = Encoding.UTF8.GetString(Convert.FromBase64String(jwtToken.Split('.')[0]));
             Assert.Contains("HS256", tokenFirstPart);
             Assert.Contains("JWT", tokenFirstPart);
         }

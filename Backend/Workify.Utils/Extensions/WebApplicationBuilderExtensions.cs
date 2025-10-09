@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -5,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using System.Text;
 using Workify.Utils.Config;
 
 namespace Workify.Utils.Extensions
@@ -46,10 +46,17 @@ namespace Workify.Utils.Extensions
                     x.RequireHttpsMetadata = false;
                     x.SaveToken = false;
 
+                    RSA rsa = RSA.Create();
+                    rsa.ImportFromPem(
+                        "-----BEGIN PUBLIC KEY-----\n"
+                        + config.BearerPublicKey
+                        + "\n-----END PUBLIC KEY-----"
+                    );
+
                     x.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.BearerKey)),
+                        IssuerSigningKey = new RsaSecurityKey(rsa),
                         ValidateIssuer = true,
                         ValidIssuer = CommonConfig.JwtIssuer,
                         ValidateAudience = false,

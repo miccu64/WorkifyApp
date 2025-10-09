@@ -1,20 +1,16 @@
 using FluentValidation;
-
 using MassTransit;
-
 using Microsoft.EntityFrameworkCore;
-
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-
+using Workify.Api.Auth.Config;
 using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Models.DTOs;
 using Workify.Api.Auth.Services;
-using Workify.Utils.Config;
 using Workify.Utils.Extensions;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-CommonConfig config = builder.CommonApiInitialization<CommonConfig>();
+AuthConfig config = builder.CommonApiInitialization<AuthConfig>();
 
 builder.Services.AddDbContext<AuthDbContext>(opt => opt.UseNpgsql(config.DbConnectionString));
 

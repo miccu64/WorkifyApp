@@ -1,23 +1,23 @@
 ﻿using AutoFixture;
 using Microsoft.Extensions.Options;
+using Workify.Api.Auth.Config;
 using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Models.DTOs;
 using Workify.Api.Auth.Models.Entities;
 using Workify.Api.Auth.Services;
 using Workify.Api.Auth.UnitTests.Utils;
-using Workify.Utils.Config;
 
 namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests;
 
 public class RegisterUserTests
 {
     private readonly Fixture _fixture;
-    private readonly IOptions<CommonConfig> _config;
+    private readonly IOptions<AuthConfig> _config;
 
     public RegisterUserTests()
     {
         _fixture = new();
-        _config = Options.Create(_fixture.Create<CommonConfig>());
+        _config = Options.Create(_fixture.Create<AuthConfig>());
     }
 
     [Fact]

@@ -1,11 +1,7 @@
 using FluentValidation;
-
 using MassTransit;
-
 using Microsoft.EntityFrameworkCore;
-
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-
 using Workify.Api.Workout.Communication.Consumers;
 using Workify.Api.Workout.Database;
 using Workify.Api.Workout.Models.DTOs.Parameters;
