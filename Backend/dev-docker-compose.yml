@@ -49,6 +49,7 @@ services:
       - "5022:80"
     environment:
       - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORD=admin
     networks:
       - workify-backend
     healthcheck:
