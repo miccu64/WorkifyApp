@@ -38,6 +38,11 @@ builder.Services.AddMassTransit(x =>
 
         cfg.ConfigureEndpoints(context);
     });
+
+    x.AddConfigureEndpointsCallback((_, _, cfg) =>
+    {
+        cfg.UseMessageRetry(r => r.Interval(5, 100));
+    });
 });
 
 WebApplication app = builder.Build();

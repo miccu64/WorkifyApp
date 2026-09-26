@@ -1,11 +1,7 @@
 using FluentValidation;
-
 using MassTransit;
-
 using Microsoft.EntityFrameworkCore;
-
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-
 using Workify.Api.ExerciseStat.Communication.Consumers;
 using Workify.Api.ExerciseStat.Database;
 using Workify.Api.ExerciseStat.Models.DTOs.Parameters;
@@ -39,6 +35,11 @@ builder.Services.AddMassTransit(x =>
         });
 
         cfg.ConfigureEndpoints(context);
+    });
+
+    x.AddConfigureEndpointsCallback((_, _, cfg) =>
+    {
+        cfg.UseMessageRetry(r => r.Interval(5, 100));
     });
 });
 

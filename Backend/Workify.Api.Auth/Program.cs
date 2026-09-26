@@ -31,6 +31,11 @@ builder.Services.AddMassTransit(x =>
             h.Password(config.RabbitMqPassword);
         });
     });
+
+    x.AddConfigureEndpointsCallback((_, _, cfg) =>
+    {
+        cfg.UseMessageRetry(r => r.Interval(5, 100));
+    });
 });
 
 WebApplication app = builder.Build();
