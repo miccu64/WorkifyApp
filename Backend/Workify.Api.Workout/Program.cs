@@ -41,7 +41,16 @@ builder.Services.AddMassTransit(x =>
 
     x.AddConfigureEndpointsCallback((_, _, cfg) =>
     {
-        cfg.UseMessageRetry(r => r.Interval(5, 100));
+        cfg.UseMessageRetry(r =>
+        {
+            r.Handle<TimeoutException>();
+            r.Handle<DbUpdateException>();
+            r.Intervals(
+                TimeSpan.FromMilliseconds(100),
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromSeconds(15));
+        });
     });
 });
 
