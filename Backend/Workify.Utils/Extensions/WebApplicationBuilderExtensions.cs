@@ -21,6 +21,7 @@ namespace Workify.Utils.Extensions
             builder.AddLogging(config);
 
             builder.Services.AddControllers();
+            builder.Services.AddOpenApi();
 
             return config;
         }
@@ -84,7 +85,7 @@ namespace Workify.Utils.Extensions
             where T : CommonConfig
         {
             Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext()
+                .Enrich.WithCorrelationIdHeader()
                 .WriteTo.Seq(config.SeqConnectionString)
                 .WriteTo.Console()
                 .MinimumLevel.Information()

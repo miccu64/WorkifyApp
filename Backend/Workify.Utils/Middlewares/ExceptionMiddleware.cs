@@ -6,9 +6,6 @@ namespace Workify.Utils.Middlewares
 {
     public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
-        private readonly RequestDelegate _next = next;
-        private readonly ILogger<ExceptionMiddleware> _logger = logger;
-
         public async Task Invoke(HttpContext context)
         {
             HttpRequest request = context.Request;
@@ -35,7 +32,7 @@ namespace Workify.Utils.Middlewares
 
             try
             {
-                await _next(context);
+                await next(context);
 
                 var logData = new
                 {
@@ -48,7 +45,7 @@ namespace Workify.Utils.Middlewares
                     UserId = userId
                 };
 
-                _logger.LogInformation("Successful request {@LogData}", logData);
+                logger.LogInformation("Successful request {@LogData}", logData);
             }
             catch (ArgumentException ex)
             {
@@ -79,7 +76,7 @@ namespace Workify.Utils.Middlewares
                 UserId = userId
             };
 
-            _logger.LogError(exception, "Exception occurred {@LogData}", logData);
+            logger.LogError(exception, "Exception occurred {@LogData}", logData);
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;

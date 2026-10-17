@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
+using Scalar.AspNetCore;
 using Serilog;
 using Workify.Utils.Middlewares;
 
@@ -16,6 +18,12 @@ namespace Workify.Utils.Extensions
             app.UseSerilogRequestLogging();
 
             app.MapControllers();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.MapOpenApi().AllowAnonymous();
+                app.MapScalarApiReference().AllowAnonymous();
+            }
         }
     }
 }
