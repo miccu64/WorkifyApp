@@ -7,91 +7,102 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Workify.Utils.Config;
+using Workify.Utils.Logging;
 
 namespace Workify.Utils.Extensions
 {
     public static class WebApplicationBuilderExtensions
     {
-        public static T CommonApiInitialization<T>(this WebApplicationBuilder builder)
-            where T : CommonConfig
+        extension(WebApplicationBuilder builder)
         {
-            T config = builder.InitConfigFromEnvironmentVariables<T>();
-
-            builder.AddJwtAuth(config);
-            builder.AddLogging(config);
-
-            builder.Services.AddControllers();
-            builder.Services.AddOpenApi();
-
-            return config;
-        }
-
-        private static T InitConfigFromEnvironmentVariables<T>(this WebApplicationBuilder builder)
-            where T : CommonConfig
-        {
-            builder.Configuration.AddEnvironmentVariables();
-
-            IConfigurationSection section = builder.Configuration.GetSection(CommonConfig.EnvironmentGroup);
-            builder.Services.Configure<T>(section);
-
-            return section.Get<T>()!;
-        }
-
-        private static void AddJwtAuth<T>(this WebApplicationBuilder builder, T config)
-            where T : CommonConfig
-        {
-            builder
-                .Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(x =>
-                {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = false;
-
-                    RSA rsa = RSA.Create();
-                    rsa.ImportFromPem(
-                        "-----BEGIN PUBLIC KEY-----\n"
-                        + config.BearerPublicKey
-                        + "\n-----END PUBLIC KEY-----"
-                    );
-
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new RsaSecurityKey(rsa),
-                        ValidateIssuer = true,
-                        ValidIssuer = CommonConfig.JwtIssuer,
-                        ValidateAudience = false,
-                        ClockSkew = TimeSpan.Zero,
-                    };
-
-                    x.Events = new JwtBearerEvents
-                    {
-                        OnAuthenticationFailed = context =>
-                        {
-                            Console.WriteLine($"JWT Auth failed: {context.Exception.Message}");
-                            return Task.CompletedTask;
-                        }
-                    };
-                });
-            builder.Services.AddAuthorization(options =>
+            public T CommonApiInitialization<T>()
+                where T : CommonConfig
             {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-            });
-        }
+                T config = builder.InitConfigFromEnvironmentVariables<T>();
 
-        private static void AddLogging<T>(this WebApplicationBuilder builder, T config)
-            where T : CommonConfig
-        {
-            Log.Logger = new LoggerConfiguration()
-                .Enrich.WithCorrelationIdHeader()
-                .WriteTo.Seq(config.SeqConnectionString)
-                .WriteTo.Console()
-                .MinimumLevel.Information()
-                .CreateLogger();
+                builder.AddJwtAuth(config);
 
-            builder.Host.UseSerilog();
+                builder.Services.AddHttpContextAccessor();
+
+                builder.AddLogging(config);
+
+                builder.Services.AddControllers();
+                builder.Services.AddOpenApi();
+
+                return config;
+            }
+
+            private T InitConfigFromEnvironmentVariables<T>()
+                where T : CommonConfig
+            {
+                builder.Configuration.AddEnvironmentVariables();
+
+                IConfigurationSection section = builder.Configuration.GetSection(CommonConfig.EnvironmentGroup);
+                builder.Services.Configure<T>(section);
+
+                return section.Get<T>()!;
+            }
+
+            private void AddJwtAuth<T>(T config)
+                where T : CommonConfig
+            {
+                builder
+                    .Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(x =>
+                    {
+                        x.RequireHttpsMetadata = false;
+                        x.SaveToken = false;
+
+                        RSA rsa = RSA.Create();
+                        rsa.ImportFromPem(
+                            "-----BEGIN PUBLIC KEY-----\n"
+                            + config.BearerPublicKey
+                            + "\n-----END PUBLIC KEY-----"
+                        );
+
+                        x.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new RsaSecurityKey(rsa),
+                            ValidateIssuer = true,
+                            ValidIssuer = CommonConfig.JwtIssuer,
+                            ValidateAudience = false,
+                            ClockSkew = TimeSpan.Zero,
+                        };
+
+                        x.Events = new JwtBearerEvents
+                        {
+                            OnAuthenticationFailed = context =>
+                            {
+                                Console.WriteLine($"JWT Auth failed: {context.Exception.Message}");
+                                return Task.CompletedTask;
+                            }
+                        };
+                    });
+                builder.Services.AddAuthorization(options =>
+                {
+                    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                });
+            }
+
+            private void AddLogging<T>(T config)
+                where T : CommonConfig
+            {
+                builder.Services.AddTransient<WorkifyLogEventEnricher>();
+
+                builder.Host.UseSerilog((_, services, loggerConfiguration) =>
+                {
+                    loggerConfiguration
+                        .Enrich.WithCorrelationIdHeader()
+                        .Enrich.With(services.GetRequiredService<WorkifyLogEventEnricher>())
+                        .ReadFrom.Services(services)
+                        .WriteTo.Seq(config.SeqConnectionString)
+                        .WriteTo.Console()
+                        .MinimumLevel.Information();
+                });
+            }
         }
     }
 }
