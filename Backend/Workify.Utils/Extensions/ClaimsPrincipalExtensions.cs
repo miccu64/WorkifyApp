@@ -6,16 +6,24 @@ namespace Workify.Utils.Extensions
 {
     public static class ClaimsPrincipalExtensions
     {
-        public static int GetUserId(this ClaimsPrincipal principal)
+        extension(ClaimsPrincipal principal)
         {
-            if (principal.Identity is not ClaimsIdentity identity)
-                throw new ArgumentException(nameof(identity));
+            public int GetUserId()
+            {
+                return principal.TryGetUserId() ?? throw new ArgumentException();
+            }
 
-            Claim? claim = identity.FindFirst(CommonConfig.JwtClaimUserId);
-            if (claim == null)
-                throw new ArgumentException(nameof(claim));
+            public int? TryGetUserId()
+            {
+                if (principal.Identity is not ClaimsIdentity identity)
+                    return null;
 
-            return int.Parse(claim.Value);
+                Claim? claim = identity.FindFirst(CommonConfig.JwtClaimUserId);
+                if (claim == null)
+                    return null;
+
+                return int.Parse(claim.Value);
+            }
         }
     }
 }
