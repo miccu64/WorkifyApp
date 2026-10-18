@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Workify.Utils.Config;
-using Workify.Utils.Logging;
 
 namespace Workify.Utils.Extensions
 {
@@ -69,16 +68,8 @@ namespace Workify.Utils.Extensions
                             ValidateAudience = false,
                             ClockSkew = TimeSpan.Zero,
                         };
-
-                        x.Events = new JwtBearerEvents
-                        {
-                            OnAuthenticationFailed = context =>
-                            {
-                                Console.WriteLine($"JWT Auth failed: {context.Exception.Message}");
-                                return Task.CompletedTask;
-                            }
-                        };
                     });
+
                 builder.Services.AddAuthorization(options =>
                 {
                     options.FallbackPolicy = new AuthorizationPolicyBuilder()
@@ -90,14 +81,11 @@ namespace Workify.Utils.Extensions
             private void AddLogging<T>(T config)
                 where T : CommonConfig
             {
-                builder.Services.AddTransient<WorkifyLogEventEnricher>();
-
-                builder.Host.UseSerilog((_, services, loggerConfiguration) =>
+                builder.Host.UseSerilog((_, _, loggerConfiguration) =>
                 {
                     loggerConfiguration
                         .Enrich.WithCorrelationIdHeader()
-                        .Enrich.With(services.GetRequiredService<WorkifyLogEventEnricher>())
-                        .ReadFrom.Services(services)
+                        .Enrich.FromLogContext()
                         .WriteTo.Seq(config.SeqConnectionString)
                         .WriteTo.Console()
                         .MinimumLevel.Information();

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Scalar.AspNetCore;
 using Serilog;
@@ -15,7 +16,10 @@ namespace Workify.Utils.Extensions
 
             app.UseMiddleware<ExceptionMiddleware>();
 
-            app.UseSerilogRequestLogging();
+            app.UseSerilogRequestLogging(options =>
+            {
+                options.EnrichDiagnosticContext = TryEnrichWithUserId;
+            });
 
             app.MapControllers();
 
@@ -24,6 +28,12 @@ namespace Workify.Utils.Extensions
                 app.MapOpenApi().AllowAnonymous();
                 app.MapScalarApiReference().AllowAnonymous();
             }
+        }
+
+        private static void TryEnrichWithUserId(IDiagnosticContext diagnosticContext, HttpContext httpContext)
+        {
+            if (httpContext.User.TryGetUserId() is { } userId)
+                diagnosticContext.Set("UserId", userId);
         }
     }
 }
