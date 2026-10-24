@@ -5,6 +5,7 @@ using Workify.Api.Workout.Models.Entities;
 using Workify.Api.Workout.Models.Entities.Abstractions;
 using Workify.Api.Workout.Services;
 using Workify.Api.Workout.UnitTests.Utils;
+using Workify.Utils.Exceptions;
 
 namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
 {
@@ -60,7 +61,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
 
             // Act / Assert
             int otherUserId = plan.UserId + 1;
-            await Assert.ThrowsAsync<ArgumentException>(() =>
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 new PlanService(dbContext).DeletePlan(plan.Id, otherUserId, CancellationToken.None));
         }
 
@@ -78,7 +79,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
 
             // Act / Assert
             int notExistingPlanId = plan.Id + 1;
-            await Assert.ThrowsAsync<ArgumentException>(() =>
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 new PlanService(dbContext).DeletePlan(notExistingPlanId, plan.UserId, CancellationToken.None));
         }
     }

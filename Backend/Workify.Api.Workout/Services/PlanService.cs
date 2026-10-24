@@ -4,6 +4,7 @@ using Workify.Api.Workout.Models.DTOs;
 using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Models.Entities;
 using Workify.Api.Workout.Models.Entities.Abstractions;
+using Workify.Utils.Exceptions;
 
 namespace Workify.Api.Workout.Services
 {
@@ -38,7 +39,7 @@ namespace Workify.Api.Workout.Services
         {
             UserPlan plan = await workoutDbContext.UserPlans.AsNoTracking()
                                 .SingleOrDefaultAsync(p => p.Id == planId && p.UserId == userId, ct)
-                            ?? throw new ArgumentException("Plan with given id with given user id does not exist.");
+                            ?? throw new NotFoundException("Plan with given id with given user id does not exist.");
 
             workoutDbContext.UserPlans.Remove(plan);
             await workoutDbContext.SaveChangesAsync(ct);

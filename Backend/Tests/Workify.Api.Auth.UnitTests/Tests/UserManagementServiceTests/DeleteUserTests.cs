@@ -4,6 +4,7 @@ using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Models.Entities;
 using Workify.Api.Auth.Services;
 using Workify.Api.Auth.UnitTests.Utils;
+using Workify.Utils.Exceptions;
 
 namespace Workify.Api.Auth.UnitTests.Tests.UserManagementServiceTests
 {
@@ -50,7 +51,7 @@ namespace Workify.Api.Auth.UnitTests.Tests.UserManagementServiceTests
             const int userIdToDelete = 11;
 
             // Act / Assert
-            await Assert.ThrowsAsync<ArgumentException>(() =>
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 userManagementService.DeleteUser(userIdToDelete, CancellationToken.None)
             );
         }

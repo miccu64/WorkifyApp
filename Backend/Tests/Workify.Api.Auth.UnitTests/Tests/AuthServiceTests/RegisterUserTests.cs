@@ -6,6 +6,7 @@ using Workify.Api.Auth.Models.DTOs;
 using Workify.Api.Auth.Models.Entities;
 using Workify.Api.Auth.Services;
 using Workify.Api.Auth.UnitTests.Utils;
+using Workify.Utils.Exceptions;
 
 namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests;
 
@@ -65,7 +66,7 @@ public class RegisterUserTests
         AuthService authService = new(authDbContext, _config);
 
         // Assert
-        await Assert.ThrowsAsync<ArgumentException>(() =>
+        await Assert.ThrowsAsync<ConflictException>(() =>
             authService.RegisterUser(registerDto, CancellationToken.None)
         );
     }
@@ -91,7 +92,7 @@ public class RegisterUserTests
         AuthService authService = new(authDbContext, _config);
 
         // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() =>
+        await Assert.ThrowsAsync<ConflictException>(() =>
             authService.RegisterUser(registerDto, CancellationToken.None)
         );
     }

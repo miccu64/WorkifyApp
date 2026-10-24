@@ -10,6 +10,7 @@ using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Models.DTOs;
 using Workify.Api.Auth.Models.Entities;
 using Workify.Utils.Config;
+using Workify.Utils.Exceptions;
 
 namespace Workify.Api.Auth.Services
 {
@@ -31,9 +32,9 @@ namespace Workify.Api.Auth.Services
         public async Task<int> RegisterUser(RegisterDto dto, CancellationToken ct)
         {
             if (await dbContext.Users.AnyAsync(user => user.Login == dto.Login, ct))
-                throw new ArgumentException("User with given login already exists.");
+                throw new ConflictException("User with given login already exists.");
             if (await dbContext.Users.AnyAsync(user => user.Email == dto.Email, ct))
-                throw new ArgumentException("User with given email already exists.");
+                throw new ConflictException("User with given email already exists.");
 
             User newUser = new()
             {
