@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Workify.Api.Workout.Models.DTOs;
 using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Services;
@@ -11,38 +11,45 @@ namespace Workify.Api.Workout.Controllers
     [Route("api/plans")]
     public class PlanController(IPlanService planService) : ControllerBase
     {
-        private readonly IPlanService _planService = planService;
-
         [HttpGet]
         public async Task<IEnumerable<PlanDto>> GetPlans()
         {
             int userId = User.GetUserId();
 
-            return await _planService.GetPlans(userId);
+            return await planService.GetPlans(userId);
         }
 
         [HttpPost]
-        public async Task<int> CreatePlan(CreateEditPlanDto dto)
+        public async Task<int> CreatePlan(CreateEditPlanDto dto,
+            CreateEditPlanDtoValidator validator,
+            CancellationToken ct)
         {
+            await validator.ValidateAndThrowAsync(dto, ct);
+
             int userId = User.GetUserId();
 
-            return await _planService.CreatePlan(userId, dto);
+            return await planService.CreatePlan(userId, dto);
         }
 
-        [HttpPatch("{planId}")]
-        public async Task<int> EditPlan(int planId, CreateEditPlanDto dto)
+        [HttpPatch("{planId:int}")]
+        public async Task<int> EditPlan(int planId,
+            CreateEditPlanDto dto,
+            CreateEditPlanDtoValidator validator,
+            CancellationToken ct)
         {
+            await validator.ValidateAndThrowAsync(dto, ct);
+
             int userId = User.GetUserId();
 
-            return await _planService.EditPlan(planId, userId, dto);
+            return await planService.EditPlan(planId, userId, dto);
         }
 
-        [HttpDelete("{planId}")]
+        [HttpDelete("{planId:int}")]
         public async Task<int> DeletePlan(int planId)
         {
             int userId = User.GetUserId();
 
-            return await _planService.DeletePlan(planId, userId);
+            return await planService.DeletePlan(planId, userId);
         }
     }
 }

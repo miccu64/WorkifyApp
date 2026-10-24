@@ -4,7 +4,7 @@ namespace Workify.Api.ExerciseStat.Models.DTOs.Parameters
 {
     public record CreateEditStatDto(DateTimeOffset Time, double Weight, int Reps, string? Note);
 
-    internal class CreateEditStatDtoValidator : AbstractValidator<CreateEditStatDto>
+    public class CreateEditStatDtoValidator : AbstractValidator<CreateEditStatDto>
     {
         public CreateEditStatDtoValidator()
         {

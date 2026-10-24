@@ -1,6 +1,6 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Workify.Utils.Extensions;
 
 namespace Workify.Utils.Middlewares
 {
@@ -11,6 +11,11 @@ namespace Workify.Utils.Middlewares
             try
             {
                 await next(context);
+            }
+            catch (ValidationException ex)
+            {
+                // TODO: centralize FluentVal or implement other validation handling
+                await LogAndHandleExceptionAsync(context, ex, StatusCodes.Status400BadRequest);
             }
             catch (ArgumentException ex)
             {

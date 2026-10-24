@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using FluentValidation;
 using Workify.Api.Auth.Models.DTOs;
 using Workify.Api.Auth.Services;
 using Workify.Utils.Communication.Contracts;
@@ -12,16 +13,15 @@ namespace Workify.Api.Auth.Controllers;
 [Route("api/auth")]
 public class AuthController(IAuthService authService, IPublishEndpoint publishEndpoint) : ControllerBase
 {
-    private readonly IAuthService _authService = authService;
-    private readonly IPublishEndpoint _publishEndpoint = publishEndpoint;
-
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LogInDto dto)
+    public async Task<IActionResult> Login(LogInDto dto, LogInDtoValidator validator, CancellationToken ct)
     {
+        await validator.ValidateAndThrowAsync(dto, ct);
+
         try
         {
-            return Ok(await _authService.LogInUser(dto));
+            return Ok(await authService.LogInUser(dto));
         }
         catch (UnauthorizedAccessException)
         {
@@ -31,11 +31,13 @@ public class AuthController(IAuthService authService, IPublishEndpoint publishEn
 
     [AllowAnonymous]
     [HttpPost("register")]
-    public async Task<ActionResult<int>> Register(RegisterDto dto)
+    public async Task<ActionResult<int>> Register(RegisterDto dto, RegisterDtoValidator validator, CancellationToken ct)
     {
-        int createdUserId = await _authService.RegisterUser(dto);
+        await validator.ValidateAndThrowAsync(dto, ct);
+        
+        int createdUserId = await authService.RegisterUser(dto);
 
-        await _publishEndpoint.Publish(new CreatedUserContract(createdUserId));
+        await publishEndpoint.Publish(new CreatedUserContract(createdUserId), ct);
 
         return StatusCode((int)HttpStatusCode.Created, createdUserId);
     }

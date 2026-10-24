@@ -5,7 +5,7 @@ namespace Workify.Api.Workout.Models.DTOs.Parameters
 {
     public record CreateEditExerciseDto(string Name, BodyPartEnum BodyPart, string? Description);
 
-    internal class CreateEditExerciseDtoValidator : AbstractValidator<CreateEditExerciseDto>
+    public class CreateEditExerciseDtoValidator : AbstractValidator<CreateEditExerciseDto>
     {
         public CreateEditExerciseDtoValidator()
         {

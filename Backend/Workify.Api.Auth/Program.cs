@@ -1,7 +1,6 @@
 using FluentValidation;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Workify.Api.Auth.Config;
 using Workify.Api.Auth.Database;
 using Workify.Api.Auth.Models.DTOs;
@@ -15,7 +14,6 @@ AuthConfig config = builder.CommonApiInitialization<AuthConfig>();
 builder.Services.AddDbContext<AuthDbContext>(opt => opt.UseNpgsql(config.DbConnectionString));
 
 builder.Services.AddValidatorsFromAssemblyContaining<LogInDtoValidator>(includeInternalTypes: true);
-builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();

@@ -1,7 +1,6 @@
 using FluentValidation;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Workify.Api.Workout.Communication.Consumers;
 using Workify.Api.Workout.Database;
 using Workify.Api.Workout.Models.DTOs.Parameters;
@@ -16,7 +15,6 @@ CommonConfig config = builder.CommonApiInitialization<CommonConfig>();
 builder.Services.AddDbContext<WorkoutDbContext>(opt => opt.UseNpgsql(config.DbConnectionString));
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateEditPlanDtoValidator>(includeInternalTypes: true);
-builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddScoped<IWorkoutDbContext, WorkoutDbContext>();
 builder.Services.AddScoped<IWorkoutDbContext>(provider => provider.GetService<WorkoutDbContext>()!);

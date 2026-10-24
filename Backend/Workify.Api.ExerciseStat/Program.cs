@@ -1,7 +1,6 @@
 using FluentValidation;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Workify.Api.ExerciseStat.Communication.Consumers;
 using Workify.Api.ExerciseStat.Database;
 using Workify.Api.ExerciseStat.Models.DTOs.Parameters;
@@ -16,7 +15,6 @@ CommonConfig config = builder.CommonApiInitialization<CommonConfig>();
 builder.Services.AddDbContext<StatDbContext>(opt => opt.UseNpgsql(config.DbConnectionString));
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateEditStatDtoValidator>(includeInternalTypes: true);
-builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddScoped<IStatService, StatService>();
 builder.Services.AddScoped<IStatDbContext>(provider => provider.GetService<StatDbContext>()!);

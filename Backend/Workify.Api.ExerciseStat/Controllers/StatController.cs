@@ -1,5 +1,5 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-
 using Workify.Api.ExerciseStat.Models.DTOs;
 using Workify.Api.ExerciseStat.Models.DTOs.Parameters;
 using Workify.Api.ExerciseStat.Services;
@@ -11,46 +11,54 @@ namespace Workify.Api.ExerciseStat.Controllers
     [Route("api/stats")]
     public class StatController(IStatService statService) : ControllerBase
     {
-        private readonly IStatService _statService = statService;
-
         [HttpGet]
         public async Task<IEnumerable<StatDto>> GetAllStats()
         {
             int userId = User.GetUserId();
 
-            return await _statService.GetAllStats(userId);
+            return await statService.GetAllStats(userId);
         }
 
-        [HttpGet("exercises/{exerciseId}")]
+        [HttpGet("exercises/{exerciseId:int}")]
         public async Task<IEnumerable<StatDto>> GetExerciseStats(int exerciseId)
         {
             int userId = User.GetUserId();
 
-            return await _statService.GetExerciseStats(userId, exerciseId);
+            return await statService.GetExerciseStats(userId, exerciseId);
         }
 
-        [HttpPost("exercises/{exerciseId}")]
-        public async Task<int> CreateStat(int exerciseId, CreateEditStatDto dto)
+        [HttpPost("exercises/{exerciseId:int}")]
+        public async Task<int> CreateStat(int exerciseId,
+            CreateEditStatDto dto,
+            CreateEditStatDtoValidator validator,
+            CancellationToken ct)
         {
+            await validator.ValidateAndThrowAsync(dto, ct);
+
             int userId = User.GetUserId();
 
-            return await _statService.CreateStat(userId, exerciseId, dto);
+            return await statService.CreateStat(userId, exerciseId, dto);
         }
 
-        [HttpPatch("{statId}")]
-        public async Task<int> EditStat(int statId, CreateEditStatDto dto)
+        [HttpPatch("{statId:int}")]
+        public async Task<int> EditStat(int statId,
+            CreateEditStatDto dto,
+            CreateEditStatDtoValidator validator,
+            CancellationToken ct)
         {
+            await validator.ValidateAndThrowAsync(dto, ct);
+
             int userId = User.GetUserId();
 
-            return await _statService.EditStat(userId, statId, dto);
+            return await statService.EditStat(userId, statId, dto);
         }
 
-        [HttpDelete("{statId}")]
+        [HttpDelete("{statId:int}")]
         public async Task<int> DeleteStat(int statId)
         {
             int userId = User.GetUserId();
 
-            return await _statService.DeleteStat(userId, statId);
+            return await statService.DeleteStat(userId, statId);
         }
     }
 }

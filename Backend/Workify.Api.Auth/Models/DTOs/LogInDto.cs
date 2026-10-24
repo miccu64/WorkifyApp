@@ -4,7 +4,7 @@ namespace Workify.Api.Auth.Models.DTOs
 {
     public record LogInDto(string Login, string Password);
 
-    internal class LogInDtoValidator : AbstractValidator<LogInDto>
+    public class LogInDtoValidator : AbstractValidator<LogInDto>
     {
         public LogInDtoValidator()
         {

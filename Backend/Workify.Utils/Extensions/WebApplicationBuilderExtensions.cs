@@ -22,11 +22,11 @@ namespace Workify.Utils.Extensions
                 builder.AddJwtAuth(config);
 
                 builder.Services.AddHttpContextAccessor();
+                builder.Services.AddOpenApi();
 
                 builder.AddLogging(config);
 
                 builder.Services.AddControllers();
-                builder.Services.AddOpenApi();
 
                 return config;
             }
