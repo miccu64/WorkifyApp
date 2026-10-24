@@ -7,15 +7,13 @@ namespace Workify.Api.ExerciseStat.Communication.Consumers
 {
     public class DeletedUserConsumer(IStatService statService) : IConsumer<DeletedUserContract>
     {
-        private readonly IStatService _statService = statService;
-
         public async Task Consume(ConsumeContext<DeletedUserContract> context)
         {
             int userId = context.Message.UserId;
-            IEnumerable<StatDto> userStats = await _statService.GetAllStats(userId);
+            IEnumerable<StatDto> userStats = await statService.GetAllStats(userId, context.CancellationToken);
             IEnumerable<int> exercisesIds = userStats.Select(stat => stat.ExerciseId).Distinct();
             foreach (int exerciseId in exercisesIds)
-                await _statService.DeleteAllExerciseStats(userId, exerciseId);
+                await statService.DeleteAllExerciseStats(userId, exerciseId, context.CancellationToken);
         }
     }
 }

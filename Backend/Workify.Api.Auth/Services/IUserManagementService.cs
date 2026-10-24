@@ -2,6 +2,6 @@
 {
     public interface IUserManagementService
     {
-        Task<int> DeleteUser(int userId);
+        Task<int> DeleteUser(int userId, CancellationToken ct);
     }
 }

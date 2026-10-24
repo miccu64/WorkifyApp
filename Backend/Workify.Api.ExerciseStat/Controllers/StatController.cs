@@ -12,19 +12,19 @@ namespace Workify.Api.ExerciseStat.Controllers
     public class StatController(IStatService statService) : ControllerBase
     {
         [HttpGet]
-        public async Task<IEnumerable<StatDto>> GetAllStats()
+        public async Task<IEnumerable<StatDto>> GetAllStats(CancellationToken ct)
         {
             int userId = User.GetUserId();
 
-            return await statService.GetAllStats(userId);
+            return await statService.GetAllStats(userId, ct);
         }
 
         [HttpGet("exercises/{exerciseId:int}")]
-        public async Task<IEnumerable<StatDto>> GetExerciseStats(int exerciseId)
+        public async Task<IEnumerable<StatDto>> GetExerciseStats(int exerciseId, CancellationToken ct)
         {
             int userId = User.GetUserId();
 
-            return await statService.GetExerciseStats(userId, exerciseId);
+            return await statService.GetExerciseStats(userId, exerciseId, ct);
         }
 
         [HttpPost("exercises/{exerciseId:int}")]
@@ -37,7 +37,7 @@ namespace Workify.Api.ExerciseStat.Controllers
 
             int userId = User.GetUserId();
 
-            return await statService.CreateStat(userId, exerciseId, dto);
+            return await statService.CreateStat(userId, exerciseId, dto, ct);
         }
 
         [HttpPatch("{statId:int}")]
@@ -50,15 +50,15 @@ namespace Workify.Api.ExerciseStat.Controllers
 
             int userId = User.GetUserId();
 
-            return await statService.EditStat(userId, statId, dto);
+            return await statService.EditStat(userId, statId, dto, ct);
         }
 
         [HttpDelete("{statId:int}")]
-        public async Task<int> DeleteStat(int statId)
+        public async Task<int> DeleteStat(int statId, CancellationToken ct)
         {
             int userId = User.GetUserId();
 
-            return await statService.DeleteStat(userId, statId);
+            return await statService.DeleteStat(userId, statId, ct);
         }
     }
 }

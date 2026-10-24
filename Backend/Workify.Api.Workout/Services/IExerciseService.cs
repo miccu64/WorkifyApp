@@ -5,9 +5,9 @@ namespace Workify.Api.Workout.Services
 {
     public interface IExerciseService
     {
-        Task<IEnumerable<ExerciseDto>> GetExercises(int userId);
-        Task<int> CreateExercise(int userId, CreateEditExerciseDto dto);
-        Task<int> EditExercise(int exerciseId, int userId, CreateEditExerciseDto dto);
-        Task<int> DeleteExercise(int exerciseId, int userId);
+        Task<IEnumerable<ExerciseDto>> GetExercises(int userId, CancellationToken ct);
+        Task<int> CreateExercise(int userId, CreateEditExerciseDto dto, CancellationToken ct);
+        Task<int> EditExercise(int exerciseId, int userId, CreateEditExerciseDto dto, CancellationToken ct);
+        Task<int> DeleteExercise(int exerciseId, int userId, CancellationToken ct);
     }
 }

@@ -19,14 +19,14 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
 
             using IStatDbContext arrangeDbContext = await factory.CreateContext();
             Stat stat = (await arrangeDbContext.Stats.AddAsync(_fixture.Create<Stat>())).Entity;
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             CreateEditStatDto dto = _fixture.Create<CreateEditStatDto>();
 
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act
-            int editedId = await new StatService(dbContext).EditStat(stat.UserId, stat.Id, dto);
+            int editedId = await new StatService(dbContext).EditStat(stat.UserId, stat.Id, dto, CancellationToken.None);
 
             // Assert
             Assert.Equal(stat.Id, editedId);
@@ -52,7 +52,9 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
             CreateEditStatDto dto = _fixture.Create<CreateEditStatDto>();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => new StatService(dbContext).EditStat(1, 1, dto));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                new StatService(dbContext).EditStat(1, 1, dto, CancellationToken.None)
+            );
         }
 
         [Fact]
@@ -63,14 +65,16 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
 
             using IStatDbContext arrangeDbContext = await factory.CreateContext();
             Stat stat = (await arrangeDbContext.Stats.AddAsync(_fixture.Create<Stat>())).Entity;
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             CreateEditStatDto dto = _fixture.Create<CreateEditStatDto>();
 
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => new StatService(dbContext).EditStat(stat.UserId + 1, stat.Id, dto));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                new StatService(dbContext).EditStat(stat.UserId + 1, stat.Id, dto, CancellationToken.None)
+            );
         }
     }
 }

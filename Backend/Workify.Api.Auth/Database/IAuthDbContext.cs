@@ -7,6 +7,6 @@ namespace Workify.Api.Auth.Database
     {
         public DbSet<User> Users { get; set; }
 
-        public Task<int> SaveChangesAsync();
+        public Task<int> SaveChangesAsync(CancellationToken ct);
     }
 }

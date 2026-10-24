@@ -25,7 +25,10 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.ConsumersTests
             await consumer.Consume(mockContext.Object);
 
             // Assert
-            mockStatService.Verify(service => service.DeleteAllExerciseStats(userId, exerciseId), Times.Once);
+            mockStatService.Verify(
+                service => service.DeleteAllExerciseStats(userId, exerciseId, CancellationToken.None),
+                Times.Once
+            );
             Assert.Single(mockStatService.Invocations);
         }
     }

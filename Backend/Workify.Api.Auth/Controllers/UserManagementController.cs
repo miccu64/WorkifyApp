@@ -14,9 +14,9 @@ namespace Workify.Api.Auth.Controllers
         CancellationToken ct) : ControllerBase
     {
         [HttpDelete]
-        public async Task<int> DeleteAccount()
+        public async Task<int> DeleteAccount(CancellationToken ct)
         {
-            int deletedUserId = await userManagementService.DeleteUser(User.GetUserId());
+            int deletedUserId = await userManagementService.DeleteUser(User.GetUserId(), ct);
 
             DeletedUserContract deletedUserContract = new(deletedUserId);
             await publishEndpoint.Publish(deletedUserContract, ct);

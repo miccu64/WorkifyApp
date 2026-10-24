@@ -6,11 +6,9 @@ namespace Workify.Api.Workout.Communication.Consumers
 {
     public class CreatedUserConsumer(IPlanService planService) : IConsumer<CreatedUserContract>
     {
-        private readonly IPlanService _planService = planService;
-
         public async Task Consume(ConsumeContext<CreatedUserContract> context)
         {
-            await _planService.CopyPredefinedPlansForUser(context.Message.UserId);
+            await planService.CopyPredefinedPlansForUser(context.Message.UserId, context.CancellationToken);
         }
     }
 }

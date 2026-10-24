@@ -12,11 +12,11 @@ namespace Workify.Api.Workout.Controllers
     public class PlanController(IPlanService planService) : ControllerBase
     {
         [HttpGet]
-        public async Task<IEnumerable<PlanDto>> GetPlans()
+        public async Task<IEnumerable<PlanDto>> GetPlans(CancellationToken ct)
         {
             int userId = User.GetUserId();
 
-            return await planService.GetPlans(userId);
+            return await planService.GetPlans(userId, ct);
         }
 
         [HttpPost]
@@ -28,7 +28,7 @@ namespace Workify.Api.Workout.Controllers
 
             int userId = User.GetUserId();
 
-            return await planService.CreatePlan(userId, dto);
+            return await planService.CreatePlan(userId, dto, ct);
         }
 
         [HttpPatch("{planId:int}")]
@@ -41,15 +41,15 @@ namespace Workify.Api.Workout.Controllers
 
             int userId = User.GetUserId();
 
-            return await planService.EditPlan(planId, userId, dto);
+            return await planService.EditPlan(planId, userId, dto, ct);
         }
 
         [HttpDelete("{planId:int}")]
-        public async Task<int> DeletePlan(int planId)
+        public async Task<int> DeletePlan(int planId, CancellationToken ct)
         {
             int userId = User.GetUserId();
 
-            return await planService.DeletePlan(planId, userId);
+            return await planService.DeletePlan(planId, userId, ct);
         }
     }
 }

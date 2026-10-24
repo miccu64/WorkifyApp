@@ -33,12 +33,13 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
                 .Create();
             await arrangeDbContext.Stats.AddAsync(otherUserStat);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act
-            IEnumerable<StatDto> stats = await new StatService(dbContext).GetExerciseStats(userId, exerciseId);
+            IEnumerable<StatDto> stats =
+                await new StatService(dbContext).GetExerciseStats(userId, exerciseId, CancellationToken.None);
 
             // Assert
             Assert.Empty(stats);
@@ -68,15 +69,16 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
                 .ToList();
             await arrangeDbContext.Stats.AddRangeAsync(statsForDifferentExercise);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act
-            IEnumerable<StatDto> responseStats = await new StatService(dbContext).GetExerciseStats(userId, exerciseId);
+            List<StatDto> responseStats =
+                [.. await new StatService(dbContext).GetExerciseStats(userId, exerciseId, CancellationToken.None)];
 
             // Assert
-            Assert.Equal(stats.Count, responseStats.Count());
+            Assert.Equal(stats.Count, responseStats.Count);
             foreach (StatDto dto in responseStats)
             {
                 Stat stat = stats.Single(s => s.Id == dto.Id);

@@ -7,7 +7,7 @@ namespace Workify.Api.Workout.Database
     {
         public WorkoutDbContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<WorkoutDbContext>();
+            DbContextOptionsBuilder<WorkoutDbContext> optionsBuilder = new();
 
             optionsBuilder.UseNpgsql("DummyCS");
 

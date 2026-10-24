@@ -20,7 +20,7 @@ namespace Workify.Api.Auth.UnitTests.Tests.UserManagementServiceTests
             using IAuthDbContext arrangeDbContext = await factory.CreateContext();
             List<User> users = _fixture.CreateMany<User>(5).ToList();
             await arrangeDbContext.Users.AddRangeAsync(users);
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             User userToDelete = users[2];
 
@@ -28,7 +28,7 @@ namespace Workify.Api.Auth.UnitTests.Tests.UserManagementServiceTests
             UserManagementService userManagementService = new(dbContext);
 
             // Act
-            int deletedUserId = await userManagementService.DeleteUser(userToDelete.Id);
+            int deletedUserId = await userManagementService.DeleteUser(userToDelete.Id, CancellationToken.None);
 
             // Assert
             Assert.Equal(userToDelete.Id, deletedUserId);
@@ -50,7 +50,9 @@ namespace Workify.Api.Auth.UnitTests.Tests.UserManagementServiceTests
             const int userIdToDelete = 11;
 
             // Act / Assert
-            await Assert.ThrowsAsync<ArgumentException>(() => userManagementService.DeleteUser(userIdToDelete));
+            await Assert.ThrowsAsync<ArgumentException>(() =>
+                userManagementService.DeleteUser(userIdToDelete, CancellationToken.None)
+            );
         }
     }
 }

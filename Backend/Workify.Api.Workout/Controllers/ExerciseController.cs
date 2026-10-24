@@ -12,11 +12,11 @@ namespace Workify.Api.Workout.Controllers
     public class ExerciseController(IExerciseService exerciseService) : ControllerBase
     {
         [HttpGet]
-        public async Task<IEnumerable<ExerciseDto>> GetExercises()
+        public async Task<IEnumerable<ExerciseDto>> GetExercises(CancellationToken ct)
         {
             int userId = User.GetUserId();
 
-            return await exerciseService.GetExercises(userId);
+            return await exerciseService.GetExercises(userId, ct);
         }
 
         [HttpPost]
@@ -28,7 +28,7 @@ namespace Workify.Api.Workout.Controllers
 
             int userId = User.GetUserId();
 
-            return await exerciseService.CreateExercise(userId, dto);
+            return await exerciseService.CreateExercise(userId, dto, ct);
         }
 
         [HttpPatch("{exerciseId:int}")]
@@ -41,15 +41,15 @@ namespace Workify.Api.Workout.Controllers
 
             int userId = User.GetUserId();
 
-            return await exerciseService.EditExercise(exerciseId, userId, dto);
+            return await exerciseService.EditExercise(exerciseId, userId, dto, ct);
         }
 
         [HttpDelete("{exerciseId:int}")]
-        public async Task<int> DeleteExercise(int exerciseId)
+        public async Task<int> DeleteExercise(int exerciseId, CancellationToken ct)
         {
             int userId = User.GetUserId();
 
-            return await exerciseService.DeleteExercise(exerciseId, userId);
+            return await exerciseService.DeleteExercise(exerciseId, userId, ct);
         }
     }
 }

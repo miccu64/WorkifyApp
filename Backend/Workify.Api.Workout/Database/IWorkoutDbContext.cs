@@ -13,6 +13,6 @@ namespace Workify.Api.Workout.Database
         DbSet<PredefinedExercise> PredefinedExercises { get; set; }
         DbSet<UserExercise> UserExercises { get; set; }
 
-        Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken ct);
     }
 }

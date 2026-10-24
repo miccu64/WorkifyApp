@@ -7,9 +7,9 @@ namespace Workify.Api.Auth.Database
     {
         public DbSet<User> Users { get; set; }
 
-        public async Task<int> SaveChangesAsync()
+        public override async Task<int> SaveChangesAsync(CancellationToken ct)
         {
-            return await base.SaveChangesAsync();
+            return await base.SaveChangesAsync(ct);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

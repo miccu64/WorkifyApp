@@ -36,17 +36,18 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
                 .ToList();
             await arrangeDbContext.PredefinedPlans.AddRangeAsync(plans);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             const int userId = 22;
 
             using IWorkoutDbContext dbContext = await factory.CreateContext();
 
             // Act
-            IEnumerable<int> response = await new PlanService(dbContext).CopyPredefinedPlansForUser(userId);
+            List<int> response =
+                [.. await new PlanService(dbContext).CopyPredefinedPlansForUser(userId, CancellationToken.None)];
 
             // Assert
-            Assert.Equal(plans.Count, response.Count());
+            Assert.Equal(plans.Count, response.Count);
             Assert.DoesNotContain(plans, p => response.Contains(p.Id));
         }
 
@@ -68,14 +69,15 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
                 .Create();
             await arrangeDbContext.PredefinedPlans.AddAsync(plan);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             const int userId = 22;
 
             using IWorkoutDbContext dbContext = await factory.CreateContext();
 
             // Act
-            IEnumerable<int> response = await new PlanService(dbContext).CopyPredefinedPlansForUser(userId);
+            List<int> response =
+                [.. await new PlanService(dbContext).CopyPredefinedPlansForUser(userId, CancellationToken.None)];
 
             // Assert
             Assert.NotEqual(plan.Id, response.Single());
@@ -89,10 +91,10 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
             Assert.Equal(plan.Name, createdPlan.Name);
             Assert.Equal(plan.Description, createdPlan.Description);
             Assert.Equal(userId, createdPlan.UserId);
-            Assert.True(exercises.Select(e => e.Id).Order().SequenceEqual(createdPlan.Exercises.Select(e => e.Id).Order()));
+            Assert.True(exercises.Select(e => e.Id).Order()
+                .SequenceEqual(createdPlan.Exercises.Select(e => e.Id).Order()));
 
             Assert.Equal(exercises.Count, await assertDbContext.AllExercises.CountAsync());
-
         }
 
         [Fact]
@@ -106,7 +108,8 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
             using IWorkoutDbContext dbContext = await factory.CreateContext();
 
             // Act
-            IEnumerable<int> response = await new PlanService(dbContext).CopyPredefinedPlansForUser(userId);
+            IEnumerable<int> response =
+                await new PlanService(dbContext).CopyPredefinedPlansForUser(userId, CancellationToken.None);
 
             // Assert
             Assert.Empty(response);

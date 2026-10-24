@@ -18,12 +18,15 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
             using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
-            UserExercise exercise = (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>())).Entity;
-            await arrangeDbContext.SaveChangesAsync();
+            UserExercise exercise = (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>()))
+                .Entity;
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             // Act
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            int deletedExerciseId = await new ExerciseService(dbContext).DeleteExercise(exercise.Id, exercise.UserId);
+            int deletedExerciseId =
+                await new ExerciseService(dbContext).DeleteExercise(exercise.Id, exercise.UserId,
+                    CancellationToken.None);
 
             // Assert
             Assert.Equal(exercise.Id, deletedExerciseId);
@@ -52,11 +55,12 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
                 .Create();
             await arrangeDbContext.UserPlans.AddAsync(plan);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             // Act
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            int deletedExerciseId = await new ExerciseService(dbContext).DeleteExercise(exercise1.Id, userId);
+            int deletedExerciseId =
+                await new ExerciseService(dbContext).DeleteExercise(exercise1.Id, userId, CancellationToken.None);
 
             // Assert
             Assert.Equal(exercise1.Id, deletedExerciseId);
@@ -64,7 +68,8 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
             using IWorkoutDbContext assertDbContext = await factory.CreateContext();
             Assert.Null(await assertDbContext.UserExercises.FindAsync(deletedExerciseId));
 
-            UserPlan planAfterDelete = await assertDbContext.UserPlans.Include(p => p.Exercises).SingleAsync(p => p.Id == plan.Id);
+            UserPlan planAfterDelete =
+                await assertDbContext.UserPlans.Include(p => p.Exercises).SingleAsync(p => p.Id == plan.Id);
             Assert.Equal(exercise2.Id, planAfterDelete.Exercises.Single().Id);
         }
 
@@ -75,12 +80,15 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
             using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
-            UserExercise exercise = (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>())).Entity;
-            await arrangeDbContext.SaveChangesAsync();
+            UserExercise exercise = (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>()))
+                .Entity;
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             // Act / Assert
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => new ExerciseService(dbContext).DeleteExercise(exercise.Id, exercise.UserId + 1));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                new ExerciseService(dbContext).DeleteExercise(exercise.Id, exercise.UserId + 1, CancellationToken.None)
+            );
         }
 
         [Fact]
@@ -91,7 +99,8 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
 
             // Act / Assert
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => new ExerciseService(dbContext).DeleteExercise(1, 1));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                new ExerciseService(dbContext).DeleteExercise(1, 1, CancellationToken.None));
         }
 
         [Fact]
@@ -101,13 +110,15 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
             using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
-            PredefinedExercise exercise = (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
-            await arrangeDbContext.SaveChangesAsync();
+            PredefinedExercise exercise =
+                (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             using IWorkoutDbContext dbContext = await factory.CreateContext();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => new ExerciseService(dbContext).DeleteExercise(exercise.Id, 11));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                new ExerciseService(dbContext).DeleteExercise(exercise.Id, 11, CancellationToken.None));
         }
     }
 }

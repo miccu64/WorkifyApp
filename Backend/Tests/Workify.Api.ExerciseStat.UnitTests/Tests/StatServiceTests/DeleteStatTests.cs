@@ -19,12 +19,12 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
             using IStatDbContext arrangeDbContext = await factory.CreateContext();
             Stat stat = _fixture.Create<Stat>();
             await arrangeDbContext.Stats.AddAsync(stat);
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act
-            int deletedId = await new StatService(dbContext).DeleteStat(stat.UserId, stat.Id);
+            int deletedId = await new StatService(dbContext).DeleteStat(stat.UserId, stat.Id, CancellationToken.None);
 
             // Assert
             Assert.Equal(stat.Id, deletedId);
@@ -42,7 +42,9 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => new StatService(dbContext).DeleteStat(1, 1));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                new StatService(dbContext).DeleteStat(1, 1, CancellationToken.None)
+            );
         }
 
         [Fact]
@@ -53,12 +55,14 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
 
             using IStatDbContext arrangeDbContext = await factory.CreateContext();
             Stat stat = (await arrangeDbContext.Stats.AddAsync(_fixture.Create<Stat>())).Entity;
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => new StatService(dbContext).DeleteStat(stat.UserId + 1, stat.Id));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                new StatService(dbContext).DeleteStat(stat.UserId + 1, stat.Id, CancellationToken.None)
+            );
         }
     }
 }

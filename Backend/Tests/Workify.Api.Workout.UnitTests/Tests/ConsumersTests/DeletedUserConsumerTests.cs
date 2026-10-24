@@ -20,7 +20,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ConsumersTests
             List<PlanDto> plans = _fixture.CreateMany<PlanDto>(7).ToList();
 
             Mock<IPlanService> mockPlanService = new();
-            mockPlanService.Setup(s => s.GetPlans(userId)).ReturnsAsync(plans);
+            mockPlanService.Setup(s => s.GetPlans(userId, CancellationToken.None)).ReturnsAsync(plans);
 
             Mock<ConsumeContext<DeletedUserContract>> mockContext = new();
             mockContext.Setup(c => c.Message).Returns(new DeletedUserContract(userId));
@@ -31,10 +31,15 @@ namespace Workify.Api.Workout.UnitTests.Tests.ConsumersTests
             await consumer.Consume(mockContext.Object);
 
             // Assert
-            mockPlanService.Verify(service => service.GetPlans(userId), Times.Once);
+            mockPlanService.Verify(service => service.GetPlans(userId, CancellationToken.None), Times.Once);
 
             foreach (PlanDto plan in plans)
-                mockPlanService.Verify(service => service.DeletePlan(plan.Id, userId), Times.Once);
+            {
+                mockPlanService.Verify(
+                    service => service.DeletePlan(plan.Id, userId, CancellationToken.None),
+                    Times.Once
+                );
+            }
 
             Assert.Equal(plans.Count + 1, mockPlanService.Invocations.Count);
         }
@@ -46,7 +51,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ConsumersTests
             const int userId = 42;
 
             Mock<IPlanService> mockPlanService = new();
-            mockPlanService.Setup(s => s.GetPlans(userId)).ReturnsAsync([]);
+            mockPlanService.Setup(s => s.GetPlans(userId, CancellationToken.None)).ReturnsAsync([]);
 
             Mock<ConsumeContext<DeletedUserContract>> mockContext = new();
             mockContext.Setup(c => c.Message).Returns(new DeletedUserContract(userId));
@@ -57,7 +62,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ConsumersTests
             await consumer.Consume(mockContext.Object);
 
             // Assert
-            mockPlanService.Verify(service => service.GetPlans(userId), Times.Once);
+            mockPlanService.Verify(service => service.GetPlans(userId, CancellationToken.None), Times.Once);
             Assert.Single(mockPlanService.Invocations);
         }
     }

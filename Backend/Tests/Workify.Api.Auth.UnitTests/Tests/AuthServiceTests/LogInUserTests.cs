@@ -17,9 +17,9 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
 
         public LogInUserTests()
         {
-            _fixture = new();
+            _fixture = new Fixture();
 
-            using var rsa = RSA.Create(2048);
+            using RSA rsa = RSA.Create(2048);
 
             string privateKeyBase64 = Convert.ToBase64String(rsa.ExportPkcs8PrivateKey());
             string publicKeyBase64 = Convert.ToBase64String(rsa.ExportSubjectPublicKeyInfo());
@@ -46,7 +46,7 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             LogInDto dto = new(registerDto.Login, registerDto.Password);
 
             // Act
-            string jwtToken = await authService.LogInUser(dto);
+            string jwtToken = await authService.LogInUser(dto, CancellationToken.None);
 
             // Assert
             Assert.NotEmpty(jwtToken);
@@ -72,7 +72,9 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             LogInDto wrongLogInDto = new(registerDto1.Login, registerDto2.Password);
 
             // Act & Assert
-            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => authService.LogInUser(wrongLogInDto));
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
+                authService.LogInUser(wrongLogInDto, CancellationToken.None)
+            );
         }
 
         [Fact]
@@ -89,7 +91,9 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             LogInDto dto = _fixture.Create<LogInDto>();
 
             // Act & Assert
-            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => authService.LogInUser(dto));
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
+                authService.LogInUser(dto, CancellationToken.None)
+            );
         }
 
         private async Task<RegisterDto> RegisterUserViaService(AuthDbContextFactory factory)
@@ -98,7 +102,7 @@ namespace Workify.Api.Auth.UnitTests.Tests.AuthServiceTests
             AuthService authService = new(arrangeDbContext, _config);
 
             RegisterDto registerDto = _fixture.Create<RegisterDto>();
-            int userId = await authService.RegisterUser(registerDto);
+            int userId = await authService.RegisterUser(registerDto, CancellationToken.None);
 
             Assert.True(userId > 0);
 

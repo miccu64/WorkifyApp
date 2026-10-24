@@ -18,14 +18,17 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
             using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
-            UserExercise exercise = (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>())).Entity;
-            await arrangeDbContext.SaveChangesAsync();
+            UserExercise exercise = (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>()))
+                .Entity;
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             CreateEditExerciseDto dto = _fixture.Create<CreateEditExerciseDto>();
 
             // Act
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            int editedExerciseId = await new ExerciseService(dbContext).EditExercise(exercise.Id, exercise.UserId, dto);
+            int editedExerciseId =
+                await new ExerciseService(dbContext).EditExercise(exercise.Id, exercise.UserId, dto,
+                    CancellationToken.None);
 
             // Assert
             Assert.Equal(exercise.Id, editedExerciseId);
@@ -46,14 +49,16 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
             using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
-            PredefinedExercise exercise = (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
-            await arrangeDbContext.SaveChangesAsync();
+            PredefinedExercise exercise =
+                (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             CreateEditExerciseDto dto = _fixture.Create<CreateEditExerciseDto>();
 
             // Act / Assert
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => new ExerciseService(dbContext).EditExercise(exercise.Id, 1, dto));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                new ExerciseService(dbContext).EditExercise(exercise.Id, 1, dto, CancellationToken.None));
         }
 
         [Fact]
@@ -63,14 +68,17 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
             using DbContextFactory factory = new();
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
-            UserExercise exercise = (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>())).Entity;
-            await arrangeDbContext.SaveChangesAsync();
+            UserExercise exercise = (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>()))
+                .Entity;
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             CreateEditExerciseDto dto = _fixture.Create<CreateEditExerciseDto>();
 
             // Act / Assert
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => new ExerciseService(dbContext).EditExercise(exercise.Id, exercise.UserId + 1, dto));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                new ExerciseService(dbContext).EditExercise(exercise.Id, exercise.UserId + 1, dto,
+                    CancellationToken.None));
         }
 
         [Fact]
@@ -83,7 +91,8 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
 
             // Act / Assert
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => new ExerciseService(dbContext).EditExercise(1, 1, dto));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                new ExerciseService(dbContext).EditExercise(1, 1, dto, CancellationToken.None));
         }
     }
 }

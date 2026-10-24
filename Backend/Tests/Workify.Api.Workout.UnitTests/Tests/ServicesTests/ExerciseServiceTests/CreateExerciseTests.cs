@@ -22,7 +22,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
             // Act
             using IWorkoutDbContext dbContext = await factory.CreateContext();
             ExerciseService exerciseService = new(dbContext);
-            int exerciseId = await exerciseService.CreateExercise(userId, dto);
+            int exerciseId = await exerciseService.CreateExercise(userId, dto, CancellationToken.None);
 
             // Assert
             Assert.True(exerciseId > 0);
@@ -48,8 +48,8 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
             // Act
             using IWorkoutDbContext dbContext = await factory.CreateContext();
             ExerciseService exerciseService = new(dbContext);
-            int exerciseId1 = await exerciseService.CreateExercise(userId, dto);
-            int exerciseId2 = await exerciseService.CreateExercise(userId, dto);
+            int exerciseId1 = await exerciseService.CreateExercise(userId, dto, CancellationToken.None);
+            int exerciseId2 = await exerciseService.CreateExercise(userId, dto, CancellationToken.None);
 
             // Assert
             Assert.True(exerciseId1 > 0);

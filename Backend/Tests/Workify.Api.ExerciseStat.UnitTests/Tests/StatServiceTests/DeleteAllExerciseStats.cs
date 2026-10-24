@@ -28,12 +28,13 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
                 .ToList();
             await arrangeDbContext.Stats.AddRangeAsync(stats);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act
-            IEnumerable<int> deletedIds = await new StatService(dbContext).DeleteAllExerciseStats(userId, exerciseId);
+            IEnumerable<int> deletedIds =
+                await new StatService(dbContext).DeleteAllExerciseStats(userId, exerciseId, CancellationToken.None);
 
             // Assert
             Assert.True(stats.Select(s => s.Id).Order().SequenceEqual(deletedIds.Order()));
@@ -62,17 +63,19 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
 
             const int userId2 = 22;
             Stat otherUserStat = _fixture.Build<Stat>()
-                 .With(s => s.ExerciseId, exerciseId)
-                 .With(s => s.UserId, userId2)
-                 .Create();
+                .With(s => s.ExerciseId, exerciseId)
+                .With(s => s.UserId, userId2)
+                .Create();
             await arrangeDbContext.Stats.AddAsync(otherUserStat);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act
-            IEnumerable<int> deletedIds = await new StatService(dbContext).DeleteAllExerciseStats(userIdToDelete, exerciseId);
+            IEnumerable<int> deletedIds =
+                await new StatService(dbContext).DeleteAllExerciseStats(userIdToDelete, exerciseId,
+                    CancellationToken.None);
 
             // Assert
             Assert.Equal(statToDelete.Id, deletedIds.Single());
@@ -96,19 +99,21 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
 
             const int userId = 1;
             List<Stat> stats = _fixture.Build<Stat>()
-                 .With(s => s.UserId, userId)
-                 .CreateMany(11)
-                 .ToList();
+                .With(s => s.UserId, userId)
+                .CreateMany(11)
+                .ToList();
             await arrangeDbContext.Stats.AddRangeAsync(stats);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             Stat statToDelete = stats[0];
 
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act
-            IEnumerable<int> deletedIds = await new StatService(dbContext).DeleteAllExerciseStats(userId, statToDelete.ExerciseId);
+            IEnumerable<int> deletedIds =
+                await new StatService(dbContext).DeleteAllExerciseStats(userId, statToDelete.ExerciseId,
+                    CancellationToken.None);
 
             // Assert
             Assert.Equal(statToDelete.Id, deletedIds.Single());
@@ -130,7 +135,8 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act
-            IEnumerable<int> deletedIds = await new StatService(dbContext).DeleteAllExerciseStats(3, 3);
+            IEnumerable<int> deletedIds =
+                await new StatService(dbContext).DeleteAllExerciseStats(3, 3, CancellationToken.None);
 
             // Assert
             Assert.Empty(deletedIds);

@@ -24,7 +24,10 @@ namespace Workify.Api.Workout.UnitTests.Tests.ConsumersTests
             await consumer.Consume(mockContext.Object);
 
             // Assert
-            mockPlanService.Verify(service => service.CopyPredefinedPlansForUser(userId), Times.Once);
+            mockPlanService.Verify(
+                service => service.CopyPredefinedPlansForUser(userId, CancellationToken.None),
+                Times.Once
+            );
             Assert.Single(mockPlanService.Invocations);
         }
     }

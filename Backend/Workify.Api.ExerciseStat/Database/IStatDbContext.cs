@@ -7,6 +7,6 @@ namespace Workify.Api.ExerciseStat.Database
     {
         public DbSet<Stat> Stats { get; set; }
 
-        Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken ct);
     }
 }

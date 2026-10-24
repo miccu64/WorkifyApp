@@ -27,7 +27,8 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.ConsumersTests
                 .ToList();
 
             Mock<IStatService> mockStatService = new();
-            mockStatService.Setup(s => s.GetAllStats(userId)).ReturnsAsync(stats1.Concat(stats2));
+            mockStatService.Setup(s => s.GetAllStats(userId, CancellationToken.None))
+                .ReturnsAsync(stats1.Concat(stats2));
 
             Mock<ConsumeContext<DeletedUserContract>> mockContext = new();
             mockContext.Setup(c => c.Message).Returns(new DeletedUserContract(userId));
@@ -38,9 +39,13 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.ConsumersTests
             await consumer.Consume(mockContext.Object);
 
             // Assert
-            mockStatService.Verify(service => service.GetAllStats(userId), Times.Once);
-            mockStatService.Verify(service => service.DeleteAllExerciseStats(userId, stats1[0].ExerciseId), Times.Once);
-            mockStatService.Verify(service => service.DeleteAllExerciseStats(userId, stats2[0].ExerciseId), Times.Once);
+            mockStatService.Verify(service => service.GetAllStats(userId, CancellationToken.None), Times.Once);
+            mockStatService.Verify(
+                service => service.DeleteAllExerciseStats(userId, stats1[0].ExerciseId, CancellationToken.None),
+                Times.Once);
+            mockStatService.Verify(
+                service => service.DeleteAllExerciseStats(userId, stats2[0].ExerciseId, CancellationToken.None),
+                Times.Once);
             Assert.Equal(3, mockStatService.Invocations.Count);
         }
 
@@ -51,7 +56,7 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.ConsumersTests
             const int userId = 6;
 
             Mock<IStatService> mockStatService = new();
-            mockStatService.Setup(s => s.GetAllStats(userId)).ReturnsAsync([]);
+            mockStatService.Setup(s => s.GetAllStats(userId, CancellationToken.None)).ReturnsAsync([]);
 
             Mock<ConsumeContext<DeletedUserContract>> mockContext = new();
             mockContext.Setup(c => c.Message).Returns(new DeletedUserContract(userId));
@@ -62,7 +67,7 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.ConsumersTests
             await consumer.Consume(mockContext.Object);
 
             // Assert
-            mockStatService.Verify(service => service.GetAllStats(userId), Times.Once);
+            mockStatService.Verify(service => service.GetAllStats(userId, CancellationToken.None), Times.Once);
             Assert.Single(mockStatService.Invocations);
         }
     }

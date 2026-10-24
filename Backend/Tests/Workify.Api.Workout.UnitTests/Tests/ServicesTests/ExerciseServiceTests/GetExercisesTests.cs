@@ -20,7 +20,8 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
 
             // Act
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            IEnumerable<ExerciseDto> exercises = await new ExerciseService(dbContext).GetExercises(1);
+            IEnumerable<ExerciseDto> exercises =
+                await new ExerciseService(dbContext).GetExercises(1, CancellationToken.None);
 
             // Assert
             Assert.Empty(exercises);
@@ -49,11 +50,12 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
                 .ToList();
             await arrangeDbContext.UserExercises.AddRangeAsync(otherUserExercises);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             // Act
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            IEnumerable<ExerciseDto> exercises = await new ExerciseService(dbContext).GetExercises(userId);
+            IEnumerable<ExerciseDto> exercises =
+                await new ExerciseService(dbContext).GetExercises(userId, CancellationToken.None);
 
             // Assert
             IEnumerable<int> expectedExercisesIds = predefinedExercises.Select(e => e.Id)
@@ -70,7 +72,8 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
             using DbContextFactory factory = new();
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
-            PredefinedExercise predefinedExercise = (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
+            PredefinedExercise predefinedExercise =
+                (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
 
             const int userId = 22;
             UserExercise userExercise = _fixture.Build<UserExercise>()
@@ -78,14 +81,15 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
                 .Create();
             await arrangeDbContext.UserExercises.AddAsync(userExercise);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             // Act
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            IEnumerable<ExerciseDto> responseExercises = await new ExerciseService(dbContext).GetExercises(userId);
+            List<ExerciseDto> responseExercises =
+                [.. await new ExerciseService(dbContext).GetExercises(userId, CancellationToken.None)];
 
             // Assert
-            Assert.Equal(2, responseExercises.Count());
+            Assert.Equal(2, responseExercises.Count);
 
             foreach (Exercise dbExercise in (List<Exercise>)[predefinedExercise, userExercise])
             {

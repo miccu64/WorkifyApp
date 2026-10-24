@@ -5,10 +5,10 @@ namespace Workify.Api.Workout.Services
 {
     public interface IPlanService
     {
-        Task<IEnumerable<PlanDto>> GetPlans(int userId);
-        Task<int> CreatePlan(int userId, CreateEditPlanDto dto);
-        Task<int> DeletePlan(int planId, int userId);
-        Task<int> EditPlan(int planId, int userId, CreateEditPlanDto dto);
-        Task<IEnumerable<int>> CopyPredefinedPlansForUser(int userId);
+        Task<IEnumerable<PlanDto>> GetPlans(int userId, CancellationToken ct);
+        Task<int> CreatePlan(int userId, CreateEditPlanDto dto, CancellationToken ct);
+        Task<int> DeletePlan(int planId, int userId, CancellationToken ct);
+        Task<int> EditPlan(int planId, int userId, CreateEditPlanDto dto, CancellationToken ct);
+        Task<IEnumerable<int>> CopyPredefinedPlansForUser(int userId, CancellationToken ct);
     }
 }

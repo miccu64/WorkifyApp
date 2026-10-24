@@ -15,10 +15,10 @@ namespace Workify.Api.Auth.Services
 {
     internal class AuthService(IAuthDbContext dbContext, IOptions<AuthConfig> config) : IAuthService
     {
-        public async Task<string> LogInUser(LogInDto dto)
+        public async Task<string> LogInUser(LogInDto dto, CancellationToken ct)
         {
-            User user = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Login == dto.Login)
-                ?? throw new UnauthorizedAccessException("Wrong login or password.");
+            User user = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Login == dto.Login, ct)
+                        ?? throw new UnauthorizedAccessException("Wrong login or password.");
 
             PasswordHasher<User> hasher = new();
             PasswordVerificationResult result = hasher.VerifyHashedPassword(user, user.HashedPassword, dto.Password);
@@ -28,11 +28,11 @@ namespace Workify.Api.Auth.Services
                 : GenerateJwtToken(user.Id);
         }
 
-        public async Task<int> RegisterUser(RegisterDto dto)
+        public async Task<int> RegisterUser(RegisterDto dto, CancellationToken ct)
         {
-            if (await dbContext.Users.AnyAsync(user => user.Login == dto.Login))
+            if (await dbContext.Users.AnyAsync(user => user.Login == dto.Login, ct))
                 throw new ArgumentException("User with given login already exists.");
-            if (await dbContext.Users.AnyAsync(user => user.Email == dto.Email))
+            if (await dbContext.Users.AnyAsync(user => user.Email == dto.Email, ct))
                 throw new ArgumentException("User with given email already exists.");
 
             User newUser = new()
@@ -43,8 +43,8 @@ namespace Workify.Api.Auth.Services
             };
             newUser.HashedPassword = new PasswordHasher<User>().HashPassword(newUser, dto.Password);
 
-            await dbContext.Users.AddAsync(newUser);
-            await dbContext.SaveChangesAsync();
+            await dbContext.Users.AddAsync(newUser, ct);
+            await dbContext.SaveChangesAsync(ct);
 
             return newUser.Id;
         }

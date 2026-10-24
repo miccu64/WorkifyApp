@@ -23,7 +23,8 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
             const int exerciseId = 3;
 
             // Act
-            int createdId = await new StatService(dbContext).CreateStat(userId, exerciseId, dto);
+            int createdId =
+                await new StatService(dbContext).CreateStat(userId, exerciseId, dto, CancellationToken.None);
 
             // Assert
             Assert.True(createdId > 0);
@@ -52,8 +53,10 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
             const int exerciseId = 3;
 
             // Act
-            int createdId1 = await new StatService(dbContext).CreateStat(userId, exerciseId, dto);
-            int createdId2 = await new StatService(dbContext).CreateStat(userId, exerciseId, dto);
+            int createdId1 =
+                await new StatService(dbContext).CreateStat(userId, exerciseId, dto, CancellationToken.None);
+            int createdId2 =
+                await new StatService(dbContext).CreateStat(userId, exerciseId, dto, CancellationToken.None);
 
             // Assert
             Assert.True(createdId1 > 0);

@@ -20,14 +20,16 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
-            PredefinedExercise exercise1 = (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
-            PredefinedExercise exercise2 = (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
+            PredefinedExercise exercise1 =
+                (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
+            PredefinedExercise exercise2 =
+                (await arrangeDbContext.PredefinedExercises.AddAsync(_fixture.Create<PredefinedExercise>())).Entity;
             UserPlan plan = _fixture.Build<UserPlan>()
                 .With(p => p.Exercises, [exercise1])
                 .Create();
             await arrangeDbContext.UserPlans.AddAsync(plan);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             CreateEditPlanDto editPlanDto = _fixture.Build<CreateEditPlanDto>()
                 .With(p => p.ExercisesIds, [exercise2.Id])
@@ -36,7 +38,8 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
             using IWorkoutDbContext dbContext = await factory.CreateContext();
 
             // Act
-            int planId = await new PlanService(dbContext).EditPlan(plan.Id, plan.UserId, editPlanDto);
+            int planId =
+                await new PlanService(dbContext).EditPlan(plan.Id, plan.UserId, editPlanDto, CancellationToken.None);
 
             // Assert
             Assert.True(planId == plan.Id);
@@ -63,7 +66,8 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
             CreateEditPlanDto editPlanDto = _fixture.Create<CreateEditPlanDto>();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => new PlanService(dbContext).EditPlan(1, 1, editPlanDto));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                new PlanService(dbContext).EditPlan(1, 1, editPlanDto, CancellationToken.None));
         }
 
         [Fact]
@@ -77,14 +81,15 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
                 .With(p => p.Exercises, [])
                 .Create();
             await arrangeDbContext.UserPlans.AddAsync(plan);
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             using IWorkoutDbContext dbContext = await factory.CreateContext();
 
             CreateEditPlanDto editPlanDto = _fixture.Create<CreateEditPlanDto>();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => new PlanService(dbContext).EditPlan(plan.Id, plan.UserId + 1, editPlanDto));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                new PlanService(dbContext).EditPlan(plan.Id, plan.UserId + 1, editPlanDto, CancellationToken.None));
         }
     }
 }

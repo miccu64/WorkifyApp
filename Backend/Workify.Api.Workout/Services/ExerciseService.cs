@@ -9,20 +9,18 @@ namespace Workify.Api.Workout.Services
 {
     internal class ExerciseService(IWorkoutDbContext workoutDbContext) : IExerciseService
     {
-        private readonly IWorkoutDbContext _workoutDbContext = workoutDbContext;
-
-        public async Task<IEnumerable<ExerciseDto>> GetExercises(int userId)
+        public async Task<IEnumerable<ExerciseDto>> GetExercises(int userId, CancellationToken ct)
         {
-            return (await _workoutDbContext.PredefinedExercises.AsNoTracking()
-                .Cast<Exercise>()
-                .ToListAsync()
-            ).Union(await _workoutDbContext.UserExercises.AsNoTracking()
-                .Where(e => e.UserId == userId)
-                .ToListAsync()
-            ).Select(ExerciseDto.FromEntity);
+            return (await workoutDbContext.PredefinedExercises.AsNoTracking()
+                    .Cast<Exercise>()
+                    .ToListAsync(ct)
+                ).Union(await workoutDbContext.UserExercises.AsNoTracking()
+                    .Where(e => e.UserId == userId)
+                    .ToListAsync(ct)
+                ).Select(ExerciseDto.FromEntity);
         }
 
-        public async Task<int> CreateExercise(int userId, CreateEditExerciseDto dto)
+        public async Task<int> CreateExercise(int userId, CreateEditExerciseDto dto, CancellationToken ct)
         {
             UserExercise exercise = new()
             {
@@ -31,33 +29,39 @@ namespace Workify.Api.Workout.Services
                 BodyPart = dto.BodyPart,
                 UserId = userId
             };
-            await _workoutDbContext.UserExercises.AddAsync(exercise);
-            await _workoutDbContext.SaveChangesAsync();
+            await workoutDbContext.UserExercises.AddAsync(exercise, ct);
+            await workoutDbContext.SaveChangesAsync(ct);
 
             return exercise.Id;
         }
 
-        public async Task<int> EditExercise(int exerciseId, int userId, CreateEditExerciseDto dto)
+        public async Task<int> EditExercise(int exerciseId, int userId, CreateEditExerciseDto dto, CancellationToken ct)
         {
-            UserExercise exercise = await _workoutDbContext.UserExercises.SingleOrDefaultAsync(e => e.Id == exerciseId && e.UserId == userId)
-                ?? throw new KeyNotFoundException("No exercise with given user id and exercise id.");
+            UserExercise exercise =
+                await workoutDbContext.UserExercises.SingleOrDefaultAsync(
+                    e => e.Id == exerciseId && e.UserId == userId,
+                    ct
+                ) ?? throw new KeyNotFoundException("No exercise with given user id and exercise id.");
 
             exercise.Name = dto.Name;
             exercise.Description = dto.Description;
             exercise.BodyPart = dto.BodyPart;
 
-            await _workoutDbContext.SaveChangesAsync();
+            await workoutDbContext.SaveChangesAsync(ct);
 
             return exercise.Id;
         }
 
-        public async Task<int> DeleteExercise(int exerciseId, int userId)
+        public async Task<int> DeleteExercise(int exerciseId, int userId, CancellationToken ct)
         {
-            UserExercise exercise = await _workoutDbContext.UserExercises.SingleOrDefaultAsync(e => e.Id == exerciseId && e.UserId == userId)
-                 ?? throw new KeyNotFoundException("No exercise with given user id and exercise id.");
+            UserExercise exercise =
+                await workoutDbContext.UserExercises.SingleOrDefaultAsync(
+                    e => e.Id == exerciseId && e.UserId == userId,
+                    ct
+                ) ?? throw new KeyNotFoundException("No exercise with given user id and exercise id.");
 
-            _workoutDbContext.UserExercises.Remove(exercise);
-            await _workoutDbContext.SaveChangesAsync();
+            workoutDbContext.UserExercises.Remove(exercise);
+            await workoutDbContext.SaveChangesAsync(ct);
 
             return exercise.Id;
         }

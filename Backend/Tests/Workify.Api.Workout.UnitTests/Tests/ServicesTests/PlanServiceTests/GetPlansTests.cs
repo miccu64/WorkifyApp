@@ -34,15 +34,16 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
                 .ToList();
             await arrangeDbContext.UserPlans.AddRangeAsync(plans);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             using IWorkoutDbContext dbContext = await factory.CreateContext();
 
             // Act
-            IEnumerable<PlanDto> plansResponse = await new PlanService(dbContext).GetPlans(userId);
+            List<PlanDto> plansResponse =
+                [.. await new PlanService(dbContext).GetPlans(userId, CancellationToken.None)];
 
             // Assert
-            Assert.Equal(plans.Count(), plansResponse.Count());
+            Assert.Equal(plans.Count, plansResponse.Count);
             foreach (PlanDto planDto in plansResponse)
             {
                 Plan plan = plans.Single(p => p.Id == planDto.Id);
@@ -58,7 +59,8 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
 
             using IWorkoutDbContext arrangeDbContext = await factory.CreateContext();
 
-            UserExercise otherUserExercise = (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>())).Entity;
+            UserExercise otherUserExercise =
+                (await arrangeDbContext.UserExercises.AddAsync(_fixture.Create<UserExercise>())).Entity;
             UserPlan otherUserPlan = _fixture.Build<UserPlan>()
                 .With(p => p.Exercises, [otherUserExercise])
                 .With(p => p.UserId, otherUserExercise.UserId)
@@ -78,12 +80,13 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
                 .Create();
             await arrangeDbContext.UserPlans.AddAsync(plan);
 
-            await arrangeDbContext.SaveChangesAsync();
+            await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
             using IWorkoutDbContext dbContext = await factory.CreateContext();
 
             // Act
-            IEnumerable<PlanDto> plansResponse = await new PlanService(dbContext).GetPlans(userId);
+            IEnumerable<PlanDto> plansResponse =
+                await new PlanService(dbContext).GetPlans(userId, CancellationToken.None);
 
             // Assert
             PlanDto planDto = plansResponse.Single();
@@ -104,7 +107,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
             const int userId = 3;
 
             // Act
-            IEnumerable<PlanDto> plans = await new PlanService(dbContext).GetPlans(userId);
+            IEnumerable<PlanDto> plans = await new PlanService(dbContext).GetPlans(userId, CancellationToken.None);
 
             // Assert
             Assert.Empty(plans);

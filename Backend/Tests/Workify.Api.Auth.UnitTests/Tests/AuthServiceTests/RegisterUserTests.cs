@@ -16,7 +16,7 @@ public class RegisterUserTests
 
     public RegisterUserTests()
     {
-        _fixture = new();
+        _fixture = new Fixture();
         _config = Options.Create(_fixture.Create<AuthConfig>());
     }
 
@@ -32,7 +32,7 @@ public class RegisterUserTests
         using IAuthDbContext authDbContext = await factory.CreateContext();
         AuthService authService = new(authDbContext, _config);
 
-        int userId = await authService.RegisterUser(registerDto);
+        int userId = await authService.RegisterUser(registerDto, CancellationToken.None);
 
         // Assert
         using IAuthDbContext assertDbContext = await factory.CreateContext();
@@ -54,7 +54,7 @@ public class RegisterUserTests
 
         using IAuthDbContext arrangeDbContext = await factory.CreateContext();
         await arrangeDbContext.Users.AddAsync(userInDb);
-        await arrangeDbContext.SaveChangesAsync();
+        await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
         RegisterDto registerDto = _fixture.Build<RegisterDto>()
             .With(dto => dto.Email, userInDb.Email)
@@ -65,7 +65,9 @@ public class RegisterUserTests
         AuthService authService = new(authDbContext, _config);
 
         // Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => authService.RegisterUser(registerDto));
+        await Assert.ThrowsAsync<ArgumentException>(() =>
+            authService.RegisterUser(registerDto, CancellationToken.None)
+        );
     }
 
     [Fact]
@@ -78,7 +80,7 @@ public class RegisterUserTests
 
         using IAuthDbContext arrangeDbContext = await factory.CreateContext();
         await arrangeDbContext.Users.AddAsync(userInDb);
-        await arrangeDbContext.SaveChangesAsync();
+        await arrangeDbContext.SaveChangesAsync(CancellationToken.None);
 
         RegisterDto registerDto = _fixture.Build<RegisterDto>()
             .With(dto => dto.Email, userInDb.Email)
@@ -89,6 +91,8 @@ public class RegisterUserTests
         AuthService authService = new(authDbContext, _config);
 
         // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => authService.RegisterUser(registerDto));
+        await Assert.ThrowsAsync<ArgumentException>(() =>
+            authService.RegisterUser(registerDto, CancellationToken.None)
+        );
     }
 }
