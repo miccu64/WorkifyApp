@@ -1,5 +1,7 @@
+using System.Diagnostics;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Workify.Utils.Exceptions;
 
@@ -12,6 +14,10 @@ namespace Workify.Utils.Middlewares
             try
             {
                 await next(context);
+            }
+            catch (OperationCanceledException) when (context.RequestAborted.IsCancellationRequested)
+            {
+                throw;
             }
             catch (ValidationException ex)
             {
@@ -34,7 +40,7 @@ namespace Workify.Utils.Middlewares
             }
             catch (Exception ex)
             {
-                const int statusCode = StatusCodes.Status409Conflict;
+                const int statusCode = StatusCodes.Status500InternalServerError;
                 LogException(context, ex, statusCode, LogLevel.Error);
                 await RespondAsync(context, statusCode, "Internal server error");
             }
@@ -59,9 +65,8 @@ namespace Workify.Utils.Middlewares
                 StatusCode = statusCode,
                 ExceptionMessage = exception.Message,
                 Exception = exception.ToString(),
-                CorrelationId = context.TraceIdentifier
+                CorrelationId = Activity.Current?.TraceId.ToString() ?? context.TraceIdentifier
             };
-
             logger.Log(logLevel, "Exception occurred {@LogData}", logData);
         }
 
@@ -70,16 +75,37 @@ namespace Workify.Utils.Middlewares
             int statusCode,
             string message)
         {
-            context.Response.ContentType = "application/json";
+            context.Response.ContentType = "application/problem+json";
             context.Response.StatusCode = statusCode;
 
-            var response = new
+            ProblemDetails response = new()
             {
-                status = statusCode,
-                message = message
+                Status = statusCode,
+                Title = GetTitle(statusCode),
+                Detail = message,
+                Type = GetProblemType(statusCode),
             };
-
             await context.Response.WriteAsJsonAsync(response);
         }
+
+        private static string GetTitle(int statusCode) =>
+            statusCode switch
+            {
+                400 => "Bad request",
+                404 => "Not found",
+                409 => "Conflict",
+                500 => "Error",
+                _ => "General error"
+            };
+
+        private static string GetProblemType(int statusCode) =>
+            statusCode switch
+            {
+                400 => "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                404 => "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+                409 => "https://tools.ietf.org/html/rfc9110#section-15.5.10",
+                500 => "https://tools.ietf.org/html/rfc9110#section-15.6.1",
+                _ => ""
+            };
     }
 }
