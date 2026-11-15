@@ -5,7 +5,8 @@ using Workify.Utils.Communication.Contracts;
 
 namespace Workify.Api.Workout.Communication.Consumers
 {
-    public class DeletedUserConsumer(IPlanService planService) : IConsumer<DeletedUserContract>
+    public class DeletedUserConsumer(IPlanService planService, IExerciseService exerciseService)
+        : IConsumer<DeletedUserContract>
     {
         public async Task Consume(ConsumeContext<DeletedUserContract> context)
         {
@@ -13,6 +14,8 @@ namespace Workify.Api.Workout.Communication.Consumers
             IEnumerable<PlanDto> userPlans = await planService.GetPlans(userId, context.CancellationToken);
             foreach (PlanDto planDto in userPlans)
                 await planService.DeletePlan(planDto.Id, userId, context.CancellationToken);
+
+            await exerciseService.DeleteAllUserExercises(userId, context.CancellationToken);
         }
     }
 }

@@ -66,5 +66,12 @@ namespace Workify.Api.Workout.Services
 
             return exercise.Id;
         }
+
+        public async Task DeleteAllUserExercises(int userId, CancellationToken ct)
+        {
+            await workoutDbContext.UserExercises
+                .Where(e => e.UserId == userId)
+                .ExecuteDeleteAsync(ct);
+        }
     }
 }

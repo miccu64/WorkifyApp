@@ -9,5 +9,6 @@ namespace Workify.Api.Workout.Services
         Task<int> CreateExercise(int userId, CreateEditExerciseDto dto, CancellationToken ct);
         Task<int> EditExercise(int exerciseId, int userId, CreateEditExerciseDto dto, CancellationToken ct);
         Task<int> DeleteExercise(int exerciseId, int userId, CancellationToken ct);
+        Task DeleteAllUserExercises(int userId, CancellationToken ct);
     }
 }
