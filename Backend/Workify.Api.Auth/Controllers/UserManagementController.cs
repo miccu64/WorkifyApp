@@ -10,8 +10,8 @@ namespace Workify.Api.Auth.Controllers
     [Route("api/user-management")]
     public class UserManagementController(
         IUserManagementService userManagementService,
-        IPublishEndpoint publishEndpoint,
-        CancellationToken ct) : ControllerBase
+        IPublishEndpoint publishEndpoint
+    ) : ControllerBase
     {
         [HttpDelete]
         public async Task<int> DeleteAccount(CancellationToken ct)

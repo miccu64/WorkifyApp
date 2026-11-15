@@ -1,15 +1,20 @@
 ﻿using FluentValidation;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Workify.Api.Workout.Models.DTOs;
 using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Services;
+using Workify.Utils.Communication.Contracts;
 using Workify.Utils.Extensions;
 
 namespace Workify.Api.Workout.Controllers
 {
     [ApiController]
     [Route("api/exercises")]
-    public class ExerciseController(IExerciseService exerciseService) : ControllerBase
+    public class ExerciseController(
+        IExerciseService exerciseService,
+        IPublishEndpoint publishEndpoint
+    ) : ControllerBase
     {
         [HttpGet]
         public async Task<IEnumerable<ExerciseDto>> GetExercises(CancellationToken ct)
@@ -49,7 +54,11 @@ namespace Workify.Api.Workout.Controllers
         {
             int userId = User.GetUserId();
 
-            return await exerciseService.DeleteExercise(exerciseId, userId, ct);
+            await exerciseService.DeleteExercise(exerciseId, userId, ct);
+
+            await publishEndpoint.Publish(new DeletedExerciseContract(userId, exerciseId), ct);
+
+            return exerciseId;
         }
     }
 }
