@@ -2,7 +2,7 @@
 
 A modern **workout tracking application** consisting of:
 - **Frontend (Angular 20)**: A responsive web app for managing workouts, tracking progress, and visualizing exercise stats.  
-- **Backend (.NET 9 Microservices)**: An event-driven system handling authentication, workouts, and exercise statistics.
+- **Backend (.NET 10 Microservices)**: An event-driven system handling authentication, workouts, and exercise statistics.
 
 ## 📖 Table of Contents
 - [Backend](#workout-microservices-backend)
@@ -13,7 +13,7 @@ A modern **workout tracking application** consisting of:
 
 # Workout Microservices Backend
 
-A modern, event-driven microservices backend for a workout tracking application built with **.NET 9**, using **Entity Framework Core**, **MassTransit**, **RabbitMQ**, **PostgreSQL**, **Serilog** and **Docker Compose**.
+A modern, event-driven microservices backend for a workout tracking application built with **.NET 10**, using **Entity Framework Core**, **MassTransit**, **RabbitMQ**, **PostgreSQL**, **Serilog** and **Docker Compose**.
 
 ---
 
@@ -41,7 +41,7 @@ All services communicate asynchronously via **MassTransit** using **RabbitMQ**.
 
 ## 🛠️ Technologies Used
 
-* **.NET 9**
+* **.NET 10**
 * **MassTransit**
 * **RabbitMQ**
 * **Entity Framework Core**

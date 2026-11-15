@@ -15,10 +15,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET 9
+      - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'  # Use preview version if needed
+          dotnet-version: '10.0.x'
 
       - name: Build solution
         run: dotnet build ./Backend/Workify.Backend.sln
