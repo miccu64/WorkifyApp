@@ -52,7 +52,7 @@ namespace Workify.Api.Workout.Services
             UserPlan plan = await workoutDbContext.UserPlans
                                 .Include(p => p.Exercises)
                                 .SingleOrDefaultAsync(p => p.Id == planId && p.UserId == userId, ct)
-                            ?? throw new KeyNotFoundException("Plan with given id with given user id does not exist.");
+                            ?? throw new NotFoundException("Plan with given id with given user id does not exist.");
 
             plan.Name = dto.Name;
             plan.Description = dto.Description;
@@ -97,7 +97,7 @@ namespace Workify.Api.Workout.Services
                     .ToListAsync(ct));
 
                 if (exercisesToAdd.Count != exercisesCount)
-                    throw new KeyNotFoundException("Improper exercises ids.");
+                    throw new NotFoundException("Improper exercises ids.");
             }
 
             return exercisesToAdd;

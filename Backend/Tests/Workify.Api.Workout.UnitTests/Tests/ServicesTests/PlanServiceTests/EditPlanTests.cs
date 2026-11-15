@@ -5,6 +5,7 @@ using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Models.Entities;
 using Workify.Api.Workout.Services;
 using Workify.Api.Workout.UnitTests.Utils;
+using Workify.Utils.Exceptions;
 
 namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
 {
@@ -66,7 +67,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
             CreateEditPlanDto editPlanDto = _fixture.Create<CreateEditPlanDto>();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 new PlanService(dbContext).EditPlan(1, 1, editPlanDto, CancellationToken.None));
         }
 
@@ -88,7 +89,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
             CreateEditPlanDto editPlanDto = _fixture.Create<CreateEditPlanDto>();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 new PlanService(dbContext).EditPlan(plan.Id, plan.UserId + 1, editPlanDto, CancellationToken.None));
         }
     }

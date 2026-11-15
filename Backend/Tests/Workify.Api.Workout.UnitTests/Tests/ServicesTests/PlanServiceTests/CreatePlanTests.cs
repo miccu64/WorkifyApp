@@ -5,6 +5,7 @@ using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Models.Entities;
 using Workify.Api.Workout.Services;
 using Workify.Api.Workout.UnitTests.Utils;
+using Workify.Utils.Exceptions;
 
 namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
 {
@@ -135,7 +136,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.PlanServiceTests
             using IWorkoutDbContext dbContext = await factory.CreateContext();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 new PlanService(dbContext).CreatePlan(userId, createPlanDto, CancellationToken.None));
         }
     }

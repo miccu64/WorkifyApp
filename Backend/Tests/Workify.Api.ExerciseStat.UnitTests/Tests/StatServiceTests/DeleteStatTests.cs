@@ -3,6 +3,7 @@ using Workify.Api.ExerciseStat.Database;
 using Workify.Api.ExerciseStat.Models.Entities;
 using Workify.Api.ExerciseStat.Services;
 using Workify.Api.ExerciseStat.UnitTests.Utils;
+using Workify.Utils.Exceptions;
 
 namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
 {
@@ -42,7 +43,7 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 new StatService(dbContext).DeleteStat(1, 1, CancellationToken.None)
             );
         }
@@ -60,7 +61,7 @@ namespace Workify.Api.ExerciseStat.UnitTests.Tests.StatServiceTests
             using IStatDbContext dbContext = await factory.CreateContext();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 new StatService(dbContext).DeleteStat(stat.UserId + 1, stat.Id, CancellationToken.None)
             );
         }

@@ -4,6 +4,7 @@ using Workify.Api.Workout.Models.DTOs;
 using Workify.Api.Workout.Models.DTOs.Parameters;
 using Workify.Api.Workout.Models.Entities;
 using Workify.Api.Workout.Models.Entities.Abstractions;
+using Workify.Utils.Exceptions;
 
 namespace Workify.Api.Workout.Services
 {
@@ -41,7 +42,7 @@ namespace Workify.Api.Workout.Services
                 await workoutDbContext.UserExercises.SingleOrDefaultAsync(
                     e => e.Id == exerciseId && e.UserId == userId,
                     ct
-                ) ?? throw new KeyNotFoundException("No exercise with given user id and exercise id.");
+                ) ?? throw new NotFoundException("No exercise with given user id and exercise id.");
 
             exercise.Name = dto.Name;
             exercise.Description = dto.Description;
@@ -58,7 +59,7 @@ namespace Workify.Api.Workout.Services
                 await workoutDbContext.UserExercises.SingleOrDefaultAsync(
                     e => e.Id == exerciseId && e.UserId == userId,
                     ct
-                ) ?? throw new KeyNotFoundException("No exercise with given user id and exercise id.");
+                ) ?? throw new NotFoundException("No exercise with given user id and exercise id.");
 
             workoutDbContext.UserExercises.Remove(exercise);
             await workoutDbContext.SaveChangesAsync(ct);

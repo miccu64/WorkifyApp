@@ -3,6 +3,7 @@ using Workify.Api.ExerciseStat.Database;
 using Workify.Api.ExerciseStat.Models.DTOs;
 using Workify.Api.ExerciseStat.Models.DTOs.Parameters;
 using Workify.Api.ExerciseStat.Models.Entities;
+using Workify.Utils.Exceptions;
 
 namespace Workify.Api.ExerciseStat.Services
 {
@@ -44,7 +45,7 @@ namespace Workify.Api.ExerciseStat.Services
         public async Task<int> EditStat(int userId, int statId, CreateEditStatDto dto, CancellationToken ct)
         {
             Stat stat = await dbContext.Stats.FirstOrDefaultAsync(s => s.Id == statId && s.UserId == userId, ct)
-                        ?? throw new KeyNotFoundException("No stat with given id and user.");
+                        ?? throw new NotFoundException("No stat with given id and user.");
 
             stat.Time = dto.Time;
             stat.Reps = dto.Reps;
@@ -59,7 +60,7 @@ namespace Workify.Api.ExerciseStat.Services
         public async Task<int> DeleteStat(int userId, int statId, CancellationToken ct)
         {
             Stat stat = await dbContext.Stats.FirstOrDefaultAsync(s => s.Id == statId && s.UserId == userId, ct)
-                        ?? throw new KeyNotFoundException("No stat with given id and user.");
+                        ?? throw new NotFoundException("No stat with given id and user.");
 
             dbContext.Stats.Remove(stat);
             await dbContext.SaveChangesAsync(ct);

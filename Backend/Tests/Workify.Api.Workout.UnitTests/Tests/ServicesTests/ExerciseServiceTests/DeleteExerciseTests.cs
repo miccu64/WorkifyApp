@@ -4,6 +4,7 @@ using Workify.Api.Workout.Database;
 using Workify.Api.Workout.Models.Entities;
 using Workify.Api.Workout.Services;
 using Workify.Api.Workout.UnitTests.Utils;
+using Workify.Utils.Exceptions;
 
 namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
 {
@@ -86,7 +87,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
 
             // Act / Assert
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 new ExerciseService(dbContext).DeleteExercise(exercise.Id, exercise.UserId + 1, CancellationToken.None)
             );
         }
@@ -99,7 +100,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
 
             // Act / Assert
             using IWorkoutDbContext dbContext = await factory.CreateContext();
-            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 new ExerciseService(dbContext).DeleteExercise(1, 1, CancellationToken.None));
         }
 
@@ -117,7 +118,7 @@ namespace Workify.Api.Workout.UnitTests.Tests.ServicesTests.ExerciseServiceTests
             using IWorkoutDbContext dbContext = await factory.CreateContext();
 
             // Act / Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 new ExerciseService(dbContext).DeleteExercise(exercise.Id, 11, CancellationToken.None));
         }
     }
